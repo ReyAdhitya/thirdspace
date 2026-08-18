@@ -1,0 +1,326 @@
+import { hkIso } from '../lib/time';
+import type { Activity, Follow, Message, Report, Save, Ticket, User } from '../types';
+
+export const DEMO_PASSWORD = 'thirdspace';
+
+export type UserRecord = User & { password: string };
+
+export type SeedDb = {
+  schemaVersion: number;
+  users: UserRecord[];
+  activities: Activity[];
+  tickets: Ticket[];
+  messages: Message[];
+  follows: Follow[];
+  reports: Report[];
+  saves: Save[];
+  sessionUid: string | null;
+};
+
+const HOST = 'u_host';
+const HOST2 = 'u_chen';
+const DEMO = 'u_demo';
+const ADMIN = 'u_admin';
+
+const photos = {
+  jazz: 'https://images.unsplash.com/photo-1511192336575-5a79af67a986?w=1200&q=80',
+  library: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&q=80',
+  film: 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1200&q=80',
+  hike: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&q=80',
+  clay: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80',
+  roof: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&q=80',
+  market: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80',
+  sketch: 'https://images.unsplash.com/photo-1513364776144-60967b0f8002?w=1200&q=80',
+  portrait:
+    'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=80',
+  portrait2:
+    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',
+};
+
+export const STOCK_PHOTOS = [
+  photos.jazz,
+  photos.library,
+  photos.film,
+  photos.hike,
+  photos.clay,
+  photos.roof,
+  photos.market,
+  photos.sketch,
+];
+
+export function createSeed(): SeedDb {
+  const users: UserRecord[] = [
+    {
+      uid: DEMO,
+      email: 'demo@thirdspace.hk',
+      password: DEMO_PASSWORD,
+      displayName: '阿樂',
+      role: 'user',
+      interests: ['quiet', 'weekend'],
+      language: 'zh-Hant',
+      homeDistrict: 'central',
+      createdAt: hkIso(2026, 6, 1, 10, 0),
+      bio: '鍾意行街同安靜嘅夜晚。',
+      onboarded: true,
+    },
+    {
+      uid: HOST,
+      email: 'host@thirdspace.hk',
+      password: DEMO_PASSWORD,
+      displayName: '林岸',
+      role: 'organizer',
+      interests: ['create', 'meet'],
+      language: 'zh-Hant',
+      homeDistrict: 'wan_chai',
+      createdAt: hkIso(2026, 3, 12, 9, 0),
+      photoUrl: photos.portrait,
+      bio: '灣仔搞爵士同陶藝。想將收工後變成真正嘅第三空間。',
+      onboarded: true,
+    },
+    {
+      uid: HOST2,
+      email: 'chen@thirdspace.hk',
+      password: DEMO_PASSWORD,
+      displayName: '陳書',
+      role: 'organizer',
+      interests: ['quiet', 'create'],
+      language: 'zh-Hant',
+      homeDistrict: 'sheung_wan',
+      createdAt: hkIso(2026, 4, 2, 11, 0),
+      photoUrl: photos.portrait2,
+      bio: '上環書店同菲林。慢啲行。',
+      onboarded: true,
+    },
+    {
+      uid: ADMIN,
+      email: 'admin@thirdspace.hk',
+      password: DEMO_PASSWORD,
+      displayName: 'Admin',
+      role: 'admin',
+      interests: [],
+      language: 'zh-Hant',
+      homeDistrict: 'central',
+      createdAt: hkIso(2026, 1, 1, 0, 0),
+      bio: 'Thirdspace 管理員',
+      onboarded: true,
+    },
+  ];
+
+  const activities: Activity[] = [
+    {
+      id: 'a_jazz',
+      title: '灣仔收工後爵士',
+      photoUrl: photos.jazz,
+      district: 'wan_chai',
+      address: '灣仔莊士敦道 88 號 2 樓',
+      startsAt: hkIso(2026, 8, 21, 20, 0),
+      endsAt: hkIso(2026, 8, 21, 22, 30),
+      priceHkd: 250,
+      summary: '小型現場爵士。無麥克風演說，得樂器同一杯嘢。',
+      capacity: 24,
+      joinedCount: 11,
+      eventLanguage: 'zh-Hant',
+      mood: ['meet'],
+      organizerId: HOST,
+      status: 'published',
+      featured: false,
+      createdAt: hkIso(2026, 8, 1, 12, 0),
+    },
+    {
+      id: 'a_lib',
+      title: '上環圖書館夜讀',
+      photoUrl: photos.library,
+      district: 'sheung_wan',
+      address: '上環士丹頓街 12 號',
+      startsAt: hkIso(2026, 8, 20, 19, 30),
+      endsAt: hkIso(2026, 8, 20, 21, 30),
+      priceHkd: 0,
+      summary: '靜讀兩小時。自備書，我哋備茶。',
+      capacity: 16,
+      joinedCount: 7,
+      eventLanguage: 'zh-Hant',
+      mood: ['quiet'],
+      organizerId: HOST2,
+      status: 'published',
+      featured: true,
+      createdAt: hkIso(2026, 8, 2, 9, 0),
+    },
+    {
+      id: 'a_film',
+      title: '深水埗菲林散步',
+      photoUrl: photos.film,
+      district: 'sham_shui_po',
+      address: '深水埗北河街街市門口',
+      startsAt: hkIso(2026, 8, 22, 15, 0),
+      endsAt: hkIso(2026, 8, 22, 18, 0),
+      priceHkd: 150,
+      summary: '用菲林行金魚街同布匹街。會教測光，唔使單反。',
+      capacity: 12,
+      joinedCount: 8,
+      eventLanguage: 'zh-Hant',
+      mood: ['create', 'weekend'],
+      organizerId: HOST2,
+      status: 'published',
+      featured: false,
+      createdAt: hkIso(2026, 8, 3, 14, 0),
+    },
+    {
+      id: 'a_hike',
+      title: '西貢清晨行山',
+      photoUrl: photos.hike,
+      district: 'sai_kung',
+      address: '西貢碼頭巴士站',
+      startsAt: hkIso(2026, 8, 23, 7, 30),
+      endsAt: hkIso(2026, 8, 23, 11, 0),
+      priceHkd: 0,
+      summary: '慢行，唔係操練。完結喺海傍食早餐。',
+      capacity: 20,
+      joinedCount: 9,
+      eventLanguage: 'mixed',
+      mood: ['quiet', 'weekend', 'nearby'],
+      organizerId: HOST,
+      status: 'published',
+      featured: false,
+      createdAt: hkIso(2026, 8, 4, 8, 0),
+    },
+    {
+      id: 'a_clay',
+      title: '中環陶藝夜',
+      photoUrl: photos.clay,
+      district: 'central',
+      address: '中環閣麟街 9 號地下',
+      startsAt: hkIso(2026, 8, 25, 19, 0),
+      endsAt: hkIso(2026, 8, 25, 21, 30),
+      priceHkd: 380,
+      summary: '捏一個杯。泥同窯費包喺價錢入面。',
+      capacity: 10,
+      joinedCount: 4,
+      eventLanguage: 'zh-Hant',
+      mood: ['create'],
+      organizerId: HOST,
+      status: 'published',
+      featured: false,
+      createdAt: hkIso(2026, 8, 5, 10, 0),
+    },
+    {
+      id: 'a_roof',
+      title: '旺角天台識人夜',
+      photoUrl: photos.roof,
+      district: 'mong_kok',
+      address: '旺角奶路臣街 15 號天台',
+      startsAt: hkIso(2026, 8, 28, 20, 0),
+      endsAt: hkIso(2026, 8, 28, 22, 0),
+      priceHkd: 80,
+      summary: '細組傾偈，題目抽籤。唔係聯誼遊戲。',
+      capacity: 18,
+      joinedCount: 6,
+      eventLanguage: 'zh-Hant',
+      mood: ['meet'],
+      organizerId: HOST,
+      status: 'published',
+      featured: false,
+      createdAt: hkIso(2026, 8, 6, 16, 0),
+    },
+    {
+      id: 'a_market',
+      title: '銅鑼灣週末市集',
+      photoUrl: photos.market,
+      district: 'causeway_bay',
+      address: '銅鑼灣記利佐治街行人區',
+      startsAt: hkIso(2026, 8, 22, 11, 0),
+      endsAt: hkIso(2026, 8, 22, 17, 0),
+      priceHkd: 0,
+      summary: '獨立刊物同手作。入場免費，買嘢另外畀。',
+      capacity: 8,
+      joinedCount: 8,
+      eventLanguage: 'zh-Hant',
+      mood: ['weekend', 'meet'],
+      organizerId: HOST2,
+      status: 'published',
+      featured: false,
+      createdAt: hkIso(2026, 8, 7, 11, 0),
+    },
+    {
+      id: 'a_sketch',
+      title: '大坑舊街寫生',
+      photoUrl: photos.sketch,
+      district: 'tai_hang',
+      address: '大坑蓮花宮前空地',
+      startsAt: hkIso(2026, 8, 10, 16, 0),
+      endsAt: hkIso(2026, 8, 10, 18, 30),
+      priceHkd: 120,
+      summary: '兩小時戶外速寫。紙筆可借。呢場已經完。',
+      capacity: 14,
+      joinedCount: 10,
+      eventLanguage: 'zh-Hant',
+      mood: ['create'],
+      organizerId: HOST2,
+      status: 'published',
+      featured: false,
+      createdAt: hkIso(2026, 7, 20, 12, 0),
+    },
+  ];
+
+  const tickets: Ticket[] = [
+    {
+      id: 't_demo_lib',
+      userId: DEMO,
+      activityId: 'a_lib',
+      status: 'joined',
+      paid: true,
+      createdAt: hkIso(2026, 8, 12, 9, 0),
+    },
+    {
+      id: 't_demo_sketch',
+      userId: DEMO,
+      activityId: 'a_sketch',
+      status: 'joined',
+      paid: true,
+      createdAt: hkIso(2026, 8, 8, 10, 0),
+    },
+  ];
+
+  const messages: Message[] = [
+    {
+      id: 'm1',
+      activityId: 'a_lib',
+      userId: HOST2,
+      text: '記得帶自己本書。茶喺入面。',
+      createdAt: hkIso(2026, 8, 13, 10, 0),
+      kind: 'chat',
+    },
+    {
+      id: 'm2',
+      activityId: 'a_sketch',
+      userId: DEMO,
+      text: '巷仔光好好，下次想再嚟。',
+      createdAt: hkIso(2026, 8, 10, 19, 0),
+      kind: 'comment',
+    },
+  ];
+
+  const follows: Follow[] = [
+    {
+      id: `${DEMO}_${HOST2}`,
+      followerId: DEMO,
+      organizerId: HOST2,
+      createdAt: hkIso(2026, 8, 9, 12, 0),
+    },
+  ];
+
+  const saves: Save[] = [{ userId: DEMO, activityId: 'a_jazz' }];
+
+  const reports: Report[] = [];
+
+  return {
+    schemaVersion: 1,
+    users,
+    activities,
+    tickets,
+    messages,
+    follows,
+    reports,
+    saves,
+    sessionUid: null,
+  };
+}
