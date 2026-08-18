@@ -6,18 +6,19 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
 import { Screen } from '../../components/Screen';
+import { Fact } from '../../components/Text';
 import { useApp } from '../../context/AppContext';
+import { formatWhen } from '../../lib/time';
 import type { RootNav, RootStackParamList } from '../../navigation/types';
 import { getActivity } from '../../services/activities';
-import { stripeMode, simulateCheckout } from '../../services/stripe';
+import { simulateCheckout, stripeMode } from '../../services/stripe';
 import { joinActivity } from '../../services/tickets';
-import { colors, space, type } from '../../theme';
+import { colors, radius, space, type } from '../../theme';
 
 export function CheckoutScreen() {
   const nav = useNavigation<RootNav>();
-  const { activityId } =
-    useRoute<RouteProp<RootStackParamList, 'Checkout'>>().params;
-  const { t, user, showBanner } = useApp();
+  const { activityId } = useRoute<RouteProp<RootStackParamList, 'Checkout'>>().params;
+  const { t, user, lang, showBanner } = useApp();
   const activity = getActivity(activityId);
   const [card, setCard] = useState('4242 4242 4242 4242');
   const [busy, setBusy] = useState(false);
@@ -26,7 +27,9 @@ export function CheckoutScreen() {
   if (!activity || !user) {
     return (
       <Screen onBack={() => nav.goBack()} title={t('payTitle')}>
-        <EmptyState title={t('needLogin')} />
+        <View style={styles.gutter}>
+          <EmptyState title={t('needLogin')} />
+        </View>
       </Screen>
     );
   }
@@ -47,10 +50,8 @@ export function CheckoutScreen() {
         setErr(t('error'));
         return;
       }
-      showBanner(
-        res.kind === 'waitlisted' ? t('waitlistedNote') : t('paySuccess'),
-      );
-      nav.navigate('Tabs');
+      showBanner(res.kind === 'waitlisted' ? t('waitlistedNote') : t('paySuccess'));
+      nav.navigate('Tabs', { screen: 'Tickets' });
     } catch (e) {
       setErr(e instanceof Error ? e.message : t('error'));
     } finally {
@@ -60,12 +61,23 @@ export function CheckoutScreen() {
 
   return (
     <Screen onBack={() => nav.goBack()} title={t('payTitle')}>
-      <View style={styles.pad}>
-        <Text style={[type.h2, { color: colors.ink }]}>{activity.title}</Text>
-        <Text style={[type.body, { color: colors.pine, marginTop: 8 }]}>
-          HK${activity.priceHkd} · {stripeMode() === 'simulate' ? t('payHint') : t('payHint')}
+      <View style={styles.gutter}>
+        <Text style={[type.label, { color: colors.accent }]}>
+          {stripeMode() === 'simulate' ? 'TEST MODE' : 'TEST KEY'}
         </Text>
-        <Text style={[type.label, { color: colors.muted, marginTop: 24 }]}>
+        <Text style={[type.displaySm, { color: colors.ink, marginTop: space.x3 }]}>
+          {activity.title}
+        </Text>
+        <Text style={[type.body, { color: colors.dim, marginTop: space.x3 }]}>
+          {t('payHint')}
+        </Text>
+
+        <View style={styles.facts}>
+          <Fact label={t('when')} value={formatWhen(activity.startsAt, lang)} mono />
+          <Fact label={t('price')} value={`HK$${activity.priceHkd}`} mono />
+        </View>
+
+        <Text style={[type.label, { color: colors.faint, marginTop: space.x8 }]}>
           {t('cardNumber')}
         </Text>
         <TextInput
@@ -74,11 +86,20 @@ export function CheckoutScreen() {
           keyboardType="number-pad"
           style={styles.input}
         />
+
         {err ? (
-          <Text style={[type.meta, { color: colors.danger, marginTop: 8 }]}>{err}</Text>
+          <Text style={[type.meta, { color: colors.accent, marginTop: space.x4 }]}>
+            {err}
+          </Text>
         ) : null}
-        <View style={{ marginTop: 20 }}>
-          <Button label={t('payNow')} onPress={() => void pay()} loading={busy} />
+
+        <View style={{ marginTop: space.x8 }}>
+          <Button
+            label={t('payNow')}
+            onPress={() => void pay()}
+            loading={busy}
+            trailing={`HK$${activity.priceHkd}`}
+          />
         </View>
       </View>
     </Screen>
@@ -86,16 +107,17 @@ export function CheckoutScreen() {
 }
 
 const styles = StyleSheet.create({
-  pad: { padding: space.screen },
+  gutter: { paddingHorizontal: space.gutter, paddingTop: space.x4 },
+  facts: { marginTop: space.x8, borderTopWidth: 1, borderTopColor: colors.hairline },
   input: {
-    marginTop: 8,
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: colors.line,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.hairlineStrong,
+    paddingVertical: space.x3,
+    marginTop: space.x2,
     color: colors.ink,
-    fontSize: 16,
-    letterSpacing: 1,
+    fontSize: 18,
+    letterSpacing: 2,
+    borderRadius: radius.none,
+    fontFamily: type.data.fontFamily as string,
   },
 });

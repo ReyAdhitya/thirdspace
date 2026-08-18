@@ -1,26 +1,25 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, type TextStyle } from 'react-native';
 
 import { useApp } from '../context/AppContext';
 import { colors, type } from '../theme';
 
+/** Price is typography, never a tag. Free reads as a word, paid as data. */
 export function PriceText({
   priceHkd,
-  invert,
+  size = 'sm',
+  tone = 'ink',
 }: {
   priceHkd: number;
-  invert?: boolean;
+  size?: 'sm' | 'lg';
+  tone?: 'ink' | 'dim';
 }) {
   const { t } = useApp();
-  const label = priceHkd <= 0 ? t('free') : `HK$${priceHkd}`;
+  const free = priceHkd <= 0;
+  const base: TextStyle = size === 'lg' ? type.dataLg : type.data;
   return (
-    <Text
-      style={[
-        type.price,
-        { color: invert ? colors.paper : colors.pine },
-      ]}
-    >
-      {label}
+    <Text style={[base, { color: tone === 'dim' ? colors.dim : colors.ink }]}>
+      {free ? t('free') : `HK$${priceHkd}`}
     </Text>
   );
 }

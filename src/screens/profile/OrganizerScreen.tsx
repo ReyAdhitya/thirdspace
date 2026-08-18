@@ -8,17 +8,19 @@ import { ActivityCard } from '../../components/ActivityCard';
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
 import { Screen } from '../../components/Screen';
+import { SectionHead } from '../../components/Text';
 import { useApp } from '../../context/AppContext';
 import type { RootNav, RootStackParamList } from '../../navigation/types';
 import { listByOrganizer } from '../../services/activities';
 import { getUser } from '../../services/auth';
 import { isFollowing, toggleFollow } from '../../services/follows';
-import { colors, space, type } from '../../theme';
+import { colors, radius, space, type } from '../../theme';
 
 export function OrganizerScreen() {
   const nav = useNavigation<RootNav>();
   const { uid } = useRoute<RouteProp<RootStackParamList, 'Organizer'>>().params;
   const { t, user, showBanner } = useApp();
+
   const host = getUser(uid);
   const events = listByOrganizer(uid).filter((a) => a.status === 'published');
   const following = user ? isFollowing(user.uid, uid) : false;
@@ -26,46 +28,74 @@ export function OrganizerScreen() {
   if (!host) {
     return (
       <Screen onBack={() => nav.goBack()}>
-        <EmptyState title={t('error')} />
+        <View style={styles.gutter}>
+          <EmptyState title={t('error')} action={t('back')} onAction={() => nav.goBack()} />
+        </View>
       </Screen>
     );
   }
 
   return (
     <Screen onBack={() => nav.goBack()} title={t('host')}>
-      <ScrollView contentContainerStyle={{ padding: space.screen, paddingBottom: 40 }}>
-        {host.photoUrl ? (
-          <Image source={{ uri: host.photoUrl }} style={styles.avatar} contentFit="cover" />
-        ) : (
-          <View style={[styles.avatar, { backgroundColor: colors.surface2 }]} />
-        )}
-        <Text style={[type.title, { color: colors.ink, marginTop: 16 }]}>{host.displayName}</Text>
-        <Text style={[type.body, { color: colors.muted, marginTop: 8 }]}>
-          {host.bio ?? ''}
-        </Text>
-        {user && user.uid !== uid ? (
-          <View style={{ marginTop: 16 }}>
-            <Button
-              label={following ? t('unfollow') : t('follow')}
-              variant={following ? 'ghost' : 'primary'}
-              onPress={async () => {
-                await toggleFollow(user.uid, uid);
-                showBanner(following ? t('unfollow') : t('following'));
-              }}
-            />
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.gutter}>
+          <View style={styles.head}>
+            {host.photoUrl ? (
+              <Image
+                source={{ uri: host.photoUrl }}
+                style={styles.avatar}
+                contentFit="cover"
+              />
+            ) : (
+              <View style={[styles.avatar, { backgroundColor: colors.raised }]} />
+            )}
+            <View style={{ flex: 1 }}>
+              <Text style={[type.h1, { color: colors.ink }]}>{host.displayName}</Text>
+              <Text style={[type.data, { color: colors.faint, marginTop: space.x1 }]}>
+                {String(events.length).padStart(2, '0')} · {t('hostEvents')}
+              </Text>
+            </View>
           </View>
-        ) : null}
-        <Text style={[type.h2, { color: colors.ink, marginTop: 28 }]}>{t('hostEvents')}</Text>
-        <View style={{ marginTop: 12 }}>
-          {events.map((a) => (
-            <View key={a.id} style={{ marginBottom: 16 }}>
-              <ActivityCard
-                activity={a}
-                variant="wide"
-                onPress={() => nav.navigate('Activity', { id: a.id })}
+
+          {host.bio ? (
+            <Text style={[type.body, { color: colors.dim, marginTop: space.x6 }]}>
+              {host.bio}
+            </Text>
+          ) : null}
+
+          {user && user.uid !== uid ? (
+            <View style={{ marginTop: space.x8 }}>
+              <Button
+                label={following ? t('unfollow') : t('follow')}
+                variant={following ? 'quiet' : 'primary'}
+                onPress={async () => {
+                  await toggleFollow(user.uid, uid);
+                  showBanner(following ? t('unfollow') : t('following'));
+                }}
               />
             </View>
-          ))}
+          ) : null}
+
+          <View style={styles.section}>
+            <SectionHead label={t('hostEvents')} />
+            {events.length === 0 ? (
+              <EmptyState title={t('empty')} />
+            ) : (
+              <View style={{ marginTop: space.x6 }}>
+                {events.map((a) => (
+                  <ActivityCard
+                    key={a.id}
+                    activity={a}
+                    variant="stack"
+                    onPress={() => nav.navigate('Activity', { id: a.id })}
+                  />
+                ))}
+              </View>
+            )}
+          </View>
         </View>
       </ScrollView>
     </Screen>
@@ -73,5 +103,9 @@ export function OrganizerScreen() {
 }
 
 const styles = StyleSheet.create({
-  avatar: { width: 88, height: 88, borderRadius: 44 },
+  scroll: { paddingTop: space.x4, paddingBottom: space.x16 },
+  gutter: { paddingHorizontal: space.gutter },
+  head: { flexDirection: 'row', alignItems: 'center', gap: space.x4 },
+  avatar: { width: 64, height: 64, borderRadius: radius.xs },
+  section: { marginTop: space.x12 },
 });

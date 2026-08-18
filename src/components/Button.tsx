@@ -4,15 +4,20 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  View,
   type PressableProps,
 } from 'react-native';
 
-import { colors, radius, type } from '../theme';
+import { colors, radius, space, type } from '../theme';
+
+type Variant = 'primary' | 'quiet' | 'destructive';
 
 type Props = Omit<PressableProps, 'style'> & {
   label: string;
-  variant?: 'primary' | 'ghost' | 'danger';
+  variant?: Variant;
   loading?: boolean;
+  /** Right-aligned data, e.g. a price on the Join button. */
+  trailing?: string;
 };
 
 export function Button({
@@ -20,30 +25,41 @@ export function Button({
   variant = 'primary',
   loading,
   disabled,
+  trailing,
   ...rest
 }: Props) {
-  const bg =
-    variant === 'primary'
-      ? colors.pine
-      : variant === 'danger'
-        ? colors.danger
-        : 'transparent';
-  const fg = variant === 'ghost' ? colors.pine : colors.paper;
+  const primary = variant === 'primary';
+  const fg = primary
+    ? colors.onAccent
+    : variant === 'destructive'
+      ? colors.accent
+      : colors.ink;
+
   return (
     <Pressable
       accessibilityRole="button"
       disabled={disabled || loading}
       style={({ pressed }) => [
         styles.base,
-        { backgroundColor: bg, opacity: disabled ? 0.45 : pressed ? 0.88 : 1 },
-        variant === 'ghost' ? styles.ghost : undefined,
+        primary && { backgroundColor: pressed ? colors.accentPressed : colors.accent },
+        !primary && styles.outlined,
+        variant === 'destructive' && { borderColor: colors.accent },
+        !primary && pressed && { backgroundColor: colors.raised },
+        disabled && { opacity: 0.4 },
       ]}
       {...rest}
     >
       {loading ? (
-        <ActivityIndicator color={fg} />
+        <ActivityIndicator color={fg} size="small" />
       ) : (
-        <Text style={[type.bodyStrong, { color: fg }]}>{label}</Text>
+        <View style={styles.row}>
+          <Text style={[type.action, { color: fg }]}>{label}</Text>
+          {trailing ? (
+            <Text style={[type.data, { color: fg, opacity: primary ? 0.72 : 1 }]}>
+              {trailing}
+            </Text>
+          ) : null}
+        </View>
       )}
     </Pressable>
   );
@@ -51,14 +67,19 @@ export function Button({
 
 const styles = StyleSheet.create({
   base: {
-    minHeight: 52,
-    borderRadius: radius.full,
+    minHeight: 50,
+    borderRadius: radius.xs,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 22,
+    paddingHorizontal: space.x4,
   },
-  ghost: {
+  outlined: {
     borderWidth: 1,
-    borderColor: colors.pine,
+    borderColor: colors.hairlineStrong,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.x3,
   },
 });

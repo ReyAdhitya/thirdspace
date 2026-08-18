@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../components/Button';
 import { Loading } from '../components/Loading';
@@ -12,10 +13,9 @@ import { CreateActivityScreen } from '../screens/organizer/CreateActivityScreen'
 import { OrganizerScreen } from '../screens/profile/OrganizerScreen';
 import { SettingsScreen } from '../screens/profile/SettingsScreen';
 import { CheckoutScreen } from '../screens/tickets/CheckoutScreen';
-import { colors, type } from '../theme';
+import { colors, space, type } from '../theme';
 import { TabNavigator } from './TabNavigator';
 import type { RootStackParamList } from './types';
-import { StyleSheet, Text, View } from 'react-native';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -27,9 +27,16 @@ export function RootNavigator() {
   if (bootError) {
     return (
       <View style={styles.err}>
-        <Text style={[type.h2, { color: colors.ink }]}>{t('error')}</Text>
-        <Text style={[type.body, { color: colors.muted, marginVertical: 12 }]}>{bootError}</Text>
-        <Button label={t('retry')} onPress={retry} />
+        <View style={styles.mark} />
+        <Text style={[type.h1, { color: colors.ink, marginTop: space.x4 }]}>
+          {t('error')}
+        </Text>
+        <Text style={[type.body, { color: colors.dim, marginTop: space.x3 }]}>
+          {bootError}
+        </Text>
+        <View style={styles.action}>
+          <Button label={t('retry')} onPress={retry} />
+        </View>
       </View>
     );
   }
@@ -37,7 +44,13 @@ export function RootNavigator() {
   const needInterests = Boolean(user && user.onboarded === false);
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.paper } }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: colors.bg },
+        animation: 'fade',
+      }}
+    >
       {!user ? (
         <Stack.Screen name="Login" component={LoginScreen} />
       ) : needInterests ? (
@@ -58,5 +71,12 @@ export function RootNavigator() {
 }
 
 const styles = StyleSheet.create({
-  err: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: colors.paper },
+  err: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: space.gutter,
+    backgroundColor: colors.bg,
+  },
+  mark: { width: 28, height: 2, backgroundColor: colors.accent },
+  action: { marginTop: space.x8, alignSelf: 'flex-start', minWidth: 200 },
 });

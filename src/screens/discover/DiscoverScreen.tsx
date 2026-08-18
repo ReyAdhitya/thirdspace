@@ -1,12 +1,20 @@
-import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
+import React, { useMemo, useState } from 'react';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 import { ActivityCard } from '../../components/ActivityCard';
 import { EmptyState } from '../../components/EmptyState';
-import { MoodChips } from '../../components/MoodChips';
+import { MoodPicker } from '../../components/MoodPicker';
 import { Screen } from '../../components/Screen';
+import { SectionHead } from '../../components/Text';
 import { useApp } from '../../context/AppContext';
 import { districtLabel } from '../../data/districts';
 import { formatDay, hkHour } from '../../lib/time';
@@ -21,22 +29,29 @@ import {
 import { followedOrganizerIds } from '../../services/follows';
 import { isSaved, toggleSave } from '../../services/saves';
 import type { MoodId } from '../../types';
-import { colors, radius, space, type } from '../../theme';
+import { colors, radius, space, type, useShell } from '../../theme';
 
 export function DiscoverScreen() {
   const nav = useNavigation<RootNav>();
   const { t, user, lang, showBanner } = useApp();
+  const { isDesktop } = useShell();
   const [q, setQ] = useState('');
   const [mood, setMood] = useState<MoodId | null>(null);
-  const [seeAll, setSeeAll] = useState(false);
+  const [searchFocus, setSearchFocus] = useState(false);
+
   const hour = hkHour();
   const greet =
-    hour < 12 ? t('greetingMorning') : hour < 18 ? t('greetingAfternoon') : t('greetingEvening');
+    hour < 12
+      ? t('greetingMorning')
+      : hour < 18
+        ? t('greetingAfternoon')
+        : t('greetingEvening');
 
   const all = listPublished();
   const featured = featuredActivity();
   const popular = popularActivities().slice(0, 6);
   const followed = user ? followedOrganizerIds(user.uid) : [];
+  const filtering = Boolean(q.trim() || mood);
 
   const recommended = useMemo(() => {
     if (q.trim()) return searchActivities(q);
@@ -52,7 +67,7 @@ export function DiscoverScreen() {
     return [...fromFollow, ...rest];
   }, [q, mood, all, user, followed]);
 
-  async function heart(id: string) {
+  async function save(id: string) {
     if (!user) {
       showBanner(t('needLogin'), 'warn');
       return;
@@ -63,145 +78,168 @@ export function DiscoverScreen() {
 
   return (
     <Screen>
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
-        <View style={styles.searchRow}>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.gutter}>
+          <Text style={[type.display, { color: colors.ink }]}>{greet}</Text>
+          <Text
+            style={[type.body, { color: colors.dim, marginTop: space.x3, maxWidth: 320 }]}
+          >
+            {t('greetingAsk')}
+          </Text>
+
           <TextInput
             value={q}
             onChangeText={setQ}
             placeholder={t('searchPlaceholder')}
-            placeholderTextColor={colors.muted}
-            style={styles.search}
+            placeholderTextColor={colors.faint}
+            onFocus={() => setSearchFocus(true)}
+            onBlur={() => setSearchFocus(false)}
+            style={[
+              styles.search,
+              { borderBottomColor: searchFocus ? colors.ink : colors.hairlineStrong },
+            ]}
           />
-          <Pressable onPress={() => nav.navigate('Settings')} style={styles.gear}>
-            <Text style={{ fontSize: 16, color: colors.ink }}>⚙</Text>
-          </Pressable>
-        </View>
 
-        <View style={{ paddingHorizontal: space.screen, marginTop: 8 }}>
-          <Text style={[type.greeting, { color: colors.ink }]}>{greet}</Text>
-          <Text style={[type.body, { color: colors.muted, marginTop: 6 }]}>
-            {t('greetingAsk')}
-          </Text>
-          <MoodChips
-            value={mood}
-            onChange={(id) => setMood((cur) => (cur === id ? null : id))}
-          />
-        </View>
-
-        {followed.length > 0 && !q && !mood ? (
-          <View style={{ paddingHorizontal: space.screen, marginBottom: 8 }}>
-            <Text style={[type.meta, { color: colors.pine }]}>{t('followingHosts')}</Text>
-          </View>
-        ) : null}
-
-        <View style={styles.sectionHead}>
-          <Text style={[type.h2, { color: colors.ink }]}>{t('popular')}</Text>
-          <Pressable onPress={() => setSeeAll((v) => !v)}>
-            <Text style={[type.meta, { color: colors.pine }]}>{t('seeAll')}</Text>
-          </Pressable>
-        </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScroll}>
-          {(seeAll ? all : popular).map((a) => (
-            <ActivityCard
-              key={a.id}
-              activity={a}
-              onPress={() => nav.navigate('Activity', { id: a.id })}
+          <View style={{ marginTop: space.x6 }}>
+            <MoodPicker
+              value={mood}
+              onChange={(id) => setMood((cur) => (cur === id ? null : id))}
+              wrap
             />
-          ))}
-        </ScrollView>
-
-        {featured ? (
-          <Pressable
-            onPress={() => nav.navigate('Activity', { id: featured.id })}
-            style={styles.feature}
-          >
-            <View style={{ flex: 1, padding: 16, justifyContent: 'center' }}>
-              <Text style={[type.meta, { color: colors.pineSoft }]}>{t('featuredKicker')}</Text>
-              <Text style={[type.h2, { color: colors.paper, marginTop: 8 }]}>{t('featured')}</Text>
-              <Text style={[type.meta, { color: colors.pineSoft, marginTop: 8 }]} numberOfLines={2}>
-                {featured.title} · {districtLabel(featured.district, lang)} ·{' '}
-                {formatDay(featured.startsAt, lang)}
-              </Text>
-            </View>
-            <Image source={{ uri: featured.photoUrl }} style={styles.featureImg} contentFit="cover" />
-          </Pressable>
-        ) : null}
-
-        <View style={styles.sectionHead}>
-          <Text style={[type.h2, { color: colors.ink }]}>{t('recommended')}</Text>
-        </View>
-        {recommended.length === 0 ? (
-          <EmptyState title={t('empty')} body={t('empty')} />
-        ) : (
-          <View style={styles.grid}>
-            {recommended.map((a) => (
-              <ActivityCard
-                key={a.id}
-                activity={a}
-                variant="grid"
-                saved={user ? isSaved(user.uid, a.id) : false}
-                onHeart={() => void heart(a.id)}
-                onPress={() => nav.navigate('Activity', { id: a.id })}
-              />
-            ))}
           </View>
+        </View>
+
+        {filtering ? null : (
+          <>
+            <View style={[styles.gutter, styles.section]}>
+              <SectionHead label={t('popular')} />
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.rail}
+            >
+              {popular.map((a) => (
+                <ActivityCard
+                  key={a.id}
+                  activity={a}
+                  onPress={() => nav.navigate('Activity', { id: a.id })}
+                />
+              ))}
+            </ScrollView>
+
+            {featured ? (
+              <Pressable
+                onPress={() => nav.navigate('Activity', { id: featured.id })}
+                style={[styles.gutter, styles.featureWrap]}
+              >
+                <Image
+                  source={{ uri: featured.photoUrl }}
+                  style={[styles.featureImg, isDesktop && { height: 320 }]}
+                  contentFit="cover"
+                  transition={240}
+                />
+                <View style={styles.featureCopy}>
+                  <Text style={[type.label, { color: colors.accent }]}>
+                    {t('featured')}
+                  </Text>
+                  <Text
+                    style={[type.displaySm, { color: colors.ink, marginTop: space.x2 }]}
+                    numberOfLines={2}
+                  >
+                    {featured.title}
+                  </Text>
+                  <Text style={[type.data, { color: colors.dim, marginTop: space.x2 }]}>
+                    {districtLabel(featured.district, lang)} ·{' '}
+                    {formatDay(featured.startsAt, lang)}
+                  </Text>
+                </View>
+              </Pressable>
+            ) : null}
+          </>
         )}
+
+        <View style={[styles.gutter, styles.section]}>
+          <SectionHead
+            label={filtering ? t('results') : t('recommended')}
+            action={filtering ? t('clear') : undefined}
+            onAction={
+              filtering
+                ? () => {
+                    setQ('');
+                    setMood(null);
+                  }
+                : undefined
+            }
+          />
+          {!filtering && followed.length > 0 ? (
+            <Text style={[type.meta, { color: colors.faint, marginTop: space.x3 }]}>
+              {t('followingHosts')}
+            </Text>
+          ) : null}
+        </View>
+
+        <View style={styles.gutter}>
+          {recommended.length === 0 ? (
+            <EmptyState
+              title={t('empty')}
+              body={t('greetingAsk')}
+              action={t('clear')}
+              onAction={() => {
+                setQ('');
+                setMood(null);
+              }}
+            />
+          ) : (
+            <View style={isDesktop ? styles.grid : undefined}>
+              {recommended.map((a) => (
+                <View key={a.id} style={isDesktop ? styles.gridItem : undefined}>
+                  <ActivityCard
+                    activity={a}
+                    variant="stack"
+                    saved={user ? isSaved(user.uid, a.id) : false}
+                    onSave={() => void save(a.id)}
+                    onPress={() => nav.navigate('Activity', { id: a.id })}
+                  />
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
       </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  searchRow: {
-    flexDirection: 'row',
-    gap: 10,
-    paddingHorizontal: space.screen,
-    paddingTop: 4,
-    alignItems: 'center',
-  },
+  scroll: { paddingTop: space.x6, paddingBottom: space.x16 },
+  gutter: { paddingHorizontal: space.gutter },
+  section: { marginTop: space.x12, marginBottom: space.x6 },
   search: {
-    flex: 1,
-    backgroundColor: colors.surface,
-    borderRadius: 999,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderWidth: 1,
-    borderColor: colors.line,
+    marginTop: space.x8,
+    borderBottomWidth: 1,
+    paddingVertical: space.x3,
     color: colors.ink,
+    fontSize: 16,
+    borderRadius: radius.none,
   },
-  gear: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.line,
+  rail: { paddingHorizontal: space.gutter },
+  featureWrap: { marginTop: space.x12 },
+  featureImg: {
+    width: '100%',
+    height: 260,
+    borderRadius: radius.xs,
+    backgroundColor: colors.raised,
   },
-  sectionHead: {
-    paddingHorizontal: space.screen,
-    marginTop: 22,
-    marginBottom: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  hScroll: { paddingHorizontal: space.screen },
-  feature: {
-    marginHorizontal: space.screen,
-    marginTop: 8,
-    backgroundColor: colors.ink,
-    borderRadius: radius.lg,
-    overflow: 'hidden',
-    flexDirection: 'row',
-    minHeight: 132,
-  },
-  featureImg: { width: 140, height: '100%' },
+  featureCopy: { marginTop: space.x4 },
   grid: {
-    paddingHorizontal: space.screen,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
+  gridItem: { width: '48%' },
 });

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { colors, space, type } from '../theme';
 import { Button } from './Button';
 
+/** An empty screen is an invitation, so it states the next move. */
 export function EmptyState({
   title,
   body,
@@ -17,15 +18,16 @@ export function EmptyState({
 }) {
   return (
     <View style={styles.box}>
-      <Text style={[type.h2, { color: colors.ink }]}>{title}</Text>
+      <View style={styles.mark} />
+      <Text style={[type.h2, { color: colors.ink, marginTop: space.x4 }]}>{title}</Text>
       {body ? (
-        <Text style={[type.body, { color: colors.muted, marginTop: space.sm }]}>
+        <Text style={[type.bodySm, { color: colors.dim, marginTop: space.x2 }]}>
           {body}
         </Text>
       ) : null}
       {action && onAction ? (
-        <View style={{ marginTop: space.lg }}>
-          <Button label={action} onPress={onAction} />
+        <View style={styles.action}>
+          <Button label={action} variant="quiet" onPress={onAction} />
         </View>
       ) : null}
     </View>
@@ -33,8 +35,7 @@ export function EmptyState({
 }
 
 const styles = StyleSheet.create({
-  box: {
-    paddingVertical: space.xxl,
-    paddingHorizontal: space.lg,
-  },
+  box: { paddingVertical: space.x12 },
+  mark: { width: 28, height: 1, backgroundColor: colors.accent },
+  action: { marginTop: space.x6, alignSelf: 'flex-start', minWidth: 180 },
 });

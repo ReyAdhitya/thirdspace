@@ -14,6 +14,7 @@ import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
 import { PriceText } from '../../components/PriceText';
 import { Screen } from '../../components/Screen';
+import { Fact, SectionHead } from '../../components/Text';
 import { useApp } from '../../context/AppContext';
 import { districtLabel } from '../../data/districts';
 import { formatWhen } from '../../lib/time';
@@ -21,6 +22,7 @@ import type { ActivityRoute, RootNav } from '../../navigation/types';
 import { getActivity } from '../../services/activities';
 import { getUser } from '../../services/auth';
 import { listMessages, postMessage } from '../../services/chat';
+import { createReport } from '../../services/reports';
 import { isSaved, toggleSave } from '../../services/saves';
 import {
   cancelTicket,
@@ -29,12 +31,13 @@ import {
   ticketFor,
   waitlistPosition,
 } from '../../services/tickets';
-import { colors, radius, space, type } from '../../theme';
+import { colors, radius, space, type, useShell } from '../../theme';
 
 export function ActivityScreen() {
   const nav = useNavigation<RootNav>();
   const { id } = useRoute<ActivityRoute>().params;
   const { t, user, lang, showBanner } = useApp();
+  const { isDesktop } = useShell();
   const activity = getActivity(id);
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
@@ -43,23 +46,39 @@ export function ActivityScreen() {
   if (!activity) {
     return (
       <Screen onBack={() => nav.goBack()} title={t('error')}>
-        <EmptyState title={t('error')} body={t('empty')} action={t('retry')} onAction={() => nav.goBack()} />
+        <View style={styles.gutter}>
+          <EmptyState
+            title={t('error')}
+            body={t('empty')}
+            action={t('back')}
+            onAction={() => nav.goBack()}
+          />
+        </View>
       </Screen>
     );
   }
 
+  const activityId = activity.id;
   const host = getUser(activity.organizerId);
   const now = Date.now();
   const started = now >= new Date(activity.startsAt).getTime();
   const ended = now >= new Date(activity.endsAt).getTime();
-  const mine = user ? ticketFor(user.uid, activity.id) : undefined;
-  const joined = user ? hasJoinedTicket(user.uid, activity.id) : false;
+  const mine = user ? ticketFor(user.uid, activityId) : undefined;
+  const joined = user ? hasJoinedTicket(user.uid, activityId) : false;
   const full = activity.joinedCount >= activity.capacity && !joined;
-  const saved = user ? isSaved(user.uid, activity.id) : false;
-  const chats = listMessages(activity.id, 'chat');
-  const comments = listMessages(activity.id, 'comment');
-  const pos = user ? waitlistPosition(user.uid, activity.id) : null;
-  const activityId = activity.id;
+  const saved = user ? isSaved(user.uid, activityId) : false;
+  const chats = listMessages(activityId, 'chat');
+  const comments = listMessages(activityId, 'comment');
+  const pos = user ? waitlistPosition(user.uid, activityId) : null;
+
+  const eventLangLabel =
+    activity.eventLanguage === 'mixed'
+      ? t('mixed')
+      : activity.eventLanguage === 'en'
+        ? t('langEn')
+        : activity.eventLanguage === 'zh-Hans'
+          ? t('langZhHans')
+          : t('langZhHant');
 
   async function onJoin() {
     if (!user) {
@@ -74,12 +93,14 @@ export function ActivityScreen() {
         nav.navigate('Checkout', { activityId });
         return;
       }
-      if (!res.ok && res.reason === 'full') {
-        setErr(t('full'));
-        return;
-      }
       if (!res.ok) {
-        setErr(t(res.reason === 'started' ? 'started' : 'error'));
+        setErr(
+          res.reason === 'full'
+            ? t('full')
+            : res.reason === 'started'
+              ? t('started')
+              : t('error'),
+        );
         return;
       }
       if (res.kind === 'waitlisted') showBanner(t('waitlistedNote'));
@@ -102,12 +123,7 @@ export function ActivityScreen() {
   async function send(kind: 'chat' | 'comment') {
     if (!user) return;
     try {
-      await postMessage({
-        activityId,
-        userId: user.uid,
-        text: draft,
-        kind,
-      });
+      await postMessage({ activityId, userId: user.uid, text: draft, kind });
       setDraft('');
     } catch (e) {
       showBanner(e instanceof Error ? e.message : t('error'), 'warn');
@@ -124,162 +140,175 @@ export function ActivityScreen() {
           ? t('waitlist')
           : t('join');
 
-  const joinDisabled = started || joined || mine?.status === 'waitlisted';
+  const joinDisabled =
+    started || joined || mine?.status === 'waitlisted' || activity.status === 'hidden';
 
   return (
-    <Screen onBack={() => nav.goBack()}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 48 }}>
-        <Image source={{ uri: activity.photoUrl }} style={styles.hero} contentFit="cover" />
-        <View style={styles.body}>
-          <View style={styles.row}>
-            <PriceText priceHkd={activity.priceHkd} />
-            <Pressable
-              onPress={() => {
-                if (!user) return;
-                void toggleSave(user.uid, activity.id);
-              }}
-            >
-              <Text style={{ fontSize: 18 }}>{saved ? '♥' : '♡'}</Text>
-            </Pressable>
-          </View>
-          <Text style={[type.title, { color: colors.ink, marginTop: 8 }]}>{activity.title}</Text>
-          <Text style={[type.meta, { color: colors.muted, marginTop: 8 }]}>
-            {districtLabel(activity.district, lang)} · {formatWhen(activity.startsAt, lang)}
+    <Screen
+      onBack={() => nav.goBack()}
+      action={
+        user
+          ? {
+              label: saved ? t('savedOn') : t('save'),
+              onPress: () => void toggleSave(user.uid, activityId),
+            }
+          : undefined
+      }
+    >
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
+        <Image
+          source={{ uri: activity.photoUrl }}
+          style={[styles.hero, isDesktop && { height: 360 }]}
+          contentFit="cover"
+          transition={240}
+        />
+
+        <View style={styles.gutter}>
+          <Text style={[type.label, { color: colors.dim, marginTop: space.x6 }]}>
+            {districtLabel(activity.district, lang)}
           </Text>
-          <Text style={[type.meta, { color: colors.muted, marginTop: 4 }]}>
-            {t('capacity')} {activity.joinedCount}/{activity.capacity}
-            {activity.status === 'hidden' ? ` · ${t('hidden')}` : ''}
+          <Text style={[type.display, { color: colors.ink, marginTop: space.x3 }]}>
+            {activity.title}
           </Text>
 
-          <View style={styles.actions}>
-            <View style={{ flex: 1 }}>
-              <Button
-                label={joinLabel}
-                onPress={() => void onJoin()}
-                loading={busy}
-                disabled={joinDisabled || activity.status === 'hidden'}
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Button
-                label={t('chat')}
-                variant="ghost"
-                onPress={() => {
-                  if (!joined) showBanner(t('chatLocked'), 'warn');
-                }}
-              />
-            </View>
+          <View style={styles.priceRow}>
+            <PriceText priceHkd={activity.priceHkd} size="lg" />
+            <Text style={[type.data, { color: colors.dim }]}>
+              {activity.joinedCount}/{activity.capacity}
+            </Text>
+            {activity.status === 'hidden' ? (
+              <Text style={[type.label, { color: colors.accent }]}>{t('hidden')}</Text>
+            ) : null}
           </View>
+
+          <View style={styles.cta}>
+            <Button
+              label={joinLabel}
+              onPress={() => void onJoin()}
+              loading={busy}
+              disabled={joinDisabled}
+              trailing={
+                !joinDisabled && activity.priceHkd > 0 ? `HK$${activity.priceHkd}` : undefined
+              }
+            />
+            {joined && !started ? (
+              <Pressable onPress={() => void onCancel()} hitSlop={8}>
+                <Text
+                  style={[
+                    type.data,
+                    { color: colors.dim, textAlign: 'center', marginTop: space.x4 },
+                  ]}
+                >
+                  {t('cancel')}
+                </Text>
+              </Pressable>
+            ) : null}
+          </View>
+
           {err ? (
-            <Text style={[type.meta, { color: colors.danger, marginTop: 8 }]}>{err}</Text>
-          ) : null}
-          {mine?.status === 'waitlisted' ? (
-            <Text style={[type.meta, { color: colors.muted, marginTop: 8 }]}>
-              {t('waitlistedNote')} {pos ? `#${pos}` : ''}
+            <Text style={[type.meta, { color: colors.accent, marginTop: space.x4 }]}>
+              {err}
             </Text>
           ) : null}
-          {joined && !started ? (
-            <View style={{ marginTop: 10 }}>
-              <Button label={t('cancel')} variant="ghost" onPress={() => void onCancel()} />
-            </View>
+          {mine?.status === 'waitlisted' ? (
+            <Text style={[type.meta, { color: colors.dim, marginTop: space.x4 }]}>
+              {t('waitlistedNote')}
+              {pos ? ` · ${pos}` : ''}
+            </Text>
           ) : null}
 
-          <Text style={[type.label, { color: colors.muted, marginTop: 24 }]}>{t('whatWeDo')}</Text>
-          <Text style={[type.body, { color: colors.ink, marginTop: 8 }]}>{activity.summary}</Text>
-
-          <Text style={[type.label, { color: colors.muted, marginTop: 20 }]}>{t('address')}</Text>
-          <Text style={[type.body, { color: colors.ink, marginTop: 6 }]}>{activity.address}</Text>
-
-          <Text style={[type.label, { color: colors.muted, marginTop: 20 }]}>{t('language')}</Text>
-          <Text style={[type.body, { color: colors.ink, marginTop: 6 }]}>
-            {activity.eventLanguage === 'mixed'
-              ? t('mixed')
-              : activity.eventLanguage === 'en'
-                ? t('langEn')
-                : activity.eventLanguage === 'zh-Hans'
-                  ? t('langZhHans')
-                  : t('langZhHant')}
+          <Text style={[type.body, { color: colors.ink, marginTop: space.x8 }]}>
+            {activity.summary}
           </Text>
+
+          <View style={styles.facts}>
+            <Fact label={t('when')} value={formatWhen(activity.startsAt, lang)} mono />
+            <Fact label={t('address')} value={activity.address} />
+            <Fact label={t('language')} value={eventLangLabel} />
+          </View>
 
           <Pressable
             onPress={() => nav.navigate('Organizer', { uid: activity.organizerId })}
             style={styles.host}
           >
-            <Text style={[type.label, { color: colors.muted }]}>{t('host')}</Text>
-            <Text style={[type.h2, { color: colors.ink, marginTop: 4 }]}>
-              {host?.displayName ?? '—'}
-            </Text>
-            <Text style={[type.meta, { color: colors.pine, marginTop: 4 }]}>→</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={[type.label, { color: colors.faint }]}>{t('host')}</Text>
+              <Text style={[type.h2, { color: colors.ink, marginTop: space.x2 }]}>
+                {host?.displayName ?? '—'}
+              </Text>
+            </View>
+            <Text style={[type.label, { color: colors.dim }]}>{t('hostEvents')}</Text>
           </Pressable>
 
           {user && (user.uid === activity.organizerId || user.role === 'admin') ? (
-            <View style={{ marginTop: 12 }}>
+            <View style={{ marginTop: space.x6 }}>
               <Button
                 label={t('editEvent')}
-                variant="ghost"
-                onPress={() => nav.navigate('CreateActivity', { id: activity.id })}
+                variant="quiet"
+                onPress={() => nav.navigate('CreateActivity', { id: activityId })}
               />
             </View>
           ) : null}
 
-          <Pressable
-            onPress={() => {
-              if (!user) return;
-              nav.navigate('Settings');
-            }}
-            style={{ marginTop: 16 }}
-          >
-            <ReportBox activityId={activity.id} hostId={activity.organizerId} />
-          </Pressable>
+          <View style={styles.section}>
+            <SectionHead label={t('chat')} />
+            {!joined ? (
+              <Text style={[type.meta, { color: colors.faint, marginTop: space.x4 }]}>
+                {t('chatLocked')}
+              </Text>
+            ) : (
+              <Thread
+                empty={t('noChat')}
+                items={chats.map((m) => ({
+                  id: m.id,
+                  name: getUser(m.userId)?.displayName ?? '',
+                  text: m.text,
+                }))}
+              />
+            )}
+          </View>
 
-          <Text style={[type.h2, { color: colors.ink, marginTop: 28 }]}>{t('chat')}</Text>
-          {!joined ? (
-            <Text style={[type.meta, { color: colors.muted, marginTop: 8 }]}>{t('chatLocked')}</Text>
-          ) : (
-            <Thread
-              empty={t('noChat')}
-              items={chats.map((m) => ({
-                id: m.id,
-                name: getUser(m.userId)?.displayName ?? '',
-                text: m.text,
-              }))}
-            />
-          )}
+          <View style={styles.section}>
+            <SectionHead label={t('comments')} />
+            {ended && joined ? (
+              <Thread
+                empty={t('noComments')}
+                items={comments.map((m) => ({
+                  id: m.id,
+                  name: getUser(m.userId)?.displayName ?? '',
+                  text: m.text,
+                }))}
+              />
+            ) : (
+              <Text style={[type.meta, { color: colors.faint, marginTop: space.x4 }]}>
+                {t('commentHint')}
+              </Text>
+            )}
+          </View>
 
-          <Text style={[type.h2, { color: colors.ink, marginTop: 28 }]}>{t('comments')}</Text>
-          <Text style={[type.meta, { color: colors.muted, marginTop: 6 }]}>{t('commentHint')}</Text>
-          {ended && joined ? (
-            <Thread
-              empty={t('noComments')}
-              items={comments.map((m) => ({
-                id: m.id,
-                name: getUser(m.userId)?.displayName ?? '',
-                text: m.text,
-              }))}
-            />
-          ) : (
-            <Text style={[type.meta, { color: colors.muted, marginTop: 8 }]}>
-              {ended ? t('chatLocked') : t('commentHint')}
-            </Text>
-          )}
-
-          {joined && (!ended || true) ? (
-            <View style={{ marginTop: 16 }}>
+          {joined ? (
+            <View style={styles.composer}>
               <TextInput
                 value={draft}
                 onChangeText={setDraft}
                 placeholder={ended ? t('comments') : t('chat')}
-                placeholderTextColor={colors.muted}
+                placeholderTextColor={colors.faint}
                 style={styles.input}
               />
-              <View style={{ marginTop: 8 }}>
-                <Button
-                  label={t('send')}
-                  onPress={() => void send(ended ? 'comment' : 'chat')}
-                />
-              </View>
+              <Pressable
+                onPress={() => void send(ended ? 'comment' : 'chat')}
+                hitSlop={8}
+                style={styles.send}
+              >
+                <Text style={[type.label, { color: colors.ink }]}>{t('send')}</Text>
+              </Pressable>
             </View>
           ) : null}
+
+          <ReportBlock activityId={activityId} hostId={activity.organizerId} />
         </View>
       </ScrollView>
     </Screen>
@@ -294,60 +323,75 @@ function Thread({
   empty: string;
 }) {
   if (!items.length) {
-    return <Text style={[type.meta, { color: colors.muted, marginTop: 8 }]}>{empty}</Text>;
+    return (
+      <Text style={[type.meta, { color: colors.faint, marginTop: space.x4 }]}>
+        {empty}
+      </Text>
+    );
   }
   return (
-    <View style={{ marginTop: 8, gap: 10 }}>
+    <View>
       {items.map((m) => (
         <View key={m.id} style={styles.msg}>
-          <Text style={[type.meta, { color: colors.pine }]}>{m.name}</Text>
-          <Text style={[type.body, { color: colors.ink }]}>{m.text}</Text>
+          <Text style={[type.label, { color: colors.faint }]}>{m.name}</Text>
+          <Text style={[type.body, { color: colors.ink, marginTop: space.x2 }]}>
+            {m.text}
+          </Text>
         </View>
       ))}
     </View>
   );
 }
 
-function ReportBox({ activityId, hostId }: { activityId: string; hostId: string }) {
+function ReportBlock({
+  activityId,
+  hostId,
+}: {
+  activityId: string;
+  hostId: string;
+}) {
   const { t, user, showBanner } = useApp();
   const [reason, setReason] = useState('');
   const [open, setOpen] = useState(false);
   if (!user) return null;
+
+  async function submit() {
+    await createReport({
+      reporterId: user!.uid,
+      targetType: 'event',
+      targetId: activityId,
+      reason,
+    });
+    await createReport({
+      reporterId: user!.uid,
+      targetType: 'host',
+      targetId: hostId,
+      reason,
+    });
+    showBanner(t('reportSent'));
+    setOpen(false);
+    setReason('');
+  }
+
   return (
-    <View>
-      <Pressable onPress={() => setOpen((v) => !v)}>
-        <Text style={[type.meta, { color: colors.danger }]}>{t('report')}</Text>
+    <View style={styles.report}>
+      <Pressable onPress={() => setOpen((v) => !v)} hitSlop={8}>
+        <Text style={[type.label, { color: colors.faint }]}>{t('report')}</Text>
       </Pressable>
       {open ? (
-        <View style={{ marginTop: 8 }}>
+        <View style={{ marginTop: space.x4 }}>
           <TextInput
             value={reason}
             onChangeText={setReason}
             placeholder={t('reportReason')}
-            placeholderTextColor={colors.muted}
+            placeholderTextColor={colors.faint}
             style={styles.input}
           />
-          <View style={{ marginTop: 8 }}>
+          <View style={{ marginTop: space.x4 }}>
             <Button
               label={t('report')}
-              variant="danger"
-              onPress={async () => {
-                const { createReport } = await import('../../services/reports');
-                await createReport({
-                  reporterId: user.uid,
-                  targetType: 'event',
-                  targetId: activityId,
-                  reason,
-                });
-                await createReport({
-                  reporterId: user.uid,
-                  targetType: 'host',
-                  targetId: hostId,
-                  reason,
-                });
-                showBanner(t('reportSent'));
-                setOpen(false);
-              }}
+              variant="destructive"
+              onPress={() => void submit()}
             />
           </View>
         </View>
@@ -357,30 +401,48 @@ function ReportBox({ activityId, hostId }: { activityId: string; hostId: string 
 }
 
 const styles = StyleSheet.create({
-  hero: { width: '100%', height: 240 },
-  body: { padding: space.screen },
-  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  actions: { flexDirection: 'row', gap: 10, marginTop: 20 },
+  scroll: { paddingBottom: space.x16 },
+  gutter: { paddingHorizontal: space.gutter },
+  hero: {
+    width: '100%',
+    height: 280,
+    backgroundColor: colors.raised,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: space.x6,
+    marginTop: space.x4,
+  },
+  cta: { marginTop: space.x8 },
+  facts: { marginTop: space.x8, borderTopWidth: 1, borderTopColor: colors.hairline },
   host: {
-    marginTop: 24,
-    padding: 16,
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.line,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: space.x6,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.hairline,
   },
-  input: {
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    borderWidth: 1,
-    borderColor: colors.line,
-    color: colors.ink,
-  },
+  section: { marginTop: space.x12 },
   msg: {
-    padding: 12,
-    backgroundColor: colors.surface,
-    borderRadius: 12,
+    paddingVertical: space.x4,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.hairline,
+  },
+  composer: { marginTop: space.x6 },
+  input: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.hairlineStrong,
+    paddingVertical: space.x3,
+    color: colors.ink,
+    fontSize: 16,
+    borderRadius: radius.none,
+  },
+  send: { marginTop: space.x4, alignSelf: 'flex-start' },
+  report: {
+    marginTop: space.x16,
+    borderTopWidth: 1,
+    borderTopColor: colors.hairline,
+    paddingTop: space.x6,
   },
 });

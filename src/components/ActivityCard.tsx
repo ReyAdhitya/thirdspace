@@ -9,78 +9,103 @@ import type { Activity } from '../types';
 import { colors, radius, space, type } from '../theme';
 import { PriceText } from './PriceText';
 
+/**
+ * carousel — fixed-width, horizontal rail
+ * stack    — full width, photo above a type block
+ * line     — no photo, one hairline row
+ */
 export function ActivityCard({
   activity,
   onPress,
-  onHeart,
+  onSave,
   saved,
-  variant = 'row',
+  variant = 'carousel',
 }: {
   activity: Activity;
   onPress: () => void;
-  onHeart?: () => void;
+  onSave?: () => void;
   saved?: boolean;
-  variant?: 'row' | 'grid' | 'wide';
+  variant?: 'carousel' | 'stack' | 'line';
 }) {
-  const { lang } = useApp();
-  const tall = variant === 'grid' || variant === 'wide';
-  return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.wrap, variant === 'grid' && styles.grid]}
-    >
-      <View style={styles.frame}>
-        <Image
-          source={{ uri: activity.photoUrl }}
-          style={{ width: '100%', height: tall ? 168 : 128 }}
-          contentFit="cover"
-        />
-        <View style={styles.priceTag}>
-          <PriceText priceHkd={activity.priceHkd} invert />
+  const { lang, t } = useApp();
+
+  const meta = `${districtLabel(activity.district, lang)} · ${formatDay(
+    activity.startsAt,
+    lang,
+  )}`;
+
+  if (variant === 'line') {
+    return (
+      <Pressable onPress={onPress} style={styles.line}>
+        <View style={{ flex: 1, paddingRight: space.x4 }}>
+          <Text style={[type.bodyStrong, { color: colors.ink }]} numberOfLines={1}>
+            {activity.title}
+          </Text>
+          <Text style={[type.meta, { color: colors.dim, marginTop: space.x1 }]}>
+            {meta}
+          </Text>
         </View>
-        {onHeart ? (
-          <Pressable onPress={onHeart} style={styles.heart} hitSlop={8}>
-            <Text style={{ fontSize: 16 }}>{saved ? '♥' : '♡'}</Text>
+        <PriceText priceHkd={activity.priceHkd} tone="dim" />
+      </Pressable>
+    );
+  }
+
+  const stack = variant === 'stack';
+
+  return (
+    <Pressable onPress={onPress} style={stack ? styles.stack : styles.carousel}>
+      <Image
+        source={{ uri: activity.photoUrl }}
+        style={[styles.photo, { height: stack ? 240 : 168 }]}
+        contentFit="cover"
+        transition={220}
+      />
+      <View style={styles.copy}>
+        <Text
+          style={[stack ? type.h2 : type.bodyStrong, { color: colors.ink }]}
+          numberOfLines={2}
+        >
+          {activity.title}
+        </Text>
+        <View style={styles.footRow}>
+          <Text style={[type.meta, { color: colors.dim, flex: 1 }]} numberOfLines={1}>
+            {meta}
+          </Text>
+          <PriceText priceHkd={activity.priceHkd} />
+        </View>
+        {onSave ? (
+          <Pressable onPress={onSave} hitSlop={8} style={styles.save}>
+            <Text style={[type.label, { color: saved ? colors.ink : colors.faint }]}>
+              {saved ? t('savedOn') : t('save')}
+            </Text>
           </Pressable>
         ) : null}
       </View>
-      <Text style={[type.bodyStrong, { color: colors.ink, marginTop: 10 }]} numberOfLines={2}>
-        {activity.title}
-      </Text>
-      <Text style={[type.meta, { color: colors.muted, marginTop: 4 }]}>
-        {districtLabel(activity.district, lang)} · {formatDay(activity.startsAt, lang)}
-      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: { width: 220, marginRight: space.md },
-  grid: { width: '48%', marginRight: 0, marginBottom: space.lg },
-  frame: {
-    backgroundColor: colors.surface2,
-    padding: 4,
-    borderRadius: radius.lg,
-    overflow: 'hidden',
+  carousel: { width: 248, marginRight: space.x4 },
+  stack: { width: '100%', marginBottom: space.x8 },
+  photo: {
+    width: '100%',
+    borderRadius: radius.xs,
+    backgroundColor: colors.raised,
   },
-  priceTag: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
-    backgroundColor: colors.ink,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
+  copy: { marginTop: space.x3 },
+  footRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: space.x3,
+    marginTop: space.x2,
   },
-  heart: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: colors.surface,
+  save: { marginTop: space.x3, alignSelf: 'flex-start' },
+  line: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingVertical: space.x4,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.hairline,
   },
 });

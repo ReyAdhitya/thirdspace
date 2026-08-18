@@ -12,14 +12,19 @@ import {
 } from 'react-native';
 
 import { Button } from '../../components/Button';
-import { MoodChips } from '../../components/MoodChips';
+import { MoodPicker } from '../../components/MoodPicker';
 import { Screen } from '../../components/Screen';
+import { SectionHead } from '../../components/Text';
 import { useApp } from '../../context/AppContext';
 import { DISTRICTS, districtLabel } from '../../data/districts';
 import { fromDatetimeLocalValue, hkIso, toDatetimeLocalValue } from '../../lib/time';
 import type { RootNav, RootStackParamList } from '../../navigation/types';
-import { createActivity, getActivity, updateActivity } from '../../services/activities';
-import { pickPhoto, STOCK_PHOTOS } from '../../services/storage';
+import {
+  createActivity,
+  getActivity,
+  updateActivity,
+} from '../../services/activities';
+import { STOCK_PHOTOS, pickPhoto } from '../../services/storage';
 import type { EventLanguage, MoodId } from '../../types';
 import { colors, radius, space, type } from '../../theme';
 
@@ -42,10 +47,14 @@ export function CreateActivityScreen() {
     existing?.eventLanguage ?? 'zh-Hant',
   );
   const [starts, setStarts] = useState(
-    existing ? toDatetimeLocalValue(existing.startsAt) : toDatetimeLocalValue(hkIso(2026, 9, 5, 19, 0)),
+    existing
+      ? toDatetimeLocalValue(existing.startsAt)
+      : toDatetimeLocalValue(hkIso(2026, 9, 5, 19, 0)),
   );
   const [ends, setEnds] = useState(
-    existing ? toDatetimeLocalValue(existing.endsAt) : toDatetimeLocalValue(hkIso(2026, 9, 5, 21, 0)),
+    existing
+      ? toDatetimeLocalValue(existing.endsAt)
+      : toDatetimeLocalValue(hkIso(2026, 9, 5, 21, 0)),
   );
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -64,7 +73,9 @@ export function CreateActivityScreen() {
   if (!user) {
     return (
       <Screen onBack={() => nav.goBack()}>
-        <Text style={{ padding: 20 }}>{t('needLogin')}</Text>
+        <Text style={[type.body, { color: colors.dim, padding: space.gutter }]}>
+          {t('needLogin')}
+        </Text>
       </Screen>
     );
   }
@@ -108,138 +119,212 @@ export function CreateActivityScreen() {
   }
 
   return (
-    <Screen onBack={() => nav.goBack()} title={existing ? t('editEvent') : t('createEvent')}>
-      <ScrollView contentContainerStyle={{ padding: space.screen, paddingBottom: 48 }}>
-        <Image source={{ uri: photoUrl }} style={styles.photo} contentFit="cover" />
-        <View style={{ marginTop: 10, flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-          <Button
-            label={t('pickPhoto')}
-            variant="ghost"
-            onPress={async () => {
-              const uri = await pickPhoto();
-              if (uri) setPhotoUrl(uri);
-            }}
-          />
-          {STOCK_PHOTOS.slice(0, 4).map((u) => (
-            <Pressable key={u} onPress={() => setPhotoUrl(u)}>
-              <Image source={{ uri: u }} style={styles.thumb} contentFit="cover" />
+    <Screen
+      onBack={() => nav.goBack()}
+      title={existing ? t('editEvent') : t('createEvent')}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.gutter}>
+          <Image source={{ uri: photoUrl }} style={styles.photo} contentFit="cover" />
+          <View style={styles.photoRow}>
+            <Pressable
+              onPress={async () => {
+                const uri = await pickPhoto();
+                if (uri) setPhotoUrl(uri);
+              }}
+              hitSlop={8}
+            >
+              <Text style={[type.label, { color: colors.ink }]}>{t('pickPhoto')}</Text>
             </Pressable>
-          ))}
-        </View>
+            <View style={styles.thumbs}>
+              {STOCK_PHOTOS.slice(0, 4).map((u) => (
+                <Pressable key={u} onPress={() => setPhotoUrl(u)}>
+                  <Image
+                    source={{ uri: u }}
+                    style={[
+                      styles.thumb,
+                      photoUrl === u && { borderColor: colors.accent },
+                    ]}
+                    contentFit="cover"
+                  />
+                </Pressable>
+              ))}
+            </View>
+          </View>
 
-        <Label text={t('title')} />
-        <Field value={title} onChange={setTitle} />
-        <Label text={t('summary')} />
-        <Field value={summary} onChange={setSummary} multiline />
-        <Label text={t('district')} />
-        <View style={styles.wrap}>
-          {DISTRICTS.map((d) => (
-            <Pressable
-              key={d.id}
-              onPress={() => setDistrict(d.id)}
-              style={[styles.chip, district === d.id && styles.on]}
-            >
-              <Text style={[type.meta, { color: district === d.id ? colors.paper : colors.ink }]}>
-                {districtLabel(d.id, lang)}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
-        <Label text={t('address')} />
-        <Field value={address} onChange={setAddress} />
-        <Label text={t('starts')} />
-        <Field value={starts} onChange={setStarts} />
-        <Label text={t('ends')} />
-        <Field value={ends} onChange={setEnds} />
-        <Label text={t('price')} />
-        <Field value={price} onChange={setPrice} />
-        <Label text={t('capacity')} />
-        <Field value={capacity} onChange={setCapacity} />
-        <Label text={t('eventLang')} />
-        <View style={styles.wrap}>
-          {langs.map(([code, label]) => (
-            <Pressable
-              key={code}
-              onPress={() => setEventLanguage(code)}
-              style={[styles.chip, eventLanguage === code && styles.on]}
-            >
-              <Text
-                style={[type.meta, { color: eventLanguage === code ? colors.paper : colors.ink }]}
-              >
-                {label}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
-        <Label text={t('moodQuiet')} />
-        <MoodChips
-          value={moods}
-          multi
-          onChange={(id) =>
-            setMoods((cur) =>
-              cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id],
-            )
-          }
-        />
-        {err ? (
-          <Text style={[type.meta, { color: colors.danger, marginVertical: 8 }]}>{err}</Text>
-        ) : null}
-        <View style={{ marginTop: 16 }}>
-          <Button label={t('publish')} onPress={() => void save()} loading={busy} />
+          <Field label={t('title')} value={title} onChange={setTitle} />
+          <Field label={t('summary')} value={summary} onChange={setSummary} multiline />
+
+          <View style={styles.section}>
+            <SectionHead label={t('district')} />
+            <View style={styles.index}>
+              {DISTRICTS.map((d) => {
+                const on = district === d.id;
+                return (
+                  <Pressable
+                    key={d.id}
+                    onPress={() => setDistrict(d.id)}
+                    style={styles.row}
+                  >
+                    <View
+                      style={[
+                        styles.mark,
+                        { backgroundColor: on ? colors.accent : 'transparent' },
+                      ]}
+                    />
+                    <Text
+                      style={[
+                        type.bodySm,
+                        { color: on ? colors.ink : colors.dim, flex: 1 },
+                      ]}
+                    >
+                      {districtLabel(d.id, lang)}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          <Field label={t('address')} value={address} onChange={setAddress} />
+          <Field label={t('starts')} value={starts} onChange={setStarts} mono />
+          <Field label={t('ends')} value={ends} onChange={setEnds} mono />
+          <Field label={t('price')} value={price} onChange={setPrice} mono />
+          <Field label={t('capacity')} value={capacity} onChange={setCapacity} mono />
+
+          <View style={styles.section}>
+            <SectionHead label={t('eventLang')} />
+            <View style={styles.words}>
+              {langs.map(([code, label]) => {
+                const on = eventLanguage === code;
+                return (
+                  <Pressable key={code} onPress={() => setEventLanguage(code)} hitSlop={6}>
+                    <Text
+                      style={[type.bodyStrong, { color: on ? colors.ink : colors.dim }]}
+                    >
+                      {label}
+                    </Text>
+                    <View
+                      style={[
+                        styles.wordMark,
+                        { backgroundColor: on ? colors.accent : 'transparent' },
+                      ]}
+                    />
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <SectionHead label={t('interestsTitle')} />
+            <View style={{ marginTop: space.x4 }}>
+              <MoodPicker
+                value={moods}
+                wrap
+                onChange={(id) =>
+                  setMoods((cur) =>
+                    cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id],
+                  )
+                }
+              />
+            </View>
+          </View>
+
+          {err ? (
+            <Text style={[type.meta, { color: colors.accent, marginTop: space.x6 }]}>
+              {err}
+            </Text>
+          ) : null}
+
+          <View style={{ marginTop: space.x8 }}>
+            <Button label={t('publish')} onPress={() => void save()} loading={busy} />
+          </View>
         </View>
       </ScrollView>
     </Screen>
   );
 }
 
-function Label({ text }: { text: string }) {
-  return (
-    <Text style={[type.label, { color: colors.muted, marginTop: 16, marginBottom: 6 }]}>
-      {text}
-    </Text>
-  );
-}
-
 function Field({
+  label,
   value,
   onChange,
   multiline,
+  mono,
 }: {
+  label: string;
   value: string;
   onChange: (v: string) => void;
   multiline?: boolean;
+  mono?: boolean;
 }) {
+  const [focus, setFocus] = useState(false);
   return (
-    <TextInput
-      value={value}
-      onChangeText={onChange}
-      multiline={multiline}
-      style={[styles.input, multiline && { minHeight: 88, textAlignVertical: 'top' }]}
-    />
+    <View style={{ marginTop: space.x6 }}>
+      <Text style={[type.label, { color: colors.faint }]}>{label}</Text>
+      <TextInput
+        value={value}
+        onChangeText={onChange}
+        multiline={multiline}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        placeholderTextColor={colors.faint}
+        style={[
+          styles.input,
+          mono && { fontFamily: type.data.fontFamily as string, fontSize: 15 },
+          multiline && { minHeight: 88, textAlignVertical: 'top' },
+          { borderBottomColor: focus ? colors.ink : colors.hairlineStrong },
+        ]}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  photo: { width: '100%', height: 180, borderRadius: radius.md },
-  thumb: { width: 48, height: 48, borderRadius: 8 },
-  input: {
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+  scroll: { paddingTop: space.x4, paddingBottom: space.x16 },
+  gutter: { paddingHorizontal: space.gutter },
+  photo: {
+    width: '100%',
+    height: 200,
+    borderRadius: radius.xs,
+    backgroundColor: colors.raised,
+  },
+  photoRow: {
+    marginTop: space.x4,
+    gap: space.x4,
+  },
+  thumbs: { flexDirection: 'row', gap: space.x2 },
+  thumb: {
+    width: 52,
+    height: 52,
+    borderRadius: radius.xs,
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.hairline,
+  },
+  section: { marginTop: space.x12 },
+  index: { marginTop: space.x2 },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.x3,
+    paddingVertical: space.x3,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.hairline,
+  },
+  mark: { width: 2, height: 12 },
+  words: { flexDirection: 'row', flexWrap: 'wrap', gap: space.x6, marginTop: space.x4 },
+  wordMark: { height: 2, marginTop: space.x2 },
+  input: {
+    borderBottomWidth: 1,
+    paddingVertical: space.x3,
+    marginTop: space.x2,
     color: colors.ink,
     fontSize: 16,
+    borderRadius: radius.none,
   },
-  wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 999,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.line,
-  },
-  on: { backgroundColor: colors.pine, borderColor: colors.pine },
 });

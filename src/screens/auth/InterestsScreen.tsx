@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
-import { MoodChips } from '../../components/MoodChips';
+import { MoodPicker } from '../../components/MoodPicker';
 import { Screen } from '../../components/Screen';
 import { useApp } from '../../context/AppContext';
 import { updateProfile } from '../../services/auth';
@@ -14,9 +14,7 @@ export function InterestsScreen() {
   const [picked, setPicked] = useState<MoodId[]>(user?.interests ?? []);
 
   function toggle(id: MoodId) {
-    setPicked((cur) =>
-      cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id],
-    );
+    setPicked((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
   }
 
   async function save(list: MoodId[]) {
@@ -28,21 +26,33 @@ export function InterestsScreen() {
   return (
     <Screen>
       <View style={styles.pad}>
-        <Text style={[type.greeting, { color: colors.ink, fontSize: 32 }]}>
+        <View style={styles.mark} />
+        <Text style={[type.display, { color: colors.ink, marginTop: space.x6 }]}>
           {t('interestsTitle')}
         </Text>
-        <Text style={[type.body, { color: colors.muted, marginTop: 12 }]}>
+        <Text style={[type.body, { color: colors.dim, marginTop: space.x3, maxWidth: 340 }]}>
           {t('interestsHint')}
         </Text>
-        <View style={{ marginTop: 24 }}>
-          <MoodChips value={picked} onChange={toggle} multi />
+
+        <View style={styles.picker}>
+          <MoodPicker value={picked} onChange={toggle} wrap />
         </View>
-        <View style={{ marginTop: 32, gap: 10 }}>
+
+        <View style={styles.actions}>
           <Button
             label={t('continue')}
             onPress={() => void save(picked.length ? picked : (['quiet'] as MoodId[]))}
           />
-          <Button label={t('skip')} variant="ghost" onPress={() => void save([])} />
+          <Pressable onPress={() => void save([])} hitSlop={8}>
+            <Text
+              style={[
+                type.data,
+                { color: colors.dim, textAlign: 'center', marginTop: space.x6 },
+              ]}
+            >
+              {t('skip')}
+            </Text>
+          </Pressable>
         </View>
       </View>
     </Screen>
@@ -50,5 +60,8 @@ export function InterestsScreen() {
 }
 
 const styles = StyleSheet.create({
-  pad: { padding: space.screen, flex: 1 },
+  pad: { padding: space.gutter, flex: 1, justifyContent: 'center' },
+  mark: { width: 28, height: 2, backgroundColor: colors.accent },
+  picker: { marginTop: space.x12 },
+  actions: { marginTop: space.x16 },
 });

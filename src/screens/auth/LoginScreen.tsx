@@ -3,6 +3,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -11,12 +12,20 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '../../components/Button';
+import { Rule } from '../../components/Text';
 import { useApp } from '../../context/AppContext';
 import * as auth from '../../services/auth';
-import { colors, space, type } from '../../theme';
+import { colors, radius, space, type, useShell } from '../../theme';
+
+const DEMOS = [
+  ['demo@thirdspace.hk', '阿樂'],
+  ['host@thirdspace.hk', '林岸'],
+  ['admin@thirdspace.hk', 'Admin'],
+] as const;
 
 export function LoginScreen() {
   const { t, showBanner } = useApp();
+  const { isDesktop } = useShell();
   const [email, setEmail] = useState('demo@thirdspace.hk');
   const [password, setPassword] = useState('thirdspace');
   const [name, setName] = useState('');
@@ -30,15 +39,10 @@ export function LoginScreen() {
     try {
       await (mode === 'in'
         ? auth.signInWithEmail(email, password)
-        : auth.signUpWithEmail({
-            email,
-            password,
-            displayName: name,
-          }));
+        : auth.signUpWithEmail({ email, password, displayName: name }));
     } catch (e) {
       const msg = e instanceof Error ? e.message : t('error');
-      if (msg === 'banned') setErr(t('banned'));
-      else setErr(msg);
+      setErr(msg === 'banned' ? t('banned') : msg);
     } finally {
       setBusy(false);
     }
@@ -55,77 +59,100 @@ export function LoginScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        style={styles.fill}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <View style={styles.banner}>
-          <Text style={[type.label, { color: colors.pineSoft }]}>{t('loginBanner')}</Text>
-          <Text style={[type.greeting, { color: colors.paper, marginTop: 12 }]}>
-            {t('appName')}
-          </Text>
-          <Text style={[type.body, { color: colors.pineSoft, marginTop: 12 }]}>
-            {t('loginIntro')}
-          </Text>
-        </View>
-        <View style={styles.sheet}>
-          {mode === 'up' ? (
-            <Field label={t('name')} value={name} onChange={setName} />
-          ) : null}
-          <Field
-            label={t('email')}
-            value={email}
-            onChange={setEmail}
-            autoCap="none"
-          />
-          <Field
-            label={t('password')}
-            value={password}
-            onChange={setPassword}
-            secure
-          />
-          {err ? (
-            <Text style={[type.meta, { color: colors.danger, marginBottom: 12 }]}>
-              {err}
+        <ScrollView
+          contentContainerStyle={[styles.scroll, isDesktop && styles.scrollDesktop]}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={[styles.column, isDesktop && styles.columnDesktop]}>
+            <View style={styles.mark} />
+            <Text style={[type.label, { color: colors.dim, marginTop: space.x4 }]}>
+              {t('loginBanner')}
             </Text>
-          ) : null}
-          <Button
-            label={mode === 'in' ? t('signIn') : t('signUp')}
-            onPress={() => void go()}
-            loading={busy}
-          />
-          <View style={{ height: 10 }} />
-          <Button label={t('google')} variant="ghost" onPress={() => void google()} />
-          <Pressable
-            onPress={() => setMode(mode === 'in' ? 'up' : 'in')}
-            style={{ marginTop: 18 }}
-          >
-            <Text style={[type.body, { color: colors.pine, textAlign: 'center' }]}>
-              {mode === 'in' ? t('signUp') : t('signIn')}
+            <Text style={[type.display, { color: colors.ink, marginTop: space.x4 }]}>
+              {t('appName')}
             </Text>
-          </Pressable>
-          <Text style={[type.meta, { color: colors.muted, marginTop: 20 }]}>
-            {t('demoHint')}
-          </Text>
-          <View style={styles.demos}>
-            {[
-              ['demo@thirdspace.hk', '阿樂'],
-              ['host@thirdspace.hk', '林岸'],
-              ['admin@thirdspace.hk', 'Admin'],
-            ].map(([em, label]) => (
-              <Pressable
-                key={em}
-                onPress={() => {
-                  setEmail(em);
-                  setPassword('thirdspace');
-                  setMode('in');
-                }}
-                style={styles.demoChip}
-              >
-                <Text style={[type.meta, { color: colors.ink }]}>{label}</Text>
+            <Text
+              style={[
+                type.body,
+                { color: colors.dim, marginTop: space.x3, maxWidth: 340 },
+              ]}
+            >
+              {t('loginIntro')}
+            </Text>
+
+            <View style={styles.form}>
+              {mode === 'up' ? (
+                <Field label={t('name')} value={name} onChange={setName} />
+              ) : null}
+              <Field
+                label={t('email')}
+                value={email}
+                onChange={setEmail}
+                autoCap="none"
+              />
+              <Field
+                label={t('password')}
+                value={password}
+                onChange={setPassword}
+                secure
+              />
+
+              {err ? (
+                <Text style={[type.meta, { color: colors.accent, marginBottom: space.x4 }]}>
+                  {err}
+                </Text>
+              ) : null}
+
+              <Button
+                label={mode === 'in' ? t('signIn') : t('signUp')}
+                onPress={() => void go()}
+                loading={busy}
+              />
+              <View style={{ height: space.x2 }} />
+              <Button label={t('google')} variant="quiet" onPress={() => void google()} />
+
+              <Pressable onPress={() => setMode(mode === 'in' ? 'up' : 'in')} hitSlop={8}>
+                <Text
+                  style={[
+                    type.data,
+                    { color: colors.dim, marginTop: space.x6, textAlign: 'center' },
+                  ]}
+                >
+                  {mode === 'in' ? t('signUp') : t('signIn')}
+                </Text>
               </Pressable>
-            ))}
+            </View>
+
+            <View style={styles.demoBlock}>
+              <Rule />
+              <Text style={[type.label, { color: colors.faint, marginTop: space.x4 }]}>
+                {t('demoHint').split('　')[0]}
+              </Text>
+              <View style={styles.demoRow}>
+                {DEMOS.map(([em, label]) => (
+                  <Pressable
+                    key={em}
+                    hitSlop={6}
+                    onPress={() => {
+                      setEmail(em);
+                      setPassword('thirdspace');
+                      setMode('in');
+                      setErr(null);
+                    }}
+                  >
+                    <Text style={[type.bodyStrong, { color: colors.ink }]}>{label}</Text>
+                    <Text style={[type.meta, { color: colors.faint }]}>
+                      {em.split('@')[0]}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -144,54 +171,50 @@ function Field({
   secure?: boolean;
   autoCap?: 'none' | 'sentences';
 }) {
+  const [focus, setFocus] = useState(false);
   return (
-    <View style={{ marginBottom: 14 }}>
-      <Text style={[type.label, { color: colors.muted, marginBottom: 6 }]}>{label}</Text>
+    <View style={{ marginBottom: space.x6 }}>
+      <Text style={[type.label, { color: colors.faint }]}>{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChange}
         secureTextEntry={secure}
         autoCapitalize={autoCap ?? 'sentences'}
-        style={styles.input}
-        placeholderTextColor={colors.muted}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        placeholderTextColor={colors.faint}
+        style={[
+          styles.input,
+          { borderBottomColor: focus ? colors.ink : colors.hairlineStrong },
+        ]}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.paper },
-  banner: {
-    backgroundColor: colors.ink,
-    paddingHorizontal: space.screen,
-    paddingTop: 28,
-    paddingBottom: 36,
-  },
-  sheet: {
-    flex: 1,
-    backgroundColor: colors.paper,
-    padding: space.screen,
-    marginTop: -18,
-    borderTopLeftRadius: 22,
-    borderTopRightRadius: 22,
-  },
+  safe: { flex: 1, backgroundColor: colors.bg },
+  fill: { flex: 1 },
+  scroll: { flexGrow: 1, justifyContent: 'center', padding: space.gutter },
+  scrollDesktop: { alignItems: 'center' },
+  column: { width: '100%' },
+  columnDesktop: { maxWidth: 420 },
+  mark: { width: 28, height: 2, backgroundColor: colors.accent },
+  form: { marginTop: space.x12 },
   input: {
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    borderBottomWidth: 1,
+    paddingVertical: space.x3,
+    paddingHorizontal: 0,
+    marginTop: space.x2,
     color: colors.ink,
     fontSize: 16,
-    borderWidth: 1,
-    borderColor: colors.line,
+    borderRadius: radius.none,
   },
-  demos: { flexDirection: 'row', gap: 8, marginTop: 12, flexWrap: 'wrap' },
-  demoChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: colors.surface,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: colors.line,
+  demoBlock: { marginTop: space.x12 },
+  demoRow: {
+    flexDirection: 'row',
+    gap: space.x8,
+    marginTop: space.x4,
+    flexWrap: 'wrap',
   },
 });
