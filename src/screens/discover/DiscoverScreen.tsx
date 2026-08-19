@@ -59,22 +59,18 @@ export function DiscoverScreen() {
   const heroes = seeAllPopular ? popular : popular.slice(0, 2);
 
   return (
-    <Screen
-      title={t('tabDiscover')}
-      caption={t('discoverCaption')}
-      actions={[{ icon: 'bell', onPress: () => showBanner(t('notificationsHint')) }]}
-    >
+    <Screen title={t('tabDiscover')} caption={t('discoverCaption')}>
       <ScrollView
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.gutter}>
+          {/* Mood tiles below are the filter; no separate filter control. */}
           <SearchField
             value={q}
             onChange={setQ}
             placeholder={t('searchActivities')}
-            onFilter={() => setMood(null)}
           />
         </View>
 

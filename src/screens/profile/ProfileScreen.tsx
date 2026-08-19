@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { ActivityRow } from '../../components/ActivityCard';
@@ -21,17 +21,19 @@ import { ticketsForUser } from '../../services/tickets';
 import { colors, radius, space, type } from '../../theme';
 
 /** Badge shelf from the board: five cream tiles with thin glyphs. */
-const BADGES: { icon: IconName; at: number }[] = [
-  { icon: 'feather', at: 1 },
-  { icon: 'camera', at: 2 },
-  { icon: 'map-pin', at: 3 },
-  { icon: 'music', at: 5 },
-  { icon: 'coffee', at: 8 },
+const BADGES: { icon: IconName; at: number; nameKey: string }[] = [
+  { icon: 'feather', at: 1, nameKey: 'badgeFirst' },
+  { icon: 'camera', at: 2, nameKey: 'badgeRegular' },
+  { icon: 'map-pin', at: 3, nameKey: 'badgeExplorer' },
+  { icon: 'music', at: 5, nameKey: 'badgeNeighbour' },
+  { icon: 'coffee', at: 8, nameKey: 'badgeThirdspace' },
 ];
 
 export function ProfileScreen() {
   const nav = useNavigation<RootNav>();
   const { t, user, lang } = useApp();
+  const [showJourney, setShowJourney] = useState(false);
+  const [showBadges, setShowBadges] = useState(false);
 
   if (!user) {
     return (
@@ -53,7 +55,15 @@ export function ProfileScreen() {
 
   const attended = joined.length;
   const level = Math.max(1, Math.floor(attended / 3) + 1);
-  const toNext = (level * 3) - attended;
+  const toNext = level * 3 - attended;
+
+  /** The footprint behind the level: every event this person joined. */
+  const journeyEvents = joined
+    .map((tk) => getActivity(tk.activityId))
+    .filter((a): a is NonNullable<typeof a> => Boolean(a))
+    .sort(
+      (a, b) => new Date(b.startsAt).getTime() - new Date(a.startsAt).getTime(),
+    );
 
   return (
     <Screen
@@ -92,7 +102,11 @@ export function ProfileScreen() {
         </View>
 
         <View style={[styles.gutter, styles.block]}>
-          <SectionHead title={t('journey')} action={t('seeAllBoard')} onAction={() => {}} />
+          <SectionHead
+            title={t('journey')}
+            action={showJourney ? t('showLess') : t('seeAllBoard')}
+            onAction={() => setShowJourney((v) => !v)}
+          />
           <View style={styles.journey}>
             <View style={{ flex: 1 }}>
               <Text style={[type.small, { color: colors.muted }]}>{t('journeyLevel')}</Text>
@@ -100,17 +114,41 @@ export function ProfileScreen() {
                 {t('explorer')} Lv.{level}
               </Text>
               <Text style={[type.small, { color: colors.muted, marginTop: space.x1 }]}>
-                {t('nextLevelPre')} {toNext} {t('nextLevelPost')}
+                {toNext === 1
+                  ? t('nextLevelOne')
+                  : `${t('nextLevelPre')} ${toNext} ${t('nextLevelPost')}`}
               </Text>
             </View>
             <View style={styles.medal}>
               <Icon name="award" size={26} color={colors.pine} />
             </View>
           </View>
+
+          {showJourney ? (
+            <View style={styles.rows}>
+              {journeyEvents.length === 0 ? (
+                <Text style={[type.meta, { color: colors.muted }]}>
+                  {t('noJourneyYet')}
+                </Text>
+              ) : (
+                journeyEvents.map((a) => (
+                  <ActivityRow
+                    key={a.id}
+                    activity={a}
+                    onPress={() => nav.navigate('Activity', { id: a.id })}
+                  />
+                ))
+              )}
+            </View>
+          ) : null}
         </View>
 
         <View style={[styles.gutter, styles.block]}>
-          <SectionHead title={t('impressions')} action={t('seeAllBoard')} onAction={() => {}} />
+          <SectionHead
+            title={t('impressions')}
+            action={showBadges ? t('showLess') : t('seeAllBoard')}
+            onAction={() => setShowBadges((v) => !v)}
+          />
           <View style={styles.badges}>
             {BADGES.map((b) => {
               const earned = attended >= b.at;
@@ -128,6 +166,51 @@ export function ProfileScreen() {
               );
             })}
           </View>
+
+          {showBadges ? (
+            <View style={styles.badgeList}>
+              {BADGES.map((b) => {
+                const earned = attended >= b.at;
+                return (
+                  <View key={b.icon} style={styles.badgeRow}>
+                    <View
+                      style={[
+                        styles.badgeMark,
+                        earned && { backgroundColor: colors.pineSoft },
+                      ]}
+                    >
+                      <Icon
+                        name={b.icon}
+                        size={17}
+                        color={earned ? colors.pine : colors.faint}
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        type.bodyStrong,
+                        { color: earned ? colors.ink : colors.muted, flex: 1 },
+                      ]}
+                    >
+                      {t(b.nameKey)}
+                    </Text>
+                    <Text
+                      style={[
+                        type.small,
+                        { color: earned ? colors.pine : colors.faint },
+                      ]}
+                    >
+                      {earned
+                        ? t('badgeUnlocked')
+                        : t('badgeLocked').replace('{n}', String(b.at))}
+                    </Text>
+                  </View>
+                );
+              })}
+              <Text style={[type.small, { color: colors.faint, marginTop: space.x2 }]}>
+                {t('stampsHint')}
+              </Text>
+            </View>
+          ) : null}
         </View>
 
         <View style={[styles.gutter, styles.block]}>
@@ -268,6 +351,23 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 52,
     borderRadius: radius.md,
+    backgroundColor: colors.paper,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  badgeList: { marginTop: space.x4 },
+  badgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.x3,
+    paddingVertical: space.x3,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.hairline,
+  },
+  badgeMark: {
+    width: 36,
+    height: 36,
+    borderRadius: radius.sm,
     backgroundColor: colors.paper,
     alignItems: 'center',
     justifyContent: 'center',

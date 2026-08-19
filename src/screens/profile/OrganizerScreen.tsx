@@ -55,17 +55,10 @@ export function OrganizerScreen() {
             colors={['rgba(16,18,16,0.4)', 'rgba(16,18,16,0.1)']}
             style={StyleSheet.absoluteFill}
           />
+          {/* No overflow menu: there is nothing behind it. Report lives on the event. */}
           <View style={styles.coverBar}>
             <Pressable onPress={() => nav.goBack()} style={styles.round} hitSlop={6}>
               <Icon name="chevron-left" size={18} color={colors.ink} />
-            </Pressable>
-            <View style={{ flex: 1 }} />
-            <Pressable
-              onPress={() => showBanner(t('report'))}
-              style={styles.round}
-              hitSlop={6}
-            >
-              <Icon name="more-horizontal" size={18} color={colors.ink} />
             </Pressable>
           </View>
         </View>

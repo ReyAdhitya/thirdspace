@@ -152,13 +152,10 @@ export function ActivityScreen() {
             colors={['rgba(16,18,16,0.45)', 'transparent']}
             style={styles.heroTopFade}
           />
+          {/* No share control: there is no public event link to share yet. */}
           <View style={styles.heroBar}>
             <Round onPress={() => nav.goBack()} icon="chevron-left" />
             <View style={{ flex: 1 }} />
-            <Round
-              onPress={() => showBanner(t('appName'))}
-              icon="share-2"
-            />
             <Round
               onPress={() => {
                 if (!user) {
@@ -381,7 +378,7 @@ function Round({
   onPress,
   tint = colors.ink,
 }: {
-  icon: 'chevron-left' | 'share-2' | 'heart';
+  icon: 'chevron-left' | 'heart';
   onPress: () => void;
   tint?: string;
 }) {

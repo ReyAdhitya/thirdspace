@@ -1,147 +1,146 @@
 # HANDOFF — Thirdspace (give this to the next AI)
 
-Read this whole file, then `PLAN.md` and `CODER_PROMPT.md`. Repo: `D:\thirdspace`. GitHub (private): https://github.com/ReyAdhitya/thirdspace
+Read this file first, then `PLAN.md`. Repo: `D:\thirdspace`.  
+GitHub (private): https://github.com/ReyAdhitya/thirdspace — `master` is **pushed** (latest: `c54759c` Google Sign-In + EAS handover).
 
-The human is **not** a native Chinese speaker; they are a SWE. Keep language simple. Boss speaks in product terms; papers are Traditional Chinese / Cantonese HK copy.
-
----
-
-## Role history (important)
-
-This conversation was **planner-only**. Human said: **no code**, plans go to a **coder** terminal, plus a **frontend reviewer**. Three terminals.
-
-A coder later **did** build the Expo app (parts 1–4). The planner then **broke the “no code” rule** (theme restyle + phone-frame). Next AI: do not mix planner/coder unless the human says so.
-
-Grill-me / Matt Pocock skills were used. Product questions are **frozen**. Do not reopen unless the human asks.
+Human: SWE, not a native Chinese speaker. Speak simply. Often says “idgi” / “simplify.” Boss is **Lok** (HK).
 
 ---
 
-## What the boss actually asked for
+## Ask the human first
 
-From the human + three files (not our inventions):
+**Planner vs coder vs frontend?** Do not mix.
+
+- **Planner:** grill-me (`grilling` skill — whole frontier, numbered Qs + recommended answers). **No code.** Plans → coder prompt markdown. Human yelled **JUST PLAN BRO** when planner started editing `ProfileScreen` / Discover. Those edits were **reverted**.
+- **Coder:** implement the pasted prompt. Do not ask product questions. Stay Expo, don’t eject.
+- **Frontend:** look only, after Figma/screenshots exist.
+
+Three terminals in their workflow.
+
+---
+
+## What Lok (boss) actually said
 
 - Build **Thirdspace**.
-- **Three users: admin, organizers, normal users.**
-- **React** → confirmed **React Native**.
-- App **downloaded on iOS**.
-- Design in **Figma**.
-- Expo eject warning (old Expo); plan is **stay on Expo**, don’t eject.
-
-**Boss files (Windows):**
-
-- `C:\Users\reyse\Downloads\thirdspace reference.jpg` — polished **Home** (HK events, search, 5 moods, popular/recommended, hearts, **5 tabs**: Discover / Districts / Saved / Tickets / Profile). Purple look. **Jobs only, not pixel clone.**
-- `C:\Users\reyse\Downloads\thirdspace wireframe1.jpg` — flow: login (email+Google), home (activities by topic), event (Chat+Join), organizer page (info, **score**, **Pass**), review (chat+comment), footprint+profile (mission+coupon), settings **?**, calendar. **Approval written then crossed out.**
-- `C:\Users\reyse\Downloads\thirdspacewireframe2.jpg` — profile (info+follow, stat, interest), empty **Action** (= create event), personalization, chat.
-
-**Product in one line:** HK activity/hangout finder. Join real events. Not a chat cafe. Third place = not home, not work.
+- **Three roles:** admin, organizers, normal users.
+- React → **React Native** (Expo). Stay on Expo; he warned eject used to be messy.
+- **iOS downloadable app.** Design in **Figma**.
+- Papers (Windows):
+  - `C:\Users\reyse\Downloads\thirdspace reference.jpg` — Home jobs (HK events, 5 moods, hearts). Purple = jobs, **not** pixel clone. Boss drew **5 tabs**; product locked **4** (Saved in Profile).
+  - `C:\Users\reyse\Downloads\thirdspace wireframe1.jpg` — login email+Google, event Chat+Join, host, review, footprint, settings, calendar. **Approval crossed out.**
+  - `C:\Users\reyse\Downloads\thirdspacewireframe2.jpg` — profile, Action = create, personalization, chat.
+- Product: HK **third place** (not home, not work) = join **real events**, not a chat cafe.
+- **上架:** human asked demo vs App Store. Lok: *Don’t worry about put-on-shelf. **I will deploy it.***  
+  **Human’s job = working Expo repo. Lok’s job = Apple / TestFlight / Store.**
 
 ---
 
-## Locked product decisions (do not reopen)
+## What “done” means (locked this chat)
 
-| Topic | Decision |
-|---|---|
-| Object | Events/activities (活動), not a digital hangout room |
-| Stack | Expo + React Native + TypeScript. iOS + Android + web **preview** |
-| Web on laptop | **Phone-sized preview**, not a desktop website. Chrome = test window. Boss wants **iOS app**. |
-| Look | Quiet / next-gen, **not** purple JPEG, **not** AI slop (pills, Feather, emoji, wellness beige). Figma is source of look when it exists. |
-| Tabs | **4:** Discover, Districts, Tickets, Profile. Saved lives **in Profile** (boss drew 5 tabs). |
-| Ticket | Card: title, time, address. Show phone. **No QR.** One ticket per user per event. |
-| Full | MVP: 額滿. Full app: waitlist; cancel frees a seat. |
-| After start | Cannot Join. Past events: comments only. |
-| Chat / comments | Ticket holders only. |
-| Host page | Name, photo, bio, events. **No star score. Pass = the ticket.** |
-| Stamps | Badge on profile from join count. Not real coupons. |
-| Follow | Host’s new events surface on Discover. |
-| Heart | Save for later, in Profile. Not Join. |
-| Report | Yes. Admin hide/ban. |
-| Notifications | Later / don’t block. |
-| Create form | Photo, title, summary, district+address, date+time, price/free, capacity, mood, event language. |
-| Moods | Quiet / Create / Meet people / This weekend / Nearby |
-| Districts | Fixed HK list; address is free text. |
-| Languages | 繁中 first, then EN + 简体. |
-| Pay | Show HK$. Test checkout (4242), not live Stripe. |
-| Firebase | Throwaway/local OK for now. **AsyncStorage** is what shipped. Same services API for Firebase later. |
-| Timezone | Asia/Hong_Kong |
-| Approval queue | **Do not build** (boss crossed it out). |
+**Human (Rey) done:** working React Native + Expo **MVP/prototype** on GitHub. Email login, three roles, Join, tickets, map, admin, test pay `4242`, `eas.json` + README for Lok. **Not** App Store.
+
+**Not Rey:** Apple $99, EAS submit, cloud **Firebase**, live Stripe, Figma paid Dev Mode.
+
+**Stage language:** not a skeleton. **Prototype / MVP** with local data. **Production** = Lok.
+
+**Stack language:** TypeScript + React Native + Expo. Web = **phone-width preview** (~390px), not a desktop site. Preview: `http://localhost:8082`. Boss cannot open localhost — screen-share or he clones GitHub.
 
 ---
 
-## How to use / demo (human + boss)
+## Locked product (do not reopen)
 
-**Boss cannot open localhost.** Screen-share, sit together, or send a recording. Public App Store / TestFlight = not done (no Apple account).
+See also `PLAN.md` / old `HANDOFF` table. Highlights:
 
-**Preview (dev machine only):** `http://localhost:8082`  
-If dead: in `D:\thirdspace` run `npx expo start --web --port 8082`
+- 4 tabs: Discover, Districts, Tickets, Profile.
+- Ticket card, **no QR**. Waitlist + cancel. No join after start. Chat = ticket holders.
+- No host star score. Pass = ticket. Stamps = join-count badges, not HK$ coupons.
+- 繁中 / EN / 简体 — **one language per screen** (no mix EN+中文 on one card). Default demo UI often English.
+- AsyncStorage now; same `src/services` API for Firebase later.
+- Create event: anyone logged in can create → becomes organizer (Alex is not locked to “user-only”).
+- Notifications / OS push: **don’t block.**
 
-**Password for all demo accounts:** `thirdspace`
+UI board: `docs/frontendui.png` — Stone `#F6F4F1`, Pine `#1F3D34`. Sans (Outfit + Noto Sans TC), no serif headings.
 
-| Role | Email |
-|---|---|
-| User | demo@thirdspace.hk |
-| Organizer | host@thirdspace.hk |
-| Admin | admin@thirdspace.hk |
-
-Also `chen@thirdspace.hk` (organizer). Log out in Settings to switch.
-
-**Phone:** Expo Go + `npx expo start` QR. Windows cannot run iOS Simulator.
+Industry refs (inspiration, **not** clone): **Luma** (lu.ma), Meetup, DICE, Airbnb Experiences. Klook = tourist mall, different product.
 
 ---
 
-## Architecture (what shipped)
+## Demo
 
-One Expo app. Screens → `src/services` → local store (`src/services/store.ts`). Do not call storage from screens.
+Password **`thirdspace`** for all.
 
-**Entities:** User (role), Activity/Event, Ticket, Message (chat|comment), Follow, Save, Report.
+| Chip | Email | Role | How to see difference |
+| --- | --- | --- | --- |
+| Alex | demo@thirdspace.hk | user | Tickets (library + sketch), saved jazz |
+| Lin | host@thirdspace.hk | organizer | Profile hosting (jazz, hike, clay, roof) |
+| Admin | admin@thirdspace.hk | admin | Profile → Reports (hide/feature/ban) |
 
-**Join:** check full / started / already joined → free ticket or test checkout if paid → ticket card.
-
-**Nav:** Login → interests → tabs. Stack: Activity, Organizer, CreateActivity, Checkout, Settings, Admin.
-
-Details + UML: `PLAN.md` sections B–D. Types: `src/types`.
-
----
-
-## What is done vs not
-
-**Done:** Spec (`PLAN.md`), coder prompt (`CODER_PROMPT.md`), Expo app parts 1–4 in one project, GitHub private repo, demo logins, local backend, test pay, waitlist/cancel, admin. Phone-frame on web was re-applied after a desktop-shell UI pass (human hated “looks like a laptop website”).
-
-**Not done:** Real Figma file (boss expects this). Pixel-perfect UI (human said **AI slop**). Live Stripe. Google login (no client id). Firebase prod. EAS / TestFlight / App Store. Company Firebase.
-
-**UI conflict:** Human wants neat next-gen look + Figma. An Opus restyle prompt was written in chat (anti-slop, keep features). Desktop web shell was a mistake vs iOS-first. Keep **bottom tabs + phone width on web**.
+Also `chen@thirdspace.hk`. Same login **screen** on purpose — one app, not three apps. Log out in Settings to switch.
 
 ---
 
-## Figma / Framer / models
+## Code that already shipped (do not rebuild)
 
-- **Figma** = app screens (boss). Then paste frame URL into Cursor + Figma MCP + **Opus** to match code.
-- **Framer** = optional marketing landing page only. **Not** the product. Do not replace RN with Framer.
-- **Grok / planner** = spec, boss emails, grilling.
-- **Opus** = implement UI from Figma / kill slop in code.
-- Don’t run two models editing the same files at once.
+- Parts 1–4 + UI passes + Districts **Google Maps Embed** (free; no blob map; **no** 18-district `Central 1 / Eastern 0` list; **no** New Territories / Kowloon / Island chrome).
+- Google **Sign-In code** (`src/services/google.ts`, `expo-auth-session`). **No `.env` on disk** → button shows not-configured; email still works. Human/Lok paste `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` to make Gmail work on web. iOS client = Lok when he builds.
+- `eas.json` + README: **Rey built, Lok 上架.** Commands documented; do **not** `eas submit` from this env.
+- GitHub private, in sync with local `master`.
 
-Figma search keywords: `event discovery app`, `ticketing app mobile`, `Dice`, `Luma`, `dark mode mobile app minimal`. Avoid SaaS purple glass.
-
----
-
-## Files to give the next AI
-
-1. This `HANDOFF.md`
-2. `PLAN.md` (full spec, section 0 = boss papers)
-3. `CODER_PROMPT.md` (execute-to-the-end coder instructions)
-4. Code under `src/`
-5. Boss images in Downloads (paths above)
+**Data:** AsyncStorage only. Shared cloud DB = **Lok** (Firebase later, README).
 
 ---
 
-## Suggested first message for the next AI
+## Open coder work (not done in GitHub yet)
 
-> Read HANDOFF.md and PLAN.md. Thirdspace is an iOS-first Expo RN event app for HK (users / organizers / admin). Do not treat localhost as a public website. Boss wants Figma for UI. Do not eject Expo. Do not invent a new product. Ask whether I am planner, coder, or frontend before editing code.
+**`CODER_PROMPT_DEAD_UI.md`** (untracked until someone commits). Paste to **coder**. Locked all **A**:
+
+1. Profile **See all** on My journey → expand **joined events** (not empty `() => {}`).
+2. Profile **See all** on Badges → names + locked/unlocked. Stamps **already** unlock from join count — not “later.”
+3. **Remove** Discover **bell** (push don’t-block; header felt messy).
+4. **Remove** search **sliders** (they don’t filter; moods under search are the filter).
+
+Planner started implementing this then **reverted** on human order.
 
 ---
 
-## Boss-facing status (already used)
+## Figma (this chat)
 
-Short: mapped sketches into a build plan (users / organizers / admin) — not a finished iPhone app yet.
+- Human copied **Mobbin → Figma** Luma screens:  
+  `https://www.figma.com/design/d9AKmwAJRKk948h0NQkrV3/Mobbin-—-Copy-to-Figma--Community-?node-id=0-1`  
+  That’s a **screenshot dump**, not full Thirdspace frames. **Do not** give that link to the coder as spec.
+- Cursor **Figma MCP** `plugin-figma-figma`: **needsAuth**; “waiting for callback” = broken remote OAuth. Desktop Dev Mode MCP **paywalled**. Human must **not** buy Figma just for this.
+- **Skip MCP.** Optional later: free Design mode screenshot of a **complete** 390×844 frame → coder match. Incomplete Luma scraps = moodboard only.
+- Boss still “wants Figma”; pixel-perfect can wait on Lok’s file/seat.
 
-UI refs: human researched Dice, Luma, Airbnb Experiences; boss papers are structure; Figma is next for look.
+---
+
+## Other prompts in repo (history)
+
+| File | What |
+| --- | --- |
+| `CODER_PROMPT.md` | Original build-all-parts |
+| `CODER_PROMPT_UI.md` | Match `docs/frontendui.png` |
+| `CODER_PROMPT_LANG_UI.md` | One language, real Google G, no truncated moods |
+| `CODER_PROMPT_MAP.md` | Real Google map, kill territories + district index |
+| `CODER_PROMPT_FULL.md` | Google OAuth + EAS handover (**done** in `c54759c`) |
+| `CODER_PROMPT_DEAD_UI.md` | **Next** — dead See all / bell / sliders |
+
+---
+
+## Architecture
+
+Screens → `src/services` → `store.ts`. Types in `src/types`. Bundle id `hk.thirdspace.app`. Timezone Asia/Hong_Kong.
+
+Do not eject. Do not Next.js / shadcn / Framer as the product.
+
+---
+
+## Suggested first message
+
+> Read HANDOFF.md. I am [planner / coder / frontend]. Thirdspace is Expo RN, HK events, three roles. Human’s build is on GitHub; Lok deploys/上架. Do not eject. Do not pay Figma MCP. If planner: no code; next job is CODER_PROMPT_DEAD_UI.md unless they say otherwise. If coder: execute the prompt they paste; don’t ask product questions.
+
+---
+
+## Boss-facing one-liner
+
+Working Expo **MVP** (not skeleton, not App Store). He can clone GitHub and 上架 when ready.

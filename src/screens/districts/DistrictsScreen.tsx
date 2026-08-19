@@ -110,14 +110,6 @@ export function DistrictsScreen() {
               if (next.trim()) setSelected(null);
             }}
             placeholder={t('searchPlaces')}
-            onFilter={
-              q || selected
-                ? () => {
-                    setQ('');
-                    setSelected(null);
-                  }
-                : undefined
-            }
           />
         </View>
 
@@ -134,6 +126,15 @@ export function DistrictsScreen() {
           <SectionHead
             title={t('eventsNearby')}
             caption={`${events.length} ${t('eventsCount')}`}
+            action={q || selected ? t('clear') : undefined}
+            onAction={
+              q || selected
+                ? () => {
+                    setQ('');
+                    setSelected(null);
+                  }
+                : undefined
+            }
           />
         </View>
 

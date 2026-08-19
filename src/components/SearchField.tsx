@@ -1,20 +1,18 @@
 import React from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 import { colors, radius, space, type } from '../theme';
 import { Icon } from './Icon';
 
-/** White rounded field with a leading search glyph and optional filter glyph. */
+/** White rounded field with a leading search glyph. */
 export function SearchField({
   value,
   onChange,
   placeholder,
-  onFilter,
 }: {
   value: string;
   onChange: (v: string) => void;
   placeholder: string;
-  onFilter?: () => void;
 }) {
   return (
     <View style={styles.wrap}>
@@ -26,11 +24,6 @@ export function SearchField({
         placeholderTextColor={colors.faint}
         style={styles.input}
       />
-      {onFilter ? (
-        <Pressable onPress={onFilter} hitSlop={10} style={styles.filter}>
-          <Icon name="sliders" size={18} color={colors.muted} />
-        </Pressable>
-      ) : null}
     </View>
   );
 }
@@ -44,8 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.hairline,
-    paddingLeft: space.x4,
-    paddingRight: space.x2,
+    paddingHorizontal: space.x4,
     height: 52,
   },
   input: {
@@ -54,12 +46,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: type.body.fontFamily as string,
     paddingVertical: 0,
-  },
-  /** Own padded box so the glyph never sits on the rounded corner. */
-  filter: {
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
