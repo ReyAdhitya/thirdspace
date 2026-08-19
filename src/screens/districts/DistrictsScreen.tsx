@@ -72,7 +72,7 @@ export function DistrictsScreen() {
   const list = district ? all.filter((a) => a.district === district) : [];
 
   return (
-    <Screen title="Districts" caption={t('districtsCaption')}>
+    <Screen title={t('tabDistricts')} caption={t('districtsCaption')}>
       <ScrollView
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"

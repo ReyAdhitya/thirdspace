@@ -23,30 +23,57 @@ export function hkParts(iso: string | Date) {
   return bag;
 }
 
-export function formatWhen(
-  iso: string,
-  lang: 'zh-Hant' | 'en' | 'zh-Hans',
-): string {
-  const locale = lang === 'en' ? 'en-HK' : lang === 'zh-Hans' ? 'zh-CN' : 'zh-HK';
-  return new Intl.DateTimeFormat(locale, {
+type Lang = 'zh-Hant' | 'en' | 'zh-Hans';
+
+function localeOf(lang: Lang): string {
+  return lang === 'en' ? 'en-HK' : lang === 'zh-Hans' ? 'zh-CN' : 'zh-HK';
+}
+
+/** CJK reads 星期五 in full; English keeps the short Fri. */
+function weekdayStyle(lang: Lang): 'short' | 'long' {
+  return lang === 'en' ? 'short' : 'long';
+}
+
+export function formatWhen(iso: string, lang: Lang): string {
+  return new Intl.DateTimeFormat(localeOf(lang), {
     timeZone: TZ,
     month: 'short',
     day: 'numeric',
-    weekday: 'short',
+    weekday: weekdayStyle(lang),
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
   }).format(new Date(iso));
 }
 
-export function formatDay(iso: string, lang: 'zh-Hant' | 'en' | 'zh-Hans'): string {
-  const locale = lang === 'en' ? 'en-HK' : lang === 'zh-Hans' ? 'zh-CN' : 'zh-HK';
-  return new Intl.DateTimeFormat(locale, {
+export function formatDay(iso: string, lang: Lang): string {
+  return new Intl.DateTimeFormat(localeOf(lang), {
     timeZone: TZ,
     month: 'short',
     day: 'numeric',
-    weekday: 'short',
+    weekday: weekdayStyle(lang),
   }).format(new Date(iso));
+}
+
+/** "Aug" in English, "8月" in Chinese — for the big ticket date. */
+export function formatMonth(iso: string, lang: Lang): string {
+  if (lang === 'en') {
+    return new Intl.DateTimeFormat('en-HK', { timeZone: TZ, month: 'short' }).format(
+      new Date(iso),
+    );
+  }
+  return `${Number(hkParts(iso).month)}月`;
+}
+
+/** Localised weekday initial for the calendar strip. */
+export function formatWeekdayShort(iso: string, lang: Lang): string {
+  return new Intl.DateTimeFormat(localeOf(lang), {
+    timeZone: TZ,
+    weekday: 'short',
+  })
+    .format(new Date(iso))
+    .replace('星期', '')
+    .replace('週', '');
 }
 
 export function hkHour(d = new Date()): number {

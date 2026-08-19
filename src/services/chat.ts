@@ -15,9 +15,9 @@ export async function postMessage(input: {
   kind: MessageKind;
 }): Promise<Message> {
   const text = input.text.trim();
-  if (!text) throw new Error('內容空白');
+  if (!text) throw new Error('empty-text');
   if (!hasJoinedTicket(input.userId, input.activityId)) {
-    throw new Error('只有持票者可以發言');
+    throw new Error('not-holder');
   }
   const row: Message = {
     id: nid('m'),

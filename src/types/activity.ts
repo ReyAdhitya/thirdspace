@@ -6,6 +6,10 @@ export type EventLanguage = AppLanguage | 'mixed';
 export type Activity = {
   id: string;
   title: string;
+  /** English copy for the same event, so a card never mixes languages. */
+  titleEn?: string;
+  summaryEn?: string;
+  addressEn?: string;
   photoUrl: string;
   district: string;
   address: string;

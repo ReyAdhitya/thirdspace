@@ -79,7 +79,7 @@ export async function updateActivity(
   let next: Activity | undefined;
   await mutate((d) => {
     const a = d.activities.find((x) => x.id === id);
-    if (!a) throw new Error('找不到活動');
+    if (!a) throw new Error('not-found');
     Object.assign(a, patch, { id: a.id, joinedCount: a.joinedCount });
     next = a;
   });

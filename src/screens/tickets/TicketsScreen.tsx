@@ -8,23 +8,13 @@ import { Screen } from '../../components/Screen';
 import { SectionHead, Segments } from '../../components/SectionHead';
 import { TicketCard } from '../../components/TicketCard';
 import { useApp } from '../../context/AppContext';
-import { hkParts } from '../../lib/time';
+import { formatWeekdayShort, hkParts } from '../../lib/time';
 import type { RootNav } from '../../navigation/types';
 import { getActivity } from '../../services/activities';
 import { ticketsForUser } from '../../services/tickets';
 import { colors, radius, space, type } from '../../theme';
 
 type Tab = 'upcoming' | 'past';
-
-const WEEKDAY: Record<string, string> = {
-  Mon: '一',
-  Tue: '二',
-  Wed: '三',
-  Thu: '四',
-  Fri: '五',
-  Sat: '六',
-  Sun: '日',
-};
 
 export function TicketsScreen() {
   const nav = useNavigation<RootNav>();
@@ -63,12 +53,12 @@ export function TicketsScreen() {
     for (let i = -4; i <= 0; i += 1) {
       const d = new Date(anchor);
       d.setDate(d.getDate() + i);
-      const p = hkParts(d.toISOString());
-      const key = `${p.year}-${p.month}-${p.day}`;
+      const iso = d.toISOString();
+      const p = hkParts(iso);
       days.push({
-        key,
+        key: `${p.year}-${p.month}-${p.day}`,
         day: p.day,
-        wd: lang === 'en' ? p.weekday : (WEEKDAY[p.weekday] ?? p.weekday),
+        wd: formatWeekdayShort(iso, lang),
         on: i === 0,
       });
     }
@@ -85,7 +75,7 @@ export function TicketsScreen() {
     : shown;
 
   return (
-    <Screen title="Tickets" caption={t('ticketsCaption')}>
+    <Screen title={t('tabTickets')} caption={t('ticketsCaption')}>
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}

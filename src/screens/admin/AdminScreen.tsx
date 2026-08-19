@@ -9,7 +9,8 @@ import { Icon } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
 import { SectionHead, Segments } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
-import { hkParts } from '../../lib/time';
+import { activityTitle, userName } from '../../lib/localize';
+import { formatDay, hkParts } from '../../lib/time';
 import type { RootNav } from '../../navigation/types';
 import {
   getActivity,
@@ -25,7 +26,7 @@ type Tab = 'pending' | 'processed' | 'all';
 
 export function AdminScreen() {
   const nav = useNavigation<RootNav>();
-  const { t, user, showBanner } = useApp();
+  const { t, lang, user, showBanner } = useApp();
   const [tab, setTab] = useState<Tab>('pending');
   const [showEvents, setShowEvents] = useState(false);
 
@@ -93,7 +94,7 @@ export function AdminScreen() {
                       {t('reporterLabel')}: {reporter?.email ?? r.reporterId}
                     </Text>
                     <Text style={[type.small, { color: colors.faint, marginTop: 2 }]}>
-                      {Number(at.month)}月{at.day}日 {at.hour}:{at.minute} ·{' '}
+                      {formatDay(r.createdAt, lang)} {at.hour}:{at.minute} ·{' '}
                       {r.targetType}
                     </Text>
                     <View style={styles.actions}>
@@ -156,7 +157,7 @@ export function AdminScreen() {
                     onPress={() => nav.navigate('Activity', { id: a.id })}
                   >
                     <Text style={[type.metaStrong, { color: colors.ink }]} numberOfLines={1}>
-                      {a.title}
+                      {activityTitle(a, lang)}
                     </Text>
                     <Text style={[type.small, { color: colors.faint, marginTop: 2 }]}>
                       {a.status === 'hidden' ? t('hidden') : 'live'}
@@ -197,7 +198,7 @@ export function AdminScreen() {
               <View key={u.uid} style={styles.modRow}>
                 <View style={{ flex: 1 }}>
                   <Text style={[type.metaStrong, { color: colors.ink }]}>
-                    {u.displayName}
+                    {userName(u, lang)}
                   </Text>
                   <Text style={[type.small, { color: colors.faint, marginTop: 2 }]}>
                     {u.email} · {u.role}

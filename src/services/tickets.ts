@@ -110,7 +110,7 @@ export async function cancelTicket(
   ticketId: string,
 ): Promise<{ promotedUid: string | null }> {
   const row = getDb().tickets.find((t) => t.id === ticketId && t.userId === uid);
-  if (!row) throw new Error('找不到票券');
+  if (!row) throw new Error('not-found');
   const activityId = row.activityId;
   const wasJoined = row.status === 'joined';
   await mutate((d) => {

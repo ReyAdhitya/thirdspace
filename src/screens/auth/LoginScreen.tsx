@@ -13,23 +13,25 @@ import {
 } from 'react-native';
 
 import { Button } from '../../components/Button';
-import { Icon } from '../../components/Icon';
+import { GoogleMark } from '../../components/GoogleMark';
 import { ArchMark } from '../../components/Logo';
 import { useApp } from '../../context/AppContext';
+import { errorText } from '../../lib/errors';
 import * as auth from '../../services/auth';
 import { colors, radius, space, type } from '../../theme';
 
 const DOOR =
   'https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=1000&q=80';
 
+/** Demo accounts, named in the active locale so the chip matches the chrome. */
 const DEMOS = [
-  ['demo@thirdspace.hk', '阿樂'],
-  ['host@thirdspace.hk', '林岸'],
-  ['admin@thirdspace.hk', 'Admin'],
+  { email: 'demo@thirdspace.hk', en: 'Alex', zh: '阿樂', role: 'demo' },
+  { email: 'host@thirdspace.hk', en: 'Lin', zh: '林岸', role: 'host' },
+  { email: 'admin@thirdspace.hk', en: 'Admin', zh: 'Admin', role: 'admin' },
 ] as const;
 
 export function LoginScreen() {
-  const { t, showBanner } = useApp();
+  const { t, lang, showBanner } = useApp();
   const [email, setEmail] = useState('demo@thirdspace.hk');
   const [password, setPassword] = useState('thirdspace');
   const [name, setName] = useState('');
@@ -46,8 +48,7 @@ export function LoginScreen() {
         ? auth.signInWithEmail(email, password)
         : auth.signUpWithEmail({ email, password, displayName: name }));
     } catch (e) {
-      const msg = e instanceof Error ? e.message : t('error');
-      setErr(msg === 'banned' ? t('banned') : msg);
+      setErr(errorText(e, t));
     } finally {
       setBusy(false);
     }
@@ -117,7 +118,7 @@ export function LoginScreen() {
             </View>
           ) : (
             <View style={styles.form}>
-              <Button label={t('loginEmail')} icon="user" onPress={() => setForm(true)} />
+              <Button label={t('loginEmail')} icon="mail" onPress={() => setForm(true)} />
               <View style={{ height: space.x3 }} />
               <GoogleButton label={t('loginGoogle')} onPress={() => void google()} />
             </View>
@@ -137,22 +138,22 @@ export function LoginScreen() {
           </Pressable>
 
           <View style={styles.demos}>
-            {DEMOS.map(([em, label]) => (
+            {DEMOS.map((d) => (
               <Pressable
-                key={em}
+                key={d.email}
                 style={styles.demo}
                 onPress={() => {
-                  setEmail(em);
+                  setEmail(d.email);
                   setPassword('thirdspace');
                   setMode('in');
                   setForm(true);
                   setErr(null);
                 }}
               >
-                <Text style={[type.metaStrong, { color: colors.ink }]}>{label}</Text>
-                <Text style={[type.small, { color: colors.faint }]}>
-                  {em.split('@')[0]}
+                <Text style={[type.metaStrong, { color: colors.ink }]}>
+                  {lang === 'en' ? d.en : d.zh}
                 </Text>
+                <Text style={[type.small, { color: colors.faint }]}>{d.role}</Text>
               </Pressable>
             ))}
           </View>
@@ -171,9 +172,7 @@ function GoogleButton({ label, onPress }: { label: string; onPress: () => void }
         { backgroundColor: pressed ? colors.stone : colors.white },
       ]}
     >
-      <View style={styles.gMark}>
-        <Text style={styles.gText}>G</Text>
-      </View>
+      <GoogleMark size={18} />
       <Text style={[type.button, { color: colors.ink }]}>{label}</Text>
     </Pressable>
   );
@@ -241,18 +240,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: space.x2,
-  },
-  gMark: {
-    width: 18,
-    height: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  gText: {
-    fontFamily: type.h2.fontFamily as string,
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#4285F4',
   },
   link: { color: colors.pine, textAlign: 'center', paddingVertical: space.x2 },
   demos: {

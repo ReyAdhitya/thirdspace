@@ -209,4 +209,14 @@ export const zhHans: Dict = {
   regionIsland: '港岛',
   organiser: '主办',
   soon: '即将公布',
+
+  errBadCredentials: '电邮或密码不正确。',
+  errBadEmail: '请输入正确的电邮。',
+  errWeakPassword: '密码最少 6 个字。',
+  errEmailTaken: '这个电邮已经注册。',
+  errNotFound: '找不到。',
+  errNotHolder: '只有持票者可以留言。',
+  errEmptyText: '请先写点什么。',
+  errTestCard: '测试卡请用 4242 开头。',
+  errTitleRequired: '请填活动名称。',
 };

@@ -209,4 +209,14 @@ export const en: Dict = {
   regionIsland: 'HK Island',
   organiser: 'Host',
   soon: 'Coming soon',
+
+  errBadCredentials: 'That email and password do not match.',
+  errBadEmail: 'Enter a valid email address.',
+  errWeakPassword: 'Use at least 6 characters.',
+  errEmailTaken: 'That email already has an account.',
+  errNotFound: 'We could not find that.',
+  errNotHolder: 'Only ticket holders can post here.',
+  errEmptyText: 'Write something first.',
+  errTestCard: 'Test cards must start with 4242.',
+  errTitleRequired: 'Give the event a name.',
 };

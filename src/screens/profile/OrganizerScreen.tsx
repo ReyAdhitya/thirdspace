@@ -11,6 +11,7 @@ import { Icon } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
 import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
+import { userBio, userName } from '../../lib/localize';
 import type { RootNav, RootStackParamList } from '../../navigation/types';
 import { listByOrganizer } from '../../services/activities';
 import { getUser } from '../../services/auth';
@@ -20,7 +21,7 @@ import { colors, radius, space, type } from '../../theme';
 export function OrganizerScreen() {
   const nav = useNavigation<RootNav>();
   const { uid } = useRoute<RouteProp<RootStackParamList, 'Organizer'>>().params;
-  const { t, user, showBanner } = useApp();
+  const { t, lang, user, showBanner } = useApp();
 
   const host = getUser(uid);
   const events = listByOrganizer(uid).filter((a) => a.status === 'published');
@@ -99,14 +100,14 @@ export function OrganizerScreen() {
           </View>
 
           <Text style={[type.h1, { color: colors.ink, marginTop: space.x3 }]}>
-            {host.displayName}
+            {userName(host, lang)}
           </Text>
           <Text style={[type.meta, { color: colors.muted }]}>
             @{host.email.split('@')[0]}
           </Text>
-          {host.bio ? (
+          {userBio(host, lang) ? (
             <Text style={[type.body, { color: colors.muted, marginTop: space.x3 }]}>
-              {host.bio}
+              {userBio(host, lang)}
             </Text>
           ) : null}
 

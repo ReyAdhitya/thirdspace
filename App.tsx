@@ -18,7 +18,7 @@ function ensureWebChrome() {
   const link = doc.createElement('link');
   link.rel = 'stylesheet';
   link.href =
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&display=swap';
+    'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap';
   doc.head.appendChild(link);
 
   const style = doc.createElement('style');

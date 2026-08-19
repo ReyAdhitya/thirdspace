@@ -11,6 +11,7 @@ import { Screen } from '../../components/Screen';
 import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
 import { districtLabel } from '../../data/districts';
+import { userName } from '../../lib/localize';
 import type { RootNav } from '../../navigation/types';
 import { getActivity, listPublished } from '../../services/activities';
 import { getUser } from '../../services/auth';
@@ -34,7 +35,7 @@ export function ProfileScreen() {
 
   if (!user) {
     return (
-      <Screen title="Profile" caption={t('profileCaption')}>
+      <Screen title={t('tabProfile')} caption={t('profileCaption')}>
         <EmptyState title={t('needLogin')} icon="user" />
       </Screen>
     );
@@ -71,7 +72,9 @@ export function ProfileScreen() {
             </View>
           )}
           <View style={{ flex: 1 }}>
-            <Text style={[type.h1, { color: colors.ink }]}>{user.displayName}</Text>
+            <Text style={[type.h1, { color: colors.ink }]}>
+              {userName(user, lang)}
+            </Text>
             <Text style={[type.meta, { color: colors.muted }]}>
               @{user.email.split('@')[0]}
             </Text>
@@ -166,7 +169,7 @@ export function ProfileScreen() {
                       <View style={[styles.hostAvatar, { backgroundColor: colors.paper }]} />
                     )}
                     <Text style={[type.bodyStrong, { color: colors.ink, flex: 1 }]}>
-                      {h?.displayName ?? uid}
+                      {userName(h, lang) || uid}
                     </Text>
                     <Icon name="chevron-right" size={16} color={colors.faint} />
                   </Pressable>

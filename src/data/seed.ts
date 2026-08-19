@@ -17,6 +17,9 @@ export type SeedDb = {
   sessionUid: string | null;
 };
 
+/** Bumped when seed copy changes so local demo data re-seeds. */
+export const SCHEMA_VERSION = 2;
+
 const HOST = 'u_host';
 const HOST2 = 'u_chen';
 const DEMO = 'u_demo';
@@ -31,10 +34,8 @@ const photos = {
   roof: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&q=80',
   market: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80',
   sketch: 'https://images.unsplash.com/photo-1513364776144-60967b0f8002?w=1200&q=80',
-  portrait:
-    'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=80',
-  portrait2:
-    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',
+  portrait: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=80',
+  portrait2: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',
 };
 
 export const STOCK_PHOTOS = [
@@ -55,12 +56,14 @@ export function createSeed(): SeedDb {
       email: 'demo@thirdspace.hk',
       password: DEMO_PASSWORD,
       displayName: '阿樂',
+      displayNameEn: 'Alex',
       role: 'user',
       interests: ['quiet', 'weekend'],
-      language: 'zh-Hant',
+      language: 'en',
       homeDistrict: 'central',
       createdAt: hkIso(2026, 6, 1, 10, 0),
       bio: '鍾意行街同安靜嘅夜晚。',
+      bioEn: 'Long walks and quiet evenings.',
       onboarded: true,
     },
     {
@@ -68,13 +71,16 @@ export function createSeed(): SeedDb {
       email: 'host@thirdspace.hk',
       password: DEMO_PASSWORD,
       displayName: '林岸',
+      displayNameEn: 'Lin Ngon',
       role: 'organizer',
       interests: ['create', 'meet'],
-      language: 'zh-Hant',
+      language: 'en',
       homeDistrict: 'wan_chai',
       createdAt: hkIso(2026, 3, 12, 9, 0),
       photoUrl: photos.portrait,
       bio: '灣仔搞爵士同陶藝。想將收工後變成真正嘅第三空間。',
+      bioEn:
+        'Jazz and pottery in Wan Chai. Turning the hours after work into a real third place.',
       onboarded: true,
     },
     {
@@ -82,13 +88,15 @@ export function createSeed(): SeedDb {
       email: 'chen@thirdspace.hk',
       password: DEMO_PASSWORD,
       displayName: '陳書',
+      displayNameEn: 'Chen Shu',
       role: 'organizer',
       interests: ['quiet', 'create'],
-      language: 'zh-Hant',
+      language: 'en',
       homeDistrict: 'sheung_wan',
       createdAt: hkIso(2026, 4, 2, 11, 0),
       photoUrl: photos.portrait2,
       bio: '上環書店同菲林。慢啲行。',
+      bioEn: 'Bookshops and film cameras in Sheung Wan. Walk slower.',
       onboarded: true,
     },
     {
@@ -96,12 +104,14 @@ export function createSeed(): SeedDb {
       email: 'admin@thirdspace.hk',
       password: DEMO_PASSWORD,
       displayName: 'Admin',
+      displayNameEn: 'Admin',
       role: 'admin',
       interests: [],
-      language: 'zh-Hant',
+      language: 'en',
       homeDistrict: 'central',
       createdAt: hkIso(2026, 1, 1, 0, 0),
       bio: 'Thirdspace 管理員',
+      bioEn: 'Thirdspace moderator',
       onboarded: true,
     },
   ];
@@ -110,13 +120,16 @@ export function createSeed(): SeedDb {
     {
       id: 'a_jazz',
       title: '灣仔收工後爵士',
+      titleEn: 'After-work Jazz in Wan Chai',
       photoUrl: photos.jazz,
       district: 'wan_chai',
       address: '灣仔莊士敦道 88 號 2 樓',
+      addressEn: '2/F, 88 Johnston Road, Wan Chai',
       startsAt: hkIso(2026, 8, 21, 20, 0),
       endsAt: hkIso(2026, 8, 21, 22, 30),
       priceHkd: 250,
       summary: '小型現場爵士。無麥克風演說，得樂器同一杯嘢。',
+      summaryEn: 'A small live set. No speeches, just instruments and a drink.',
       capacity: 24,
       joinedCount: 11,
       eventLanguage: 'zh-Hant',
@@ -129,13 +142,16 @@ export function createSeed(): SeedDb {
     {
       id: 'a_lib',
       title: '上環圖書館夜讀',
+      titleEn: 'Library Reading Night, Sheung Wan',
       photoUrl: photos.library,
       district: 'sheung_wan',
       address: '上環士丹頓街 12 號',
+      addressEn: '12 Staunton Street, Sheung Wan',
       startsAt: hkIso(2026, 8, 20, 19, 30),
       endsAt: hkIso(2026, 8, 20, 21, 30),
       priceHkd: 0,
       summary: '靜讀兩小時。自備書，我哋備茶。',
+      summaryEn: 'Two hours of quiet reading. Bring a book, we bring the tea.',
       capacity: 16,
       joinedCount: 7,
       eventLanguage: 'zh-Hant',
@@ -148,13 +164,17 @@ export function createSeed(): SeedDb {
     {
       id: 'a_film',
       title: '深水埗菲林散步',
+      titleEn: 'Film Photo Walk in Sham Shui Po',
       photoUrl: photos.film,
       district: 'sham_shui_po',
       address: '深水埗北河街街市門口',
+      addressEn: 'Pei Ho Street Market entrance, Sham Shui Po',
       startsAt: hkIso(2026, 8, 22, 15, 0),
       endsAt: hkIso(2026, 8, 22, 18, 0),
       priceHkd: 150,
       summary: '用菲林行金魚街同布匹街。會教測光，唔使單反。',
+      summaryEn:
+        'Shoot film along the goldfish and fabric streets. We cover metering; any camera works.',
       capacity: 12,
       joinedCount: 8,
       eventLanguage: 'zh-Hant',
@@ -167,13 +187,16 @@ export function createSeed(): SeedDb {
     {
       id: 'a_hike',
       title: '西貢清晨行山',
+      titleEn: 'Sunrise Hike in Sai Kung',
       photoUrl: photos.hike,
       district: 'sai_kung',
       address: '西貢碼頭巴士站',
+      addressEn: 'Sai Kung Pier bus terminus',
       startsAt: hkIso(2026, 8, 23, 7, 30),
       endsAt: hkIso(2026, 8, 23, 11, 0),
       priceHkd: 0,
       summary: '慢行，唔係操練。完結喺海傍食早餐。',
+      summaryEn: 'A slow walk, not a workout. Breakfast by the water afterwards.',
       capacity: 20,
       joinedCount: 9,
       eventLanguage: 'mixed',
@@ -186,13 +209,16 @@ export function createSeed(): SeedDb {
     {
       id: 'a_clay',
       title: '中環陶藝夜',
+      titleEn: 'Pottery Evening in Central',
       photoUrl: photos.clay,
       district: 'central',
       address: '中環閣麟街 9 號地下',
+      addressEn: 'G/F, 9 Cochrane Street, Central',
       startsAt: hkIso(2026, 8, 25, 19, 0),
       endsAt: hkIso(2026, 8, 25, 21, 30),
       priceHkd: 380,
       summary: '捏一個杯。泥同窯費包喺價錢入面。',
+      summaryEn: 'Throw one cup. Clay and firing are included in the price.',
       capacity: 10,
       joinedCount: 4,
       eventLanguage: 'zh-Hant',
@@ -205,13 +231,16 @@ export function createSeed(): SeedDb {
     {
       id: 'a_roof',
       title: '旺角天台識人夜',
+      titleEn: 'Rooftop Meet-up in Mong Kok',
       photoUrl: photos.roof,
       district: 'mong_kok',
       address: '旺角奶路臣街 15 號天台',
+      addressEn: 'Rooftop, 15 Nelson Street, Mong Kok',
       startsAt: hkIso(2026, 8, 28, 20, 0),
       endsAt: hkIso(2026, 8, 28, 22, 0),
       priceHkd: 80,
       summary: '細組傾偈，題目抽籤。唔係聯誼遊戲。',
+      summaryEn: 'Small groups, prompts drawn at random. Not a mixer game.',
       capacity: 18,
       joinedCount: 6,
       eventLanguage: 'zh-Hant',
@@ -224,13 +253,16 @@ export function createSeed(): SeedDb {
     {
       id: 'a_market',
       title: '銅鑼灣週末市集',
+      titleEn: 'Weekend Market in Causeway Bay',
       photoUrl: photos.market,
       district: 'causeway_bay',
       address: '銅鑼灣記利佐治街行人區',
+      addressEn: 'Great George Street pedestrian zone, Causeway Bay',
       startsAt: hkIso(2026, 8, 22, 11, 0),
       endsAt: hkIso(2026, 8, 22, 17, 0),
       priceHkd: 0,
       summary: '獨立刊物同手作。入場免費，買嘢另外畀。',
+      summaryEn: 'Independent zines and handmade things. Free entry, pay for what you buy.',
       capacity: 8,
       joinedCount: 8,
       eventLanguage: 'zh-Hant',
@@ -243,13 +275,16 @@ export function createSeed(): SeedDb {
     {
       id: 'a_sketch',
       title: '大坑舊街寫生',
+      titleEn: 'Old Street Sketching in Tai Hang',
       photoUrl: photos.sketch,
       district: 'tai_hang',
       address: '大坑蓮花宮前空地',
+      addressEn: 'Open ground by Lin Fa Temple, Tai Hang',
       startsAt: hkIso(2026, 8, 10, 16, 0),
       endsAt: hkIso(2026, 8, 10, 18, 30),
       priceHkd: 120,
       summary: '兩小時戶外速寫。紙筆可借。呢場已經完。',
+      summaryEn: 'Two hours of outdoor sketching. Paper and pencils to borrow. Now finished.',
       capacity: 14,
       joinedCount: 10,
       eventLanguage: 'zh-Hant',
@@ -285,15 +320,23 @@ export function createSeed(): SeedDb {
       id: 'm1',
       activityId: 'a_lib',
       userId: HOST2,
-      text: '記得帶自己本書。茶喺入面。',
+      text: 'Bring your own book. Tea is on us.',
       createdAt: hkIso(2026, 8, 13, 10, 0),
       kind: 'chat',
     },
     {
       id: 'm2',
+      activityId: 'a_lib',
+      userId: DEMO,
+      text: 'See you there.',
+      createdAt: hkIso(2026, 8, 13, 12, 0),
+      kind: 'chat',
+    },
+    {
+      id: 'm3',
       activityId: 'a_sketch',
       userId: DEMO,
-      text: '巷仔光好好，下次想再嚟。',
+      text: 'The light in that alley was lovely. Would come again.',
       createdAt: hkIso(2026, 8, 10, 19, 0),
       kind: 'comment',
     },
@@ -310,10 +353,20 @@ export function createSeed(): SeedDb {
 
   const saves: Save[] = [{ userId: DEMO, activityId: 'a_jazz' }];
 
-  const reports: Report[] = [];
+  const reports: Report[] = [
+    {
+      id: 'r_seed_1',
+      reporterId: DEMO,
+      targetType: 'event',
+      targetId: 'a_roof',
+      reason: 'Spam or advertising',
+      createdAt: hkIso(2026, 8, 15, 14, 32),
+      status: 'open',
+    },
+  ];
 
   return {
-    schemaVersion: 1,
+    schemaVersion: SCHEMA_VERSION,
     users,
     activities,
     tickets,

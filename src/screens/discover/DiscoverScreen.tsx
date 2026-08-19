@@ -60,7 +60,7 @@ export function DiscoverScreen() {
 
   return (
     <Screen
-      title="Discover"
+      title={t('tabDiscover')}
       caption={t('discoverCaption')}
       actions={[{ icon: 'bell', onPress: () => showBanner(t('notificationsHint')) }]}
     >

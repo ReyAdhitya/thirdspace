@@ -17,6 +17,8 @@ import { EmptyState } from '../../components/EmptyState';
 import { Icon } from '../../components/Icon';
 import { Screen, StackHeader } from '../../components/Screen';
 import { useApp } from '../../context/AppContext';
+import { errorText } from '../../lib/errors';
+import { activityTitle, userName } from '../../lib/localize';
 import { hkParts } from '../../lib/time';
 import type { RootNav, RootStackParamList } from '../../navigation/types';
 import { getActivity } from '../../services/activities';
@@ -28,7 +30,7 @@ import { colors, radius, space, type } from '../../theme';
 export function ChatScreen() {
   const nav = useNavigation<RootNav>();
   const { activityId } = useRoute<RouteProp<RootStackParamList, 'Chat'>>().params;
-  const { t, user, showBanner } = useApp();
+  const { t, lang, user, showBanner } = useApp();
   const [draft, setDraft] = useState('');
 
   const activity = getActivity(activityId);
@@ -53,14 +55,14 @@ export function ChatScreen() {
       });
       setDraft('');
     } catch (e) {
-      showBanner(e instanceof Error ? e.message : t('error'), 'warn');
+      showBanner(errorText(e, t), 'warn');
     }
   }
 
   return (
     <Screen bare>
       <StackHeader
-        title={activity.title}
+        title={activityTitle(activity, lang)}
         caption={`${activity.joinedCount} ${t('participants')}`}
         onBack={() => nav.goBack()}
       />
@@ -99,7 +101,7 @@ export function ChatScreen() {
                     <View style={styles.metaRow}>
                       {!mineMsg ? (
                         <Text style={[type.small, { color: colors.muted }]}>
-                          {author?.displayName ?? ''}
+                          {userName(author, lang)}
                         </Text>
                       ) : null}
                       <Text style={[type.small, { color: colors.faint }]}>

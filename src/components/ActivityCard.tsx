@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useApp } from '../context/AppContext';
 import { districtLabel } from '../data/districts';
+import { activityTitle } from '../lib/localize';
 import { formatDay } from '../lib/time';
 import type { Activity } from '../types';
 import { colors, radius, space, type } from '../theme';
@@ -36,15 +37,15 @@ export function ActivityHeroCard({
         transition={220}
       />
       <LinearGradient
-        colors={['transparent', 'rgba(16,18,16,0.15)', 'rgba(16,18,16,0.86)']}
-        locations={[0, 0.45, 1]}
+        colors={['transparent', 'rgba(16,18,16,0.20)', 'rgba(16,18,16,0.88)']}
+        locations={[0, 0.42, 1]}
         style={StyleSheet.absoluteFill}
       />
       <View style={styles.heroCopy}>
-        <Text style={[type.h1, { color: colors.white, fontSize: 21 }]} numberOfLines={2}>
-          {activity.title}
+        <Text style={[type.h1, { color: colors.white }]} numberOfLines={2}>
+          {activityTitle(activity, lang)}
         </Text>
-        <Text style={[type.meta, { color: 'rgba(255,255,255,0.86)', marginTop: 4 }]}>
+        <Text style={[type.meta, { color: 'rgba(255,255,255,0.88)', marginTop: 4 }]}>
           {districtLabel(activity.district, lang)} · {formatDay(activity.startsAt, lang)}
         </Text>
         <Text style={[type.metaStrong, { color: colors.white, marginTop: space.x2 }]}>
@@ -52,12 +53,8 @@ export function ActivityHeroCard({
         </Text>
       </View>
       {onSave ? (
-        <Pressable onPress={onSave} hitSlop={8} style={styles.heart}>
-          <Icon
-            name="heart"
-            size={16}
-            color={saved ? colors.rose : colors.ink}
-          />
+        <Pressable onPress={onSave} hitSlop={10} style={styles.heart}>
+          <Icon name="heart" size={16} color={saved ? colors.rose : colors.ink} />
         </Pressable>
       ) : null}
     </Pressable>
@@ -85,9 +82,12 @@ export function ActivityRow({
       />
       <View style={styles.rowCopy}>
         <Text style={[type.h3, { color: colors.ink }]} numberOfLines={1}>
-          {activity.title}
+          {activityTitle(activity, lang)}
         </Text>
-        <Text style={[type.meta, { color: colors.muted, marginTop: 3 }]} numberOfLines={1}>
+        <Text
+          style={[type.meta, { color: colors.muted, marginTop: 3 }]}
+          numberOfLines={1}
+        >
           {districtLabel(activity.district, lang)} · {formatDay(activity.startsAt, lang)}
         </Text>
       </View>
@@ -121,7 +121,7 @@ export function PhotoTile({
         transition={180}
       />
       <LinearGradient
-        colors={['transparent', 'rgba(16,18,16,0.78)']}
+        colors={['transparent', 'rgba(16,18,16,0.80)']}
         style={StyleSheet.absoluteFill}
       />
       <Text style={[type.small, styles.tileLabel]} numberOfLines={1}>
@@ -133,21 +133,22 @@ export function PhotoTile({
 
 const styles = StyleSheet.create({
   hero: {
-    height: 178,
+    height: 190,
     borderRadius: radius.xl,
     overflow: 'hidden',
-    backgroundColor: colors.paper,
+    /** Ink-tinted so the card still reads if a photo is slow or missing. */
+    backgroundColor: '#2A2E2B',
     justifyContent: 'flex-end',
   },
-  heroCopy: { padding: space.x4 },
+  heroCopy: { padding: space.x4, paddingRight: 64 },
   heart: {
     position: 'absolute',
-    right: space.x3,
-    bottom: space.x3,
-    width: 32,
-    height: 32,
+    right: space.x4,
+    bottom: space.x4,
+    width: 36,
+    height: 36,
     borderRadius: radius.pill,
-    backgroundColor: 'rgba(255,255,255,0.92)',
+    backgroundColor: 'rgba(255,255,255,0.94)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -159,25 +160,24 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: colors.hairline,
-    padding: space.x2,
-    paddingRight: space.x3,
+    padding: space.x3,
   },
   thumb: {
     width: 54,
     height: 54,
     borderRadius: radius.sm,
-    backgroundColor: colors.paper,
+    backgroundColor: '#2A2E2B',
   },
   rowCopy: { flex: 1 },
   tile: {
     borderRadius: radius.md,
     overflow: 'hidden',
-    backgroundColor: colors.paper,
+    backgroundColor: '#2A2E2B',
     justifyContent: 'flex-end',
   },
   tileLabel: {
     color: colors.white,
-    fontWeight: '600',
+    fontWeight: '500',
     paddingHorizontal: space.x2,
     paddingBottom: space.x2,
   },

@@ -10,6 +10,8 @@ import { Icon } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
 import { useApp } from '../../context/AppContext';
 import { districtLabel } from '../../data/districts';
+import { errorText } from '../../lib/errors';
+import { activityTitle } from '../../lib/localize';
 import { formatDay, hkParts } from '../../lib/time';
 import type { RootNav, RootStackParamList } from '../../navigation/types';
 import { getActivity } from '../../services/activities';
@@ -51,7 +53,7 @@ export function CheckoutScreen() {
       showBanner(res.kind === 'waitlisted' ? t('waitlistedNote') : t('paySuccess'));
       nav.navigate('Tabs', { screen: 'Tickets' });
     } catch (e) {
-      setErr(e instanceof Error ? e.message : t('error'));
+      setErr(errorText(e, t));
     } finally {
       setBusy(false);
     }
@@ -68,7 +70,7 @@ export function CheckoutScreen() {
           />
           <View style={{ flex: 1 }}>
             <Text style={[type.h3, { color: colors.ink }]} numberOfLines={2}>
-              {activity.title}
+              {activityTitle(activity, lang)}
             </Text>
             <Text style={[type.small, { color: colors.muted, marginTop: 3 }]}>
               {formatDay(activity.startsAt, lang)} {start.hour}:{start.minute}

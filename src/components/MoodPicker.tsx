@@ -52,12 +52,13 @@ export function MoodPicker({
                 color={on ? colors.white : (mood.tint ?? colors.pine)}
               />
             </View>
+            {/* Two lines, no ellipsis: "Meet people" must read in full. */}
             <Text
               style={[
                 type.small,
-                { color: on ? colors.ink : colors.muted, marginTop: space.x2 },
+                styles.label,
+                { color: on ? colors.ink : colors.muted },
               ]}
-              numberOfLines={1}
             >
               {t(mood.key)}
             </Text>
@@ -71,14 +72,19 @@ export function MoodPicker({
 export { MOODS };
 
 const styles = StyleSheet.create({
-  row: { gap: space.x3, paddingRight: space.x4 },
-  item: { alignItems: 'center', width: 62 },
+  row: { gap: space.x3, paddingRight: space.x5, paddingBottom: space.x1 },
+  item: { alignItems: 'center', width: 72, minHeight: 92 },
   tile: {
-    width: 56,
-    height: 56,
+    width: 58,
+    height: 58,
     borderRadius: radius.lg,
     backgroundColor: colors.paper,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  label: {
+    marginTop: space.x2,
+    textAlign: 'center',
+    lineHeight: 14,
   },
 });

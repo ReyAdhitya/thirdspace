@@ -24,7 +24,7 @@ export async function signInWithEmail(
     (x) => x.email.toLowerCase() === email.trim().toLowerCase(),
   );
   if (!u || u.password !== password) {
-    throw new Error('電郵或密碼不正確');
+    throw new Error('bad-credentials');
   }
   if (u.banned) throw new Error('banned');
   await mutate((d) => {
@@ -39,11 +39,11 @@ export async function signUpWithEmail(input: {
   displayName: string;
 }): Promise<User> {
   const email = input.email.trim().toLowerCase();
-  if (!email.includes('@')) throw new Error('電郵格式不正確');
-  if (input.password.length < 6) throw new Error('密碼最少 6 個字');
+  if (!email.includes('@')) throw new Error('bad-email');
+  if (input.password.length < 6) throw new Error('weak-password');
   const db = getDb();
   if (db.users.some((x) => x.email.toLowerCase() === email)) {
-    throw new Error('呢個電郵已經註冊');
+    throw new Error('email-taken');
   }
   const uid = nid('u');
   const user: User & { password: string } = {
@@ -53,7 +53,7 @@ export async function signUpWithEmail(input: {
     displayName: input.displayName.trim() || email.split('@')[0],
     role: 'user',
     interests: [],
-    language: 'zh-Hant',
+    language: 'en',
     homeDistrict: 'central',
     createdAt: new Date().toISOString(),
     onboarded: false,
@@ -97,11 +97,11 @@ export async function updateProfile(
   let next: User | null = null;
   await mutate((d) => {
     const u = d.users.find((x) => x.uid === uid);
-    if (!u) throw new Error('找不到用戶');
+    if (!u) throw new Error('not-found');
     Object.assign(u, patch);
     next = publicUser(u);
   });
-  if (!next) throw new Error('找不到用戶');
+  if (!next) throw new Error('not-found');
   return next;
 }
 
@@ -121,7 +121,7 @@ export function listUsers(): User[] {
 export async function setBanned(uid: string, banned: boolean): Promise<void> {
   await mutate((d) => {
     const u = d.users.find((x) => x.uid === uid);
-    if (!u) throw new Error('找不到用戶');
+    if (!u) throw new Error('not-found');
     u.banned = banned;
     if (banned && d.sessionUid === uid) d.sessionUid = null;
   });

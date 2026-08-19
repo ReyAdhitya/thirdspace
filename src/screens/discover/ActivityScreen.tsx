@@ -18,6 +18,13 @@ import { Screen } from '../../components/Screen';
 import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
 import { districtLabel } from '../../data/districts';
+import { errorText } from '../../lib/errors';
+import {
+  activityAddress,
+  activitySummary,
+  activityTitle,
+  userName,
+} from '../../lib/localize';
 import { formatDay, hkParts } from '../../lib/time';
 import type { ActivityRoute, RootNav } from '../../navigation/types';
 import { getActivity } from '../../services/activities';
@@ -167,9 +174,11 @@ export function ActivityScreen() {
         </View>
 
         <View style={styles.sheet}>
-          <Text style={[type.h1, { color: colors.ink }]}>{activity.title}</Text>
+          <Text style={[type.h1, { color: colors.ink }]}>
+            {activityTitle(activity, lang)}
+          </Text>
           <Text style={[type.meta, { color: colors.muted, marginTop: space.x2 }]}>
-            {activity.summary}
+            {activitySummary(activity, lang)}
           </Text>
 
           <Pressable
@@ -183,7 +192,7 @@ export function ActivityScreen() {
             )}
             <View style={{ flex: 1 }}>
               <Text style={[type.bodyStrong, { color: colors.ink }]}>
-                {host?.displayName ?? '—'}
+                {userName(host, lang) || '—'}
               </Text>
               <Text style={[type.small, { color: colors.muted }]}>{t('organiser')}</Text>
             </View>
@@ -211,7 +220,7 @@ export function ActivityScreen() {
             <FactRow icon="calendar" text={when} />
             <FactRow
               icon="map-pin"
-              text={`${districtLabel(activity.district, lang)} · ${activity.address}`}
+              text={`${districtLabel(activity.district, lang)} · ${activityAddress(activity, lang)}`}
             />
             <FactRow
               icon="tag"
@@ -223,13 +232,15 @@ export function ActivityScreen() {
           <View style={styles.block}>
             <SectionHead title={t('aboutActivity')} />
             <Text style={[type.body, { color: colors.muted, marginTop: space.x3 }]}>
-              {activity.summary}
+              {activitySummary(activity, lang)}
             </Text>
           </View>
 
           <View style={styles.block}>
             <Text style={[type.bodyStrong, { color: colors.ink }]}>
-              {t('attendingCount')} {activity.joinedCount} {t('people')}
+              {[t('attendingCount'), activity.joinedCount, t('people')]
+                .filter((part) => String(part).length > 0)
+                .join(' ')}
             </Text>
             <View style={styles.stack}>
               {Array.from({ length: Math.min(5, activity.joinedCount) }).map((_, i) => (
@@ -277,7 +288,7 @@ export function ActivityScreen() {
                     comments.map((m) => (
                       <View key={m.id} style={styles.comment}>
                         <Text style={[type.small, { color: colors.muted }]}>
-                          {getUser(m.userId)?.displayName ?? ''}
+                          {userName(getUser(m.userId), lang)}
                         </Text>
                         <Text style={[type.body, { color: colors.ink, marginTop: 2 }]}>
                           {m.text}
@@ -304,10 +315,7 @@ export function ActivityScreen() {
                           });
                           setDraft('');
                         } catch (e) {
-                          showBanner(
-                            e instanceof Error ? e.message : t('error'),
-                            'warn',
-                          );
+                          showBanner(errorText(e, t), 'warn');
                         }
                       }}
                       style={styles.send}

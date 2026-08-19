@@ -210,4 +210,14 @@ export const zhHant: Dict = {
   regionIsland: '港島',
   organiser: '主辦',
   soon: '即將公布',
+
+  errBadCredentials: '電郵或密碼不正確。',
+  errBadEmail: '請輸入正確嘅電郵。',
+  errWeakPassword: '密碼最少 6 個字。',
+  errEmailTaken: '呢個電郵已經註冊。',
+  errNotFound: '搵唔到。',
+  errNotHolder: '只有持票者可以留言。',
+  errEmptyText: '請先寫啲嘢。',
+  errTestCard: '測試卡請用 4242 開頭。',
+  errTitleRequired: '請填活動名稱。',
 };

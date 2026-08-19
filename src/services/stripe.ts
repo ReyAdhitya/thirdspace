@@ -12,6 +12,6 @@ export async function simulateCheckout(cardNumber: string): Promise<void> {
   const digits = cardNumber.replace(/\s/g, '');
   await new Promise((r) => setTimeout(r, 500));
   if (digits && digits !== '4242424242424242' && !digits.startsWith('4242')) {
-    throw new Error('測試卡請用 4242 開頭');
+    throw new Error('test-card');
   }
 }

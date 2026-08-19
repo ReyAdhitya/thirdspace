@@ -18,7 +18,7 @@ export function SearchField({
 }) {
   return (
     <View style={styles.wrap}>
-      <Icon name="search" size={17} color={colors.faint} />
+      <Icon name="search" size={18} color={colors.faint} />
       <TextInput
         value={value}
         onChangeText={onChange}
@@ -27,8 +27,8 @@ export function SearchField({
         style={styles.input}
       />
       {onFilter ? (
-        <Pressable onPress={onFilter} hitSlop={8}>
-          <Icon name="sliders" size={17} color={colors.muted} />
+        <Pressable onPress={onFilter} hitSlop={10} style={styles.filter}>
+          <Icon name="sliders" size={18} color={colors.muted} />
         </Pressable>
       ) : null}
     </View>
@@ -39,19 +39,27 @@ const styles = StyleSheet.create({
   wrap: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: space.x2,
+    gap: space.x3,
     backgroundColor: colors.white,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.hairline,
-    paddingHorizontal: space.x3,
-    height: 46,
+    paddingLeft: space.x4,
+    paddingRight: space.x2,
+    height: 52,
   },
   input: {
     flex: 1,
     color: colors.ink,
-    fontSize: 14,
+    fontSize: 15,
     fontFamily: type.body.fontFamily as string,
     paddingVertical: 0,
+  },
+  /** Own padded box so the glyph never sits on the rounded corner. */
+  filter: {
+    width: 36,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

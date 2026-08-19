@@ -6,6 +6,9 @@ export type User = {
   uid: string;
   email: string;
   displayName: string;
+  /** English name and bio, used when the locale is English. */
+  displayNameEn?: string;
+  bioEn?: string;
   photoUrl?: string;
   bio?: string;
   role: Role;

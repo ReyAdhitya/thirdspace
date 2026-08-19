@@ -4,7 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { useApp } from '../context/AppContext';
 import { districtLabel } from '../data/districts';
-import { hkParts } from '../lib/time';
+import { activityAddress, activityTitle } from '../lib/localize';
+import { formatMonth, hkParts } from '../lib/time';
 import { getActivity } from '../services/activities';
 import type { Ticket } from '../types';
 import { colors, radius, space, type } from '../theme';
@@ -15,9 +16,8 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
   const a = getActivity(ticket.activityId);
   if (!a) return null;
 
-  const parts = hkParts(a.startsAt);
+  const start = hkParts(a.startsAt);
   const end = hkParts(a.endsAt);
-  const monthLabel = lang === 'en' ? `${parts.month}月`.replace('月', '') : `${Number(parts.month)}月`;
 
   return (
     <View style={styles.card}>
@@ -29,20 +29,23 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
       />
       <View style={styles.date}>
         <Text style={[type.meta, { color: colors.muted }]}>
-          {lang === 'en' ? parts.month : monthLabel}
+          {formatMonth(a.startsAt, lang)}
         </Text>
-        <Text style={[type.numeral, { color: colors.ink }]}>{parts.day}</Text>
+        <Text style={[type.numeral, { color: colors.ink }]}>{start.day}</Text>
       </View>
       <View style={styles.divider} />
       <View style={styles.body}>
         <Text style={[type.h3, { color: colors.ink }]} numberOfLines={1}>
-          {a.title}
+          {activityTitle(a, lang)}
         </Text>
         <Text style={[type.meta, { color: colors.muted, marginTop: space.x2 }]}>
-          {parts.hour}:{parts.minute} - {end.hour}:{end.minute}
+          {start.hour}:{start.minute} - {end.hour}:{end.minute}
         </Text>
-        <Text style={[type.meta, { color: colors.muted, marginTop: 2 }]} numberOfLines={1}>
-          {districtLabel(a.district, lang)} · {a.address}
+        <Text
+          style={[type.meta, { color: colors.muted, marginTop: 2 }]}
+          numberOfLines={1}
+        >
+          {districtLabel(a.district, lang)} · {activityAddress(a, lang)}
         </Text>
         <Text style={[type.metaStrong, { color: colors.ink, marginTop: space.x2 }]}>
           {a.priceHkd <= 0 ? t('free') : `HK$${a.priceHkd}`}
@@ -74,7 +77,7 @@ const styles = StyleSheet.create({
     height: 150,
     opacity: 0.14,
   },
-  date: { width: 54, alignItems: 'center', paddingTop: 2 },
+  date: { width: 56, alignItems: 'center', paddingTop: 2 },
   divider: {
     width: 1,
     alignSelf: 'stretch',

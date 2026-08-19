@@ -12,7 +12,7 @@ export async function createReport(input: {
     reporterId: input.reporterId,
     targetType: input.targetType,
     targetId: input.targetId,
-    reason: input.reason.trim() || '未填原因',
+    reason: input.reason.trim() || '—',
     createdAt: new Date().toISOString(),
     status: 'open',
   };

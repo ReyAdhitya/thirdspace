@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { createSeed, type SeedDb } from '../data/seed';
+import { SCHEMA_VERSION, createSeed, type SeedDb } from '../data/seed';
 
 const KEY = 'thirdspace.db.v1';
 
@@ -37,7 +37,7 @@ export async function initStore(): Promise<void> {
   if (raw) {
     try {
       const parsed = JSON.parse(raw) as SeedDb;
-      if (parsed.schemaVersion === 1 && Array.isArray(parsed.activities)) {
+      if (parsed.schemaVersion === SCHEMA_VERSION && Array.isArray(parsed.activities)) {
         db = parsed;
       } else {
         db = createSeed();

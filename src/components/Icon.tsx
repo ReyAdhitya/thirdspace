@@ -41,6 +41,7 @@ export type IconName =
   | 'bookmark'
   | 'feather'
   | 'lock'
+  | 'mail'
   | 'eye';
 
 export function Icon({

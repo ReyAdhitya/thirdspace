@@ -57,7 +57,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return subscribe(() => hydrate());
   }, [boot, hydrate]);
 
-  const lang: AppLanguage = user?.language ?? 'zh-Hant';
+  const lang: AppLanguage = user?.language ?? 'en';
 
   const showBanner = useCallback((text: string, tone: 'ok' | 'warn' = 'ok') => {
     setBanner({ text, tone });

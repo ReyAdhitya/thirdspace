@@ -17,6 +17,7 @@ import { MoodPicker } from '../../components/MoodPicker';
 import { Screen } from '../../components/Screen';
 import { useApp } from '../../context/AppContext';
 import { DISTRICTS, districtLabel } from '../../data/districts';
+import { errorText } from '../../lib/errors';
 import { fromDatetimeLocalValue, hkIso, toDatetimeLocalValue } from '../../lib/time';
 import type { RootNav, RootStackParamList } from '../../navigation/types';
 import {
@@ -84,7 +85,7 @@ export function CreateActivityScreen() {
     setBusy(true);
     setErr(null);
     try {
-      if (!title.trim()) throw new Error(t('eventName'));
+      if (!title.trim()) throw new Error('title-required');
       const payload = {
         title: title.trim(),
         summary: summary.trim() || title.trim(),
@@ -110,7 +111,7 @@ export function CreateActivityScreen() {
         nav.replace('Activity', { id: row.id });
       }
     } catch (e) {
-      setErr(e instanceof Error ? e.message : t('error'));
+      setErr(errorText(e, t));
     } finally {
       setBusy(false);
     }
