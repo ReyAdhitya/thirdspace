@@ -18,7 +18,7 @@ export type SeedDb = {
 };
 
 /** Bumped when seed copy changes so local demo data re-seeds. */
-export const SCHEMA_VERSION = 5;
+export const SCHEMA_VERSION = 6;
 
 const HOST = 'u_host';
 const HOST2 = 'u_chen';
