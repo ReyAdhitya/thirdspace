@@ -220,4 +220,6 @@ export const zhHant: Dict = {
   errEmptyText: '請先寫啲嘢。',
   errTestCard: '測試卡請用 4242 開頭。',
   errTitleRequired: '請填活動名稱。',
+  errGoogleFailed: 'Google 登入未完成，請再試。',
+  errGoogleCancelled: '已取消登入。',
 };

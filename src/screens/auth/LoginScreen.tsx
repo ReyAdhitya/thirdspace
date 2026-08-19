@@ -2,6 +2,7 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -38,6 +39,7 @@ export function LoginScreen() {
   const [mode, setMode] = useState<'in' | 'up'>('in');
   const [form, setForm] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [googleBusy, setGoogleBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   async function go() {
@@ -55,10 +57,18 @@ export function LoginScreen() {
   }
 
   async function google() {
+    setGoogleBusy(true);
+    setErr(null);
     try {
       await auth.signInWithGoogle();
-    } catch {
-      showBanner(t('googleMissing'), 'warn');
+    } catch (e) {
+      const code = e instanceof Error ? e.message : '';
+      // Dismissing the Google popup is not an error worth shouting about.
+      if (code !== 'google-cancelled') {
+        showBanner(errorText(e, t), 'warn');
+      }
+    } finally {
+      setGoogleBusy(false);
     }
   }
 
@@ -120,7 +130,11 @@ export function LoginScreen() {
             <View style={styles.form}>
               <Button label={t('loginEmail')} icon="mail" onPress={() => setForm(true)} />
               <View style={{ height: space.x3 }} />
-              <GoogleButton label={t('loginGoogle')} onPress={() => void google()} />
+              <GoogleButton
+                label={t('loginGoogle')}
+                loading={googleBusy}
+                onPress={() => void google()}
+              />
             </View>
           )}
 
@@ -163,17 +177,33 @@ export function LoginScreen() {
   );
 }
 
-function GoogleButton({ label, onPress }: { label: string; onPress: () => void }) {
+function GoogleButton({
+  label,
+  onPress,
+  loading,
+}: {
+  label: string;
+  onPress: () => void;
+  loading?: boolean;
+}) {
   return (
     <Pressable
       onPress={onPress}
+      disabled={loading}
       style={({ pressed }) => [
         styles.google,
         { backgroundColor: pressed ? colors.stone : colors.white },
+        loading && { opacity: 0.6 },
       ]}
     >
-      <GoogleMark size={18} />
-      <Text style={[type.button, { color: colors.ink }]}>{label}</Text>
+      {loading ? (
+        <ActivityIndicator size="small" color={colors.ink} />
+      ) : (
+        <>
+          <GoogleMark size={18} />
+          <Text style={[type.button, { color: colors.ink }]}>{label}</Text>
+        </>
+      )}
     </Pressable>
   );
 }

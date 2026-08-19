@@ -14,6 +14,9 @@ const KEY_OF: Record<string, string> = {
   'title-required': 'errTitleRequired',
   banned: 'banned',
   'google-missing': 'googleMissing',
+  'google-failed': 'errGoogleFailed',
+  'google-cancelled': 'errGoogleCancelled',
+  'bad-token': 'errGoogleFailed',
 };
 
 export function errorText(e: unknown, t: (key: string) => string): string {

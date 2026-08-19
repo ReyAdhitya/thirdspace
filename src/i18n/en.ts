@@ -219,4 +219,6 @@ export const en: Dict = {
   errEmptyText: 'Write something first.',
   errTestCard: 'Test cards must start with 4242.',
   errTitleRequired: 'Give the event a name.',
+  errGoogleFailed: 'Google sign-in did not finish. Try again.',
+  errGoogleCancelled: 'Sign-in cancelled.',
 };

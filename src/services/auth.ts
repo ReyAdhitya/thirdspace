@@ -1,5 +1,5 @@
 import type { AppLanguage, User } from '../types';
-import { googleAuthConfigured } from './firebase';
+import { googleConfigured, promptGoogleSignIn } from './google';
 import { getDb, mutate, nid } from './store';
 
 function publicUser(u: User & { password?: string }): User {
@@ -71,11 +71,48 @@ export async function signOut(): Promise<void> {
   });
 }
 
+/**
+ * Real Google OAuth. An existing account signs straight in; a new Gmail gets
+ * the same `user` role an email sign-up would. Local store only for now —
+ * swapping in Firebase Auth later keeps this signature.
+ */
 export async function signInWithGoogle(): Promise<User> {
-  if (!googleAuthConfigured()) {
-    throw new Error('google-missing');
+  if (!googleConfigured()) throw new Error('google-missing');
+
+  const profile = await promptGoogleSignIn();
+  const email = profile.email.trim().toLowerCase();
+
+  const existing = getDb().users.find((x) => x.email.toLowerCase() === email);
+  if (existing) {
+    if (existing.banned) throw new Error('banned');
+    await mutate((d) => {
+      const u = d.users.find((x) => x.uid === existing.uid);
+      if (u && profile.picture && !u.photoUrl) u.photoUrl = profile.picture;
+      d.sessionUid = existing.uid;
+    });
+    return publicUser(existing);
   }
-  throw new Error('google-missing');
+
+  const uid = nid('u');
+  const user: User & { password: string } = {
+    uid,
+    email,
+    /** Unusable local password: this account signs in through Google. */
+    password: nid('google'),
+    displayName: profile.name?.trim() || email.split('@')[0],
+    photoUrl: profile.picture,
+    role: 'user',
+    interests: [],
+    language: 'en',
+    homeDistrict: 'central',
+    createdAt: new Date().toISOString(),
+    onboarded: false,
+  };
+  await mutate((d) => {
+    d.users.push(user);
+    d.sessionUid = uid;
+  });
+  return publicUser(user);
 }
 
 export async function updateProfile(

@@ -219,4 +219,6 @@ export const zhHans: Dict = {
   errEmptyText: '请先写点什么。',
   errTestCard: '测试卡请用 4242 开头。',
   errTitleRequired: '请填活动名称。',
+  errGoogleFailed: 'Google 登录未完成，请再试。',
+  errGoogleCancelled: '已取消登录。',
 };
