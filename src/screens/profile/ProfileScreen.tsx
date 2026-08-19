@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
@@ -7,6 +6,7 @@ import { ActivityRow } from '../../components/ActivityCard';
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
 import { Icon, type IconName } from '../../components/Icon';
+import { Photo } from '../../components/Photo';
 import { Screen } from '../../components/Screen';
 import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
@@ -75,7 +75,7 @@ export function ProfileScreen() {
       >
         <View style={[styles.gutter, styles.head]}>
           {user.photoUrl ? (
-            <Image source={{ uri: user.photoUrl }} style={styles.avatar} contentFit="cover" />
+            <Photo uri={user.photoUrl} style={styles.avatar} />
           ) : (
             <View style={[styles.avatar, styles.avatarEmpty]}>
               <Icon name="user" size={26} color={colors.harbor} />
@@ -243,11 +243,7 @@ export function ProfileScreen() {
                     style={styles.hostRow}
                   >
                     {h?.photoUrl ? (
-                      <Image
-                        source={{ uri: h.photoUrl }}
-                        style={styles.hostAvatar}
-                        contentFit="cover"
-                      />
+                      <Photo uri={h.photoUrl} style={styles.hostAvatar} />
                     ) : (
                       <View style={[styles.hostAvatar, { backgroundColor: colors.paper }]} />
                     )}

@@ -1,6 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -15,6 +14,7 @@ import {
 
 import { EmptyState } from '../../components/EmptyState';
 import { Icon } from '../../components/Icon';
+import { Photo } from '../../components/Photo';
 import { Screen, StackHeader } from '../../components/Screen';
 import { useApp } from '../../context/AppContext';
 import { errorText } from '../../lib/errors';
@@ -88,11 +88,7 @@ export function ChatScreen() {
                 >
                   {!mineMsg ? (
                     author?.photoUrl ? (
-                      <Image
-                        source={{ uri: author.photoUrl }}
-                        style={styles.avatar}
-                        contentFit="cover"
-                      />
+                      <Photo uri={author.photoUrl} style={styles.avatar} />
                     ) : (
                       <View style={[styles.avatar, { backgroundColor: colors.paper }]} />
                     )

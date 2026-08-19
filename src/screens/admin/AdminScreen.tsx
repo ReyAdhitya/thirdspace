@@ -1,11 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
 import { Icon } from '../../components/Icon';
+import { Photo } from '../../components/Photo';
 import { Screen } from '../../components/Screen';
 import { SectionHead, Segments } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
@@ -76,11 +76,7 @@ export function AdminScreen() {
               return (
                 <View key={r.id} style={styles.card}>
                   {target?.photoUrl ? (
-                    <Image
-                      source={{ uri: target.photoUrl }}
-                      style={styles.thumb}
-                      contentFit="cover"
-                    />
+                    <Photo uri={target.photoUrl} style={styles.thumb} />
                   ) : (
                     <View style={[styles.thumb, styles.thumbEmpty]}>
                       <Icon name="user" size={18} color={colors.harbor} />
@@ -196,6 +192,7 @@ export function AdminScreen() {
           <View style={styles.rows}>
             {users.map((u) => (
               <View key={u.uid} style={styles.modRow}>
+                <Photo uri={u.photoUrl} style={styles.userAvatar} />
                 <View style={{ flex: 1 }}>
                   <Text style={[type.metaStrong, { color: colors.ink }]}>
                     {userName(u, lang)}
@@ -282,5 +279,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.hairline,
     padding: space.x3,
+  },
+  userAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: radius.pill,
+    backgroundColor: colors.pineSoft,
   },
 });

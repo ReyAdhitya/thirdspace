@@ -1,6 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import {
   Pressable,
@@ -14,6 +13,7 @@ import {
 import { Button } from '../../components/Button';
 import { Icon } from '../../components/Icon';
 import { MoodPicker } from '../../components/MoodPicker';
+import { Photo } from '../../components/Photo';
 import { Screen } from '../../components/Screen';
 import { useApp } from '../../context/AppContext';
 import { DISTRICTS, districtLabel } from '../../data/districts';
@@ -136,11 +136,7 @@ export function CreateActivityScreen() {
             }}
           >
             {photoUrl ? (
-              <Image
-                source={{ uri: photoUrl }}
-                style={StyleSheet.absoluteFill}
-                contentFit="cover"
-              />
+              <Photo uri={photoUrl} style={StyleSheet.absoluteFill} />
             ) : (
               <>
                 <Icon name="camera" size={24} color={colors.harbor} />
@@ -153,10 +149,9 @@ export function CreateActivityScreen() {
           <View style={styles.stockRow}>
             {STOCK_PHOTOS.slice(0, 5).map((u) => (
               <Pressable key={u} onPress={() => setPhotoUrl(u)}>
-                <Image
-                  source={{ uri: u }}
+                <Photo
+                  uri={u}
                   style={[styles.stock, photoUrl === u && styles.stockOn]}
-                  contentFit="cover"
                 />
               </Pressable>
             ))}
@@ -375,7 +370,8 @@ const styles = StyleSheet.create({
     borderRadius: radius.sm,
     borderWidth: 2,
     borderColor: 'transparent',
-    backgroundColor: colors.paper,
+    backgroundColor: colors.pineSoft,
+    overflow: 'hidden',
   },
   stockOn: { borderColor: colors.pine },
   input: {

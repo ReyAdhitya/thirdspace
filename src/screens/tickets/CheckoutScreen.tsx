@@ -1,12 +1,12 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
 import { Icon } from '../../components/Icon';
+import { Photo } from '../../components/Photo';
 import { Screen } from '../../components/Screen';
 import { useApp } from '../../context/AppContext';
 import { districtLabel } from '../../data/districts';
@@ -63,11 +63,7 @@ export function CheckoutScreen() {
     <Screen onBack={() => nav.goBack()} title={t('payTitle')}>
       <View style={styles.gutter}>
         <View style={styles.summary}>
-          <Image
-            source={{ uri: activity.photoUrl }}
-            style={styles.thumb}
-            contentFit="cover"
-          />
+          <Photo uri={activity.photoUrl} style={styles.thumb} />
           <View style={{ flex: 1 }}>
             <Text style={[type.h3, { color: colors.ink }]} numberOfLines={2}>
               {activityTitle(activity, lang)}
@@ -125,7 +121,12 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     padding: space.x3,
   },
-  thumb: { width: 56, height: 56, borderRadius: radius.sm },
+  thumb: {
+    width: 56,
+    height: 56,
+    borderRadius: radius.sm,
+    backgroundColor: colors.pineSoft,
+  },
   testTag: {
     flexDirection: 'row',
     alignItems: 'center',

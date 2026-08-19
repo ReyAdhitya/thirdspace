@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
@@ -16,13 +15,11 @@ import {
 import { Button } from '../../components/Button';
 import { GoogleMark } from '../../components/GoogleMark';
 import { ArchMark } from '../../components/Logo';
+import { Photo } from '../../components/Photo';
 import { useApp } from '../../context/AppContext';
 import { errorText } from '../../lib/errors';
 import * as auth from '../../services/auth';
 import { colors, radius, space, type } from '../../theme';
-
-const DOOR =
-  'https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=1000&q=80';
 
 /** Demo accounts, named in the active locale so the chip matches the chrome. */
 const DEMOS = [
@@ -75,7 +72,7 @@ export function LoginScreen() {
   return (
     <View style={styles.root}>
       <View style={styles.cover}>
-        <Image source={{ uri: DOOR }} style={StyleSheet.absoluteFill} contentFit="cover" />
+        <Photo uri="loginDoor" style={styles.coverPhoto} />
         <LinearGradient
           colors={['rgba(31,61,52,0.18)', 'rgba(246,244,241,0.65)', colors.stone]}
           locations={[0, 0.72, 1]}
@@ -241,7 +238,8 @@ function Field({
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.stone },
   fill: { flex: 1 },
-  cover: { position: 'absolute', left: 0, right: 0, top: 0, height: '46%' },
+  cover: { position: 'absolute', left: 0, right: 0, top: 0, height: '46%', overflow: 'hidden' },
+  coverPhoto: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' },
   scroll: {
     flexGrow: 1,
     justifyContent: 'flex-end',

@@ -1,6 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -8,6 +7,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { ActivityRow } from '../../components/ActivityCard';
 import { EmptyState } from '../../components/EmptyState';
 import { Icon } from '../../components/Icon';
+import { Photo } from '../../components/Photo';
 import { Screen } from '../../components/Screen';
 import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
@@ -45,11 +45,7 @@ export function OrganizerScreen() {
       >
         <View style={styles.cover}>
           {events[0] ? (
-            <Image
-              source={{ uri: events[0].photoUrl }}
-              style={StyleSheet.absoluteFill}
-              contentFit="cover"
-            />
+            <Photo uri={events[0].photoUrl} style={styles.coverPhoto} />
           ) : null}
           <LinearGradient
             colors={['rgba(16,18,16,0.4)', 'rgba(16,18,16,0.1)']}
@@ -66,7 +62,7 @@ export function OrganizerScreen() {
         <View style={styles.sheet}>
           <View style={styles.headRow}>
             {host.photoUrl ? (
-              <Image source={{ uri: host.photoUrl }} style={styles.avatar} contentFit="cover" />
+              <Photo uri={host.photoUrl} style={styles.avatar} />
             ) : (
               <View style={[styles.avatar, styles.avatarEmpty]}>
                 <Icon name="user" size={24} color={colors.harbor} />
@@ -145,7 +141,8 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 const styles = StyleSheet.create({
   scroll: { paddingBottom: space.x10 },
-  cover: { height: 150, backgroundColor: colors.paper },
+  cover: { height: 150, backgroundColor: colors.pineSoft, overflow: 'hidden' },
+  coverPhoto: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' },
   coverBar: {
     flexDirection: 'row',
     alignItems: 'center',

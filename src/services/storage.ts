@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 
-import { STOCK_PHOTOS } from '../data/seed';
+import { STOCK_PHOTOS } from '../data/photos';
 
 export async function pickPhoto(): Promise<string | null> {
   const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();

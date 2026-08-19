@@ -1,6 +1,7 @@
-import { Image } from 'expo-image';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
+import { Photo } from './Photo';
 
 import { useApp } from '../context/AppContext';
 import { districtLabel } from '../data/districts';
@@ -21,12 +22,7 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
 
   return (
     <View style={styles.card}>
-      <Image
-        source={{ uri: a.photoUrl }}
-        style={styles.ghost}
-        contentFit="cover"
-        transition={160}
-      />
+      <Photo uri={a.photoUrl} style={styles.ghost} transition={160} />
       <View style={styles.date}>
         <Text style={[type.meta, { color: colors.muted }]}>
           {formatMonth(a.startsAt, lang)}

@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -10,6 +9,7 @@ import { formatDay } from '../lib/time';
 import type { Activity } from '../types';
 import { colors, radius, space, type } from '../theme';
 import { Icon } from './Icon';
+import { Photo } from './Photo';
 
 function priceLabel(priceHkd: number, free: string) {
   return priceHkd <= 0 ? free : `HK$${priceHkd}`;
@@ -30,12 +30,7 @@ export function ActivityHeroCard({
   const { lang, t } = useApp();
   return (
     <Pressable onPress={onPress} style={styles.hero}>
-      <Image
-        source={{ uri: activity.photoUrl }}
-        style={StyleSheet.absoluteFill}
-        contentFit="cover"
-        transition={220}
-      />
+      <Photo uri={activity.photoUrl} style={styles.heroPhoto} transition={220} />
       <LinearGradient
         colors={['transparent', 'rgba(16,18,16,0.20)', 'rgba(16,18,16,0.88)']}
         locations={[0, 0.42, 1]}
@@ -74,12 +69,7 @@ export function ActivityRow({
   const { lang, t } = useApp();
   return (
     <Pressable onPress={onPress} style={styles.row}>
-      <Image
-        source={{ uri: activity.photoUrl }}
-        style={styles.thumb}
-        contentFit="cover"
-        transition={180}
-      />
+      <Photo uri={activity.photoUrl} style={styles.thumb} transition={180} />
       <View style={styles.rowCopy}>
         <Text style={[type.h3, { color: colors.ink }]} numberOfLines={1}>
           {activityTitle(activity, lang)}
@@ -103,9 +93,15 @@ const styles = StyleSheet.create({
     height: 190,
     borderRadius: radius.xl,
     overflow: 'hidden',
-    /** Ink-tinted so the card still reads if a photo is slow or missing. */
-    backgroundColor: '#2A2E2B',
+    backgroundColor: colors.pineSoft,
     justifyContent: 'flex-end',
+  },
+  heroPhoto: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
   },
   heroCopy: { padding: space.x4, paddingRight: 64 },
   heart: {
@@ -133,7 +129,7 @@ const styles = StyleSheet.create({
     width: 54,
     height: 54,
     borderRadius: radius.sm,
-    backgroundColor: '#2A2E2B',
+    backgroundColor: colors.pineSoft,
   },
   rowCopy: { flex: 1 },
 });

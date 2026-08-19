@@ -18,38 +18,14 @@ export type SeedDb = {
 };
 
 /** Bumped when seed copy changes so local demo data re-seeds. */
-export const SCHEMA_VERSION = 4;
+export const SCHEMA_VERSION = 5;
 
 const HOST = 'u_host';
 const HOST2 = 'u_chen';
 const DEMO = 'u_demo';
 const ADMIN = 'u_admin';
 
-const photos = {
-  jazz: 'https://images.unsplash.com/photo-1511192336575-5a79af67a986?w=1200&q=80',
-  library: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&q=80',
-  film: 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1200&q=80',
-  hike: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&q=80',
-  clay: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80',
-  roof: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&q=80',
-  market: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80',
-  sketch: 'https://images.unsplash.com/photo-1513364776144-60967b0f8002?w=1200&q=80',
-  portrait: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=80',
-  portrait2: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',
-  portraitAlex: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',
-  portraitAdmin: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
-};
-
-export const STOCK_PHOTOS = [
-  photos.jazz,
-  photos.library,
-  photos.film,
-  photos.hike,
-  photos.clay,
-  photos.roof,
-  photos.market,
-  photos.sketch,
-];
+export { STOCK_PHOTOS } from './photos';
 
 export function createSeed(): SeedDb {
   const users: UserRecord[] = [
@@ -66,7 +42,7 @@ export function createSeed(): SeedDb {
       createdAt: hkIso(2026, 6, 1, 10, 0),
       bio: '鍾意行街同安靜嘅夜晚。',
       bioEn: 'Long walks and quiet evenings.',
-      photoUrl: photos.portraitAlex,
+      photoUrl: 'portraitAlex',
       onboarded: true,
     },
     {
@@ -80,7 +56,7 @@ export function createSeed(): SeedDb {
       language: 'en',
       homeDistrict: 'wan_chai',
       createdAt: hkIso(2026, 3, 12, 9, 0),
-      photoUrl: photos.portrait,
+      photoUrl: 'portraitLin',
       bio: '灣仔搞爵士同陶藝。想將收工後變成真正嘅第三空間。',
       bioEn:
         'Jazz and pottery in Wan Chai. Turning the hours after work into a real third place.',
@@ -97,7 +73,7 @@ export function createSeed(): SeedDb {
       language: 'en',
       homeDistrict: 'sheung_wan',
       createdAt: hkIso(2026, 4, 2, 11, 0),
-      photoUrl: photos.portrait2,
+      photoUrl: 'portraitChen',
       bio: '上環書店同菲林。慢啲行。',
       bioEn: 'Bookshops and film cameras in Sheung Wan. Walk slower.',
       onboarded: true,
@@ -115,7 +91,7 @@ export function createSeed(): SeedDb {
       createdAt: hkIso(2026, 1, 1, 0, 0),
       bio: 'Thirdspace 管理員',
       bioEn: 'Thirdspace moderator',
-      photoUrl: photos.portraitAdmin,
+      photoUrl: 'portraitAdmin',
       onboarded: true,
     },
   ];
@@ -125,7 +101,7 @@ export function createSeed(): SeedDb {
       id: 'a_jazz',
       title: '灣仔收工後爵士',
       titleEn: 'After-work Jazz in Wan Chai',
-      photoUrl: photos.jazz,
+      photoUrl: 'jazz',
       district: 'wan_chai',
       address: '灣仔莊士敦道 88 號 2 樓',
       addressEn: '2/F, 88 Johnston Road, Wan Chai',
@@ -149,7 +125,7 @@ export function createSeed(): SeedDb {
       id: 'a_lib',
       title: '上環圖書館夜讀',
       titleEn: 'Library Reading Night, Sheung Wan',
-      photoUrl: photos.library,
+      photoUrl: 'library',
       district: 'sheung_wan',
       address: '上環士丹頓街 12 號',
       addressEn: '12 Staunton Street, Sheung Wan',
@@ -173,7 +149,7 @@ export function createSeed(): SeedDb {
       id: 'a_film',
       title: '深水埗菲林散步',
       titleEn: 'Film Photo Walk in Sham Shui Po',
-      photoUrl: photos.film,
+      photoUrl: 'film',
       district: 'sham_shui_po',
       address: '深水埗北河街街市門口',
       addressEn: 'Pei Ho Street Market entrance, Sham Shui Po',
@@ -198,7 +174,7 @@ export function createSeed(): SeedDb {
       id: 'a_hike',
       title: '西貢清晨行山',
       titleEn: 'Sunrise Hike in Sai Kung',
-      photoUrl: photos.hike,
+      photoUrl: 'hike',
       district: 'sai_kung',
       address: '西貢碼頭巴士站',
       addressEn: 'Sai Kung Pier bus terminus',
@@ -222,7 +198,7 @@ export function createSeed(): SeedDb {
       id: 'a_clay',
       title: '中環陶藝夜',
       titleEn: 'Pottery Evening in Central',
-      photoUrl: photos.clay,
+      photoUrl: 'clay',
       district: 'central',
       address: '中環閣麟街 9 號地下',
       addressEn: 'G/F, 9 Cochrane Street, Central',
@@ -246,7 +222,7 @@ export function createSeed(): SeedDb {
       id: 'a_roof',
       title: '旺角天台識人夜',
       titleEn: 'Rooftop Meet-up in Mong Kok',
-      photoUrl: photos.roof,
+      photoUrl: 'roof',
       district: 'mong_kok',
       address: '旺角奶路臣街 15 號天台',
       addressEn: 'Rooftop, 15 Nelson Street, Mong Kok',
@@ -270,7 +246,7 @@ export function createSeed(): SeedDb {
       id: 'a_market',
       title: '銅鑼灣週末市集',
       titleEn: 'Weekend Market in Causeway Bay',
-      photoUrl: photos.market,
+      photoUrl: 'market',
       district: 'causeway_bay',
       address: '銅鑼灣記利佐治街行人區',
       addressEn: 'Great George Street pedestrian zone, Causeway Bay',
@@ -294,7 +270,7 @@ export function createSeed(): SeedDb {
       id: 'a_sketch',
       title: '大坑舊街寫生',
       titleEn: 'Old Street Sketching in Tai Hang',
-      photoUrl: photos.sketch,
+      photoUrl: 'sketch',
       district: 'tai_hang',
       address: '大坑蓮花宮前空地',
       addressEn: 'Open ground by Lin Fa Temple, Tai Hang',

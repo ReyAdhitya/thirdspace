@@ -1,5 +1,4 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
@@ -14,6 +13,7 @@ import {
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
 import { Icon } from '../../components/Icon';
+import { Photo } from '../../components/Photo';
 import { Screen } from '../../components/Screen';
 import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
@@ -142,12 +142,7 @@ export function ActivityScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.heroWrap}>
-          <Image
-            source={{ uri: activity.photoUrl }}
-            style={StyleSheet.absoluteFill}
-            contentFit="cover"
-            transition={220}
-          />
+          <Photo uri={activity.photoUrl} style={styles.heroPhoto} transition={220} />
           <LinearGradient
             colors={['rgba(16,18,16,0.45)', 'transparent']}
             style={styles.heroTopFade}
@@ -183,7 +178,7 @@ export function ActivityScreen() {
             onPress={() => nav.navigate('Organizer', { uid: activity.organizerId })}
           >
             {host?.photoUrl ? (
-              <Image source={{ uri: host.photoUrl }} style={styles.avatar} contentFit="cover" />
+              <Photo uri={host.photoUrl} style={styles.avatar} />
             ) : (
               <View style={[styles.avatar, { backgroundColor: colors.paper }]} />
             )}
@@ -463,7 +458,8 @@ function ReportBlock({ activityId, hostId }: { activityId: string; hostId: strin
 
 const styles = StyleSheet.create({
   scroll: { paddingBottom: 140 },
-  heroWrap: { height: 300, backgroundColor: colors.paper },
+  heroWrap: { height: 300, backgroundColor: colors.pineSoft, overflow: 'hidden' },
+  heroPhoto: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' },
   heroTopFade: { position: 'absolute', left: 0, right: 0, top: 0, height: 110 },
   heroBar: {
     flexDirection: 'row',
