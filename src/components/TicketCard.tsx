@@ -1,67 +1,85 @@
+import { Image } from 'expo-image';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { useApp } from '../context/AppContext';
 import { districtLabel } from '../data/districts';
-import { formatWhen } from '../lib/time';
+import { hkParts } from '../lib/time';
 import { getActivity } from '../services/activities';
 import type { Ticket } from '../types';
-import { colors, space, type } from '../theme';
-import { PriceText } from './PriceText';
+import { colors, radius, space, type } from '../theme';
 
-/** The pass. Legible at arm's length, held up to a door person. No QR. */
+/** Cream stub with the day set large on the left and a faint photo behind. */
 export function TicketCard({ ticket }: { ticket: Ticket }) {
   const { t, lang } = useApp();
   const a = getActivity(ticket.activityId);
   if (!a) return null;
 
-  const status =
-    ticket.status === 'joined'
-      ? t('joined')
-      : ticket.status === 'waitlisted'
-        ? t('onWaitlist')
-        : t('cancelled');
+  const parts = hkParts(a.startsAt);
+  const end = hkParts(a.endsAt);
+  const monthLabel = lang === 'en' ? `${parts.month}月`.replace('月', '') : `${Number(parts.month)}月`;
 
   return (
     <View style={styles.card}>
-      <View style={styles.statusRow}>
-        <Text
-          style={[
-            type.label,
-            { color: ticket.status === 'joined' ? colors.ink : colors.dim },
-          ]}
-        >
-          {status}
+      <Image
+        source={{ uri: a.photoUrl }}
+        style={styles.ghost}
+        contentFit="cover"
+        transition={160}
+      />
+      <View style={styles.date}>
+        <Text style={[type.meta, { color: colors.muted }]}>
+          {lang === 'en' ? parts.month : monthLabel}
         </Text>
-        <PriceText priceHkd={a.priceHkd} tone="dim" />
+        <Text style={[type.numeral, { color: colors.ink }]}>{parts.day}</Text>
       </View>
-
-      <Text style={[type.displaySm, { color: colors.ink }]}>{a.title}</Text>
-
-      <Text style={[type.dataLg, { color: colors.ink, marginTop: space.x4 }]}>
-        {formatWhen(a.startsAt, lang)}
-      </Text>
-      <Text style={[type.bodySm, { color: colors.dim, marginTop: space.x2 }]}>
-        {districtLabel(a.district, lang)} · {a.address}
-      </Text>
-
-      <Text style={[type.meta, { color: colors.faint, marginTop: space.x6 }]}>
-        {t('ticketPass')}
-      </Text>
+      <View style={styles.divider} />
+      <View style={styles.body}>
+        <Text style={[type.h3, { color: colors.ink }]} numberOfLines={1}>
+          {a.title}
+        </Text>
+        <Text style={[type.meta, { color: colors.muted, marginTop: space.x2 }]}>
+          {parts.hour}:{parts.minute} - {end.hour}:{end.minute}
+        </Text>
+        <Text style={[type.meta, { color: colors.muted, marginTop: 2 }]} numberOfLines={1}>
+          {districtLabel(a.district, lang)} · {a.address}
+        </Text>
+        <Text style={[type.metaStrong, { color: colors.ink, marginTop: space.x2 }]}>
+          {a.priceHkd <= 0 ? t('free') : `HK$${a.priceHkd}`}
+        </Text>
+        {ticket.status !== 'joined' ? (
+          <Text style={[type.small, { color: colors.rose, marginTop: space.x2 }]}>
+            {ticket.status === 'waitlisted' ? t('onWaitlist') : t('cancelled')}
+          </Text>
+        ) : null}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    paddingVertical: space.x6,
-    borderTopWidth: 1,
-    borderTopColor: colors.hairlineStrong,
-  },
-  statusRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
-    marginBottom: space.x4,
+    backgroundColor: colors.paper,
+    borderRadius: radius.xl,
+    padding: space.x4,
+    overflow: 'hidden',
+    alignItems: 'flex-start',
   },
+  ghost: {
+    position: 'absolute',
+    right: -18,
+    top: -10,
+    width: 150,
+    height: 150,
+    opacity: 0.14,
+  },
+  date: { width: 54, alignItems: 'center', paddingTop: 2 },
+  divider: {
+    width: 1,
+    alignSelf: 'stretch',
+    backgroundColor: colors.hairlineOnPaper,
+    marginHorizontal: space.x4,
+  },
+  body: { flex: 1 },
 });

@@ -1,107 +1,144 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
+import { Icon, type IconName } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
-import { SectionHead } from '../../components/Text';
 import { useApp } from '../../context/AppContext';
 import { DISTRICTS, districtLabel } from '../../data/districts';
 import type { RootNav } from '../../navigation/types';
 import { setLanguage, signOut, updateProfile } from '../../services/auth';
 import type { AppLanguage } from '../../types';
-import { colors, space, type } from '../../theme';
+import { colors, radius, space, type } from '../../theme';
 
 const LANGS: AppLanguage[] = ['zh-Hant', 'en', 'zh-Hans'];
 
 export function SettingsScreen() {
   const nav = useNavigation<RootNav>();
-  const { t, user, lang } = useApp();
+  const { t, user, lang, showBanner } = useApp();
+  const [openLang, setOpenLang] = useState(false);
+  const [openDistrict, setOpenDistrict] = useState(false);
 
-  async function out() {
-    await signOut();
-  }
+  const langLabel =
+    lang === 'en' ? t('langEn') : lang === 'zh-Hans' ? t('langZhHans') : t('langZhHant');
 
   return (
-    <Screen onBack={() => nav.goBack()} title={t('settings')}>
+    <Screen onBack={() => nav.goBack()} title={t('settingsTitle')}>
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.gutter}>
-          <SectionHead label={t('language')} />
-          <View style={styles.list}>
-            {LANGS.map((code) => {
-              const on = lang === code;
-              return (
-                <Pressable
-                  key={code}
-                  onPress={() => user && void setLanguage(user.uid, code)}
-                  style={styles.row}
-                >
-                  <View
-                    style={[
-                      styles.mark,
-                      { backgroundColor: on ? colors.accent : 'transparent' },
-                    ]}
-                  />
-                  <Text
-                    style={[type.bodyStrong, { color: on ? colors.ink : colors.dim, flex: 1 }]}
-                  >
-                    {code === 'en'
-                      ? t('langEn')
-                      : code === 'zh-Hans'
-                        ? t('langZhHans')
-                        : t('langZhHant')}
-                  </Text>
-                  <Text style={[type.label, { color: colors.faint }]}>{code}</Text>
-                </Pressable>
-              );
-            })}
-          </View>
-
-          <View style={styles.section}>
-            <SectionHead label={t('district')} />
-            <View style={styles.list}>
-              {DISTRICTS.slice(0, 10).map((d) => {
-                const on = user?.homeDistrict === d.id;
-                return (
+          <View style={styles.card}>
+            <Row
+              icon="globe"
+              label={t('rowLanguage')}
+              value={langLabel}
+              onPress={() => setOpenLang((v) => !v)}
+            />
+            {openLang ? (
+              <View style={styles.expand}>
+                {LANGS.map((code) => (
                   <Pressable
-                    key={d.id}
-                    onPress={() =>
-                      user && void updateProfile(user.uid, { homeDistrict: d.id })
-                    }
-                    style={styles.row}
+                    key={code}
+                    onPress={() => {
+                      if (user) void setLanguage(user.uid, code);
+                      setOpenLang(false);
+                    }}
+                    style={styles.option}
                   >
-                    <View
-                      style={[
-                        styles.mark,
-                        { backgroundColor: on ? colors.accent : 'transparent' },
-                      ]}
-                    />
                     <Text
                       style={[
-                        type.bodyStrong,
-                        { color: on ? colors.ink : colors.dim, flex: 1 },
+                        type.body,
+                        { color: lang === code ? colors.pine : colors.ink, flex: 1 },
+                      ]}
+                    >
+                      {code === 'en'
+                        ? t('langEn')
+                        : code === 'zh-Hans'
+                          ? t('langZhHans')
+                          : t('langZhHant')}
+                    </Text>
+                    {lang === code ? (
+                      <Icon name="check" size={16} color={colors.pine} />
+                    ) : null}
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
+
+            <Row
+              icon="map-pin"
+              label={t('district')}
+              value={user ? districtLabel(user.homeDistrict, lang) : ''}
+              onPress={() => setOpenDistrict((v) => !v)}
+            />
+            {openDistrict ? (
+              <View style={styles.expand}>
+                {DISTRICTS.slice(0, 10).map((d) => (
+                  <Pressable
+                    key={d.id}
+                    onPress={() => {
+                      if (user) void updateProfile(user.uid, { homeDistrict: d.id });
+                      setOpenDistrict(false);
+                    }}
+                    style={styles.option}
+                  >
+                    <Text
+                      style={[
+                        type.body,
+                        {
+                          color:
+                            user?.homeDistrict === d.id ? colors.pine : colors.ink,
+                          flex: 1,
+                        },
                       ]}
                     >
                       {districtLabel(d.id, lang)}
                     </Text>
+                    {user?.homeDistrict === d.id ? (
+                      <Icon name="check" size={16} color={colors.pine} />
+                    ) : null}
                   </Pressable>
-                );
-              })}
-            </View>
+                ))}
+              </View>
+            ) : null}
+
+            <Row
+              icon="bell"
+              label={t('rowNotifications')}
+              onPress={() => showBanner(t('notificationsHint'))}
+            />
+            <Row
+              icon="lock"
+              label={t('rowSecurity')}
+              onPress={() => showBanner(t('soon'))}
+            />
+            <Row
+              icon="shield"
+              label={t('rowPrivacy')}
+              onPress={() => showBanner(t('soon'))}
+            />
+            <Row
+              icon="file-text"
+              label={t('rowTerms')}
+              onPress={() => showBanner(t('soon'))}
+            />
+            <Row
+              icon="info"
+              label={t('rowAbout')}
+              onPress={() => showBanner(t('tagline'))}
+              last
+            />
           </View>
 
-          <View style={styles.section}>
-            <SectionHead label={t('notifications')} />
-            <Text style={[type.body, { color: colors.dim, marginTop: space.x4 }]}>
-              {t('notificationsHint')}
-            </Text>
-          </View>
-
-          <View style={styles.section}>
-            <Button label={t('logout')} variant="destructive" onPress={() => void out()} />
+          <View style={styles.logout}>
+            <Button
+              label={t('logoutBtn')}
+              variant="paper"
+              onPress={() => void signOut()}
+            />
           </View>
         </View>
       </ScrollView>
@@ -109,18 +146,61 @@ export function SettingsScreen() {
   );
 }
 
+function Row({
+  icon,
+  label,
+  value,
+  onPress,
+  last,
+}: {
+  icon: IconName;
+  label: string;
+  value?: string;
+  onPress: () => void;
+  last?: boolean;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.row,
+        !last && styles.rowLine,
+        pressed && { backgroundColor: colors.stone },
+      ]}
+    >
+      <Icon name={icon} size={19} color={colors.pine} />
+      <Text style={[type.body, { color: colors.ink, flex: 1 }]}>{label}</Text>
+      {value ? (
+        <Text style={[type.meta, { color: colors.muted }]}>{value}</Text>
+      ) : null}
+      <Icon name="chevron-right" size={16} color={colors.faint} />
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
-  scroll: { paddingTop: space.x4, paddingBottom: space.x16 },
+  scroll: { paddingBottom: space.x10 },
   gutter: { paddingHorizontal: space.gutter },
-  list: { marginTop: space.x2 },
+  card: {
+    backgroundColor: colors.white,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+    overflow: 'hidden',
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: space.x3,
+    paddingHorizontal: space.x4,
     paddingVertical: space.x4,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.hairline,
   },
-  mark: { width: 2, height: 14 },
-  section: { marginTop: space.x12 },
+  rowLine: { borderBottomWidth: 1, borderBottomColor: colors.hairline },
+  expand: { backgroundColor: colors.stone, paddingHorizontal: space.x4 },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: space.x3,
+  },
+  logout: { marginTop: space.x8 },
 });

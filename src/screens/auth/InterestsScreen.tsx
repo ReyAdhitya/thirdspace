@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
+import { ArchMark } from '../../components/Logo';
 import { MoodPicker } from '../../components/MoodPicker';
 import { Screen } from '../../components/Screen';
 import { useApp } from '../../context/AppContext';
@@ -24,18 +25,18 @@ export function InterestsScreen() {
   }
 
   return (
-    <Screen>
+    <Screen bare>
       <View style={styles.pad}>
-        <View style={styles.mark} />
-        <Text style={[type.display, { color: colors.ink, marginTop: space.x6 }]}>
+        <ArchMark size={44} />
+        <Text style={[type.h1, { color: colors.ink, marginTop: space.x6 }]}>
           {t('interestsTitle')}
         </Text>
-        <Text style={[type.body, { color: colors.dim, marginTop: space.x3, maxWidth: 340 }]}>
+        <Text style={[type.body, { color: colors.muted, marginTop: space.x2 }]}>
           {t('interestsHint')}
         </Text>
 
         <View style={styles.picker}>
-          <MoodPicker value={picked} onChange={toggle} wrap />
+          <MoodPicker value={picked} onChange={toggle} />
         </View>
 
         <View style={styles.actions}>
@@ -44,14 +45,7 @@ export function InterestsScreen() {
             onPress={() => void save(picked.length ? picked : (['quiet'] as MoodId[]))}
           />
           <Pressable onPress={() => void save([])} hitSlop={8}>
-            <Text
-              style={[
-                type.data,
-                { color: colors.dim, textAlign: 'center', marginTop: space.x6 },
-              ]}
-            >
-              {t('skip')}
-            </Text>
+            <Text style={[type.meta, styles.skip]}>{t('skip')}</Text>
           </Pressable>
         </View>
       </View>
@@ -60,8 +54,8 @@ export function InterestsScreen() {
 }
 
 const styles = StyleSheet.create({
-  pad: { padding: space.gutter, flex: 1, justifyContent: 'center' },
-  mark: { width: 28, height: 2, backgroundColor: colors.accent },
-  picker: { marginTop: space.x12 },
-  actions: { marginTop: space.x16 },
+  pad: { flex: 1, padding: space.x6, justifyContent: 'center' },
+  picker: { marginTop: space.x8 },
+  actions: { marginTop: space.x10 },
+  skip: { color: colors.muted, textAlign: 'center', paddingTop: space.x4 },
 });

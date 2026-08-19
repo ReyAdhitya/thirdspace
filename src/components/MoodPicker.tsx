@@ -1,67 +1,84 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useApp } from '../context/AppContext';
 import type { MoodId } from '../types';
-import { colors, space, type } from '../theme';
+import { colors, radius, space, type } from '../theme';
+import { Icon, type IconName } from './Icon';
 
-const MOODS: MoodId[] = ['quiet', 'create', 'meet', 'weekend', 'nearby'];
+const MOODS: {
+  id: MoodId;
+  key: string;
+  icon: IconName;
+  /** The board tints one glyph warm; the rest are pine. */
+  tint?: string;
+}[] = [
+  { id: 'quiet', key: 'moodQuiet', icon: 'feather' },
+  { id: 'create', key: 'moodCreate', icon: 'edit-3' },
+  { id: 'meet', key: 'moodMeet', icon: 'heart', tint: colors.rose },
+  { id: 'weekend', key: 'moodWeekend', icon: 'calendar' },
+  { id: 'nearby', key: 'moodNearby', icon: 'map-pin' },
+];
 
-const keys: Record<MoodId, string> = {
-  quiet: 'moodQuiet',
-  create: 'moodCreate',
-  meet: 'moodMeet',
-  weekend: 'moodWeekend',
-  nearby: 'moodNearby',
-};
-
-/** Moods are words in a row. Selected gets the accent rule, nothing else. */
+/** Rounded-square icon tiles on cream, pine when chosen. */
 export function MoodPicker({
   value,
   onChange,
-  wrap,
 }: {
   value: MoodId | MoodId[] | null;
   onChange: (next: MoodId) => void;
-  wrap?: boolean;
 }) {
   const { t } = useApp();
   const selected = Array.isArray(value) ? value : value ? [value] : [];
+
   return (
-    <View style={[styles.row, wrap && styles.wrap]}>
-      {MOODS.map((id) => {
-        const on = selected.includes(id);
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.row}
+    >
+      {MOODS.map((mood) => {
+        const on = selected.includes(mood.id);
         return (
-          <Pressable key={id} onPress={() => onChange(id)} hitSlop={6}>
+          <Pressable
+            key={mood.id}
+            onPress={() => onChange(mood.id)}
+            style={styles.item}
+          >
+            <View style={[styles.tile, on && { backgroundColor: colors.pine }]}>
+              <Icon
+                name={mood.icon}
+                size={21}
+                color={on ? colors.white : (mood.tint ?? colors.pine)}
+              />
+            </View>
             <Text
               style={[
-                type.bodyStrong,
-                { color: on ? colors.ink : colors.dim },
+                type.small,
+                { color: on ? colors.ink : colors.muted, marginTop: space.x2 },
               ]}
+              numberOfLines={1}
             >
-              {t(keys[id])}
+              {t(mood.key)}
             </Text>
-            <View
-              style={[
-                styles.rule,
-                { backgroundColor: on ? colors.accent : 'transparent' },
-              ]}
-            />
           </Pressable>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 
 export { MOODS };
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    gap: space.x6,
-    alignItems: 'flex-start',
+  row: { gap: space.x3, paddingRight: space.x4 },
+  item: { alignItems: 'center', width: 62 },
+  tile: {
+    width: 56,
+    height: 56,
+    borderRadius: radius.lg,
+    backgroundColor: colors.paper,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  wrap: { flexWrap: 'wrap', rowGap: space.x4 },
-  rule: { height: 2, marginTop: space.x2 },
 });

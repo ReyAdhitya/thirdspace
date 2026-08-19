@@ -1,113 +1,201 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { ActivityCard } from '../../components/ActivityCard';
+import { ActivityRow, PhotoTile } from '../../components/ActivityCard';
 import { EmptyState } from '../../components/EmptyState';
+import { HongKongMap, type RegionId } from '../../components/HongKongMap';
 import { Screen } from '../../components/Screen';
-import { SectionHead } from '../../components/Text';
+import { SearchField } from '../../components/SearchField';
+import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
 import { DISTRICTS, districtLabel } from '../../data/districts';
 import type { RootNav } from '../../navigation/types';
 import { listPublished } from '../../services/activities';
-import { colors, space, type } from '../../theme';
+import { colors, radius, space, type } from '../../theme';
 
-/** A directory, not a chip cloud: districts as an index with counts. */
+/** Which districts sit in which of the three regions on the map. */
+const REGION_OF: Record<RegionId, string[]> = {
+  island: ['central', 'sheung_wan', 'wan_chai', 'causeway_bay', 'tai_hang', 'eastern', 'southern'],
+  kowloon: ['tst', 'mong_kok', 'sham_shui_po', 'kowloon_city', 'wong_tai_sin', 'kwun_tong'],
+  nt: [
+    'kwai_tsing',
+    'tsuen_wan',
+    'tuen_mun',
+    'yuen_long',
+    'north',
+    'tai_po',
+    'sha_tin',
+    'sai_kung',
+    'islands',
+  ],
+};
+
 export function DistrictsScreen() {
   const nav = useNavigation<RootNav>();
   const { t, lang } = useApp();
-  const [picked, setPicked] = useState<string | null>(null);
+  const [q, setQ] = useState('');
+  const [region, setRegion] = useState<RegionId | null>(null);
+  const [district, setDistrict] = useState<string | null>(null);
 
   const all = listPublished();
-  const list = picked ? all.filter((a) => a.district === picked) : [];
-  const rows = DISTRICTS.map((d) => ({
-    id: d.id,
-    label: districtLabel(d.id, lang),
-    count: all.filter((a) => a.district === d.id).length,
-  }));
+
+  const counts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const a of all) map.set(a.district, (map.get(a.district) ?? 0) + 1);
+    return map;
+  }, [all]);
+
+  /** Districts with events, most active first — the board's photo tiles. */
+  const popularDistricts = useMemo(
+    () =>
+      [...counts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 4)
+        .map(([id, count]) => ({
+          id,
+          count,
+          photo: all.find((a) => a.district === id)?.photoUrl ?? '',
+        })),
+    [counts, all],
+  );
+
+  const indexRows = useMemo(() => {
+    const term = q.trim().toLowerCase();
+    return DISTRICTS.filter((d) => {
+      if (region && !REGION_OF[region].includes(d.id)) return false;
+      if (!term) return true;
+      return [d.en, d.zhHant, d.zhHans].join(' ').toLowerCase().includes(term);
+    });
+  }, [q, region]);
+
+  const list = district ? all.filter((a) => a.district === district) : [];
 
   return (
-    <Screen>
+    <Screen title="Districts" caption={t('districtsCaption')}>
       <ScrollView
         contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.gutter}>
-          <Text style={[type.h1, { color: colors.ink }]}>{t('districtsTitle')}</Text>
+          <SearchField value={q} onChange={setQ} placeholder={t('searchDistricts')} />
+        </View>
 
+        <View style={[styles.gutter, styles.block]}>
+          <HongKongMap
+            active={region}
+            onPick={(id) => {
+              setRegion((cur) => (cur === id ? null : id));
+              setDistrict(null);
+            }}
+            labels={{
+              nt: t('regionNt'),
+              kowloon: t('regionKowloon'),
+              island: t('regionIsland'),
+            }}
+          />
+        </View>
+
+        <View style={[styles.gutter, styles.block]}>
+          <SectionHead
+            title={t('popularDistricts')}
+            action={region ? t('clear') : undefined}
+            onAction={region ? () => setRegion(null) : undefined}
+          />
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.tiles}
+        >
+          {popularDistricts.map((d) => (
+            <PhotoTile
+              key={d.id}
+              photoUrl={d.photo}
+              label={districtLabel(d.id, lang)}
+              width={78}
+              height={98}
+              onPress={() => setDistrict((cur) => (cur === d.id ? null : d.id))}
+            />
+          ))}
+        </ScrollView>
+
+        <View style={[styles.gutter, styles.block]}>
           <View style={styles.index}>
-            {rows.map((row) => {
-              const on = picked === row.id;
-              const none = row.count === 0;
+            {indexRows.map((d) => {
+              const count = counts.get(d.id) ?? 0;
+              const on = district === d.id;
               return (
                 <Pressable
-                  key={row.id}
-                  onPress={() => setPicked(on ? null : row.id)}
-                  style={styles.row}
+                  key={d.id}
+                  onPress={() => setDistrict(on ? null : d.id)}
+                  style={[styles.row, on && styles.rowOn]}
                 >
-                  <View
-                    style={[
-                      styles.mark,
-                      { backgroundColor: on ? colors.accent : 'transparent' },
-                    ]}
-                  />
                   <Text
                     style={[
-                      type.bodyStrong,
-                      { color: none ? colors.faint : on ? colors.ink : colors.dim, flex: 1 },
+                      type.body,
+                      { color: count ? colors.ink : colors.faint, flex: 1 },
                     ]}
                   >
-                    {row.label}
+                    {districtLabel(d.id, lang)}
                   </Text>
-                  <Text style={[type.data, { color: none ? colors.faint : colors.dim }]}>
-                    {String(row.count).padStart(2, '0')}
+                  <Text
+                    style={[
+                      type.meta,
+                      { color: count ? colors.pine : colors.faint },
+                    ]}
+                  >
+                    {count}
                   </Text>
                 </Pressable>
               );
             })}
           </View>
+        </View>
 
-          {picked ? (
+        {district ? (
+          <View style={[styles.gutter, styles.block]}>
+            <SectionHead title={districtLabel(district, lang)} />
             <View style={styles.results}>
-              <SectionHead label={districtLabel(picked, lang)} />
               {list.length === 0 ? (
-                <EmptyState title={t('empty')} body={t('ticketsEmpty')} />
+                <EmptyState title={t('empty')} icon="map-pin" />
               ) : (
-                <View style={{ marginTop: space.x6 }}>
-                  {list.map((a) => (
-                    <ActivityCard
-                      key={a.id}
-                      activity={a}
-                      variant="stack"
-                      onPress={() => nav.navigate('Activity', { id: a.id })}
-                    />
-                  ))}
-                </View>
+                list.map((a) => (
+                  <ActivityRow
+                    key={a.id}
+                    activity={a}
+                    onPress={() => nav.navigate('Activity', { id: a.id })}
+                  />
+                ))
               )}
             </View>
-          ) : null}
-        </View>
+          </View>
+        ) : null}
       </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: { paddingTop: space.x6, paddingBottom: space.x16 },
+  scroll: { paddingBottom: space.x10 },
   gutter: { paddingHorizontal: space.gutter },
+  block: { marginTop: space.x6 },
+  tiles: { gap: space.x2, paddingHorizontal: space.gutter, marginTop: space.x4 },
   index: {
-    marginTop: space.x8,
-    borderTopWidth: 1,
-    borderTopColor: colors.hairline,
+    backgroundColor: colors.white,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+    paddingHorizontal: space.x4,
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: space.x3,
     paddingVertical: space.x3,
     borderBottomWidth: 1,
     borderBottomColor: colors.hairline,
   },
-  mark: { width: 2, height: 14 },
-  results: { marginTop: space.x12 },
+  rowOn: { borderBottomColor: colors.pine },
+  results: { marginTop: space.x4, gap: space.x3 },
 });

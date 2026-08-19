@@ -1,115 +1,182 @@
 import React from 'react';
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useApp } from '../context/AppContext';
-import { CANVAS_MAX_WIDTH, colors, space, type, useShell } from '../theme';
+import { colors, radius, space, type } from '../theme';
+import { Icon, type IconName } from './Icon';
+
+export type ScreenAction = {
+  icon?: IconName;
+  label?: string;
+  onPress: () => void;
+};
 
 /**
- * Every screen sits in the same measure: full width on a phone,
- * a centred editorial column on a desktop browser.
+ * Stone ground for every screen. Optional back chevron, serif title and
+ * caption on the left, thin glyph actions on the right.
  */
 export function Screen({
   children,
   onBack,
+  onClose,
   title,
-  action,
+  caption,
+  actions,
+  bare,
 }: {
   children: React.ReactNode;
   onBack?: () => void;
+  onClose?: () => void;
   title?: string;
-  action?: { label: string; onPress: () => void };
+  caption?: string;
+  actions?: ScreenAction[];
+  /** Skip the header entirely, e.g. a full-bleed hero. */
+  bare?: boolean;
 }) {
-  const { t } = useApp();
-  const { isDesktop } = useShell();
+  const showHeader = !bare && (onBack || onClose || title || actions?.length);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <View style={[styles.center, isDesktop && styles.centerDesktop]}>
-        <View style={[styles.canvas, isDesktop && { maxWidth: CANVAS_MAX_WIDTH }]}>
-          {onBack || title || action ? (
-            <View style={styles.top}>
-              {onBack ? (
-                <Pressable onPress={onBack} hitSlop={12} accessibilityRole="button">
-                  <Text style={[type.label, { color: colors.dim }]}>{t('back')}</Text>
-                </Pressable>
-              ) : null}
-              <Text
-                style={[type.label, { color: colors.faint, flex: 1 }]}
-                numberOfLines={1}
-              >
-                {title ?? ''}
+      {showHeader ? (
+        <View style={styles.header}>
+          {onBack ? (
+            <Pressable onPress={onBack} hitSlop={12} style={styles.back}>
+              <Icon name="chevron-left" size={22} color={colors.ink} />
+            </Pressable>
+          ) : null}
+          {onClose ? (
+            <Pressable onPress={onClose} hitSlop={12} style={styles.back}>
+              <Icon name="x" size={20} color={colors.ink} />
+            </Pressable>
+          ) : null}
+
+          <View style={styles.titleBlock}>
+            {title ? (
+              <Text style={[type.screenTitle, { color: colors.ink }]} numberOfLines={1}>
+                {title}
               </Text>
-              {action ? (
-                <Pressable onPress={action.onPress} hitSlop={12}>
-                  <Text style={[type.label, { color: colors.ink }]}>{action.label}</Text>
+            ) : null}
+            {caption ? (
+              <Text style={[type.meta, { color: colors.muted, marginTop: 2 }]}>
+                {caption}
+              </Text>
+            ) : null}
+          </View>
+
+          {actions?.length ? (
+            <View style={styles.actions}>
+              {actions.map((a, i) => (
+                <Pressable
+                  key={`${a.icon ?? a.label}-${i}`}
+                  onPress={a.onPress}
+                  hitSlop={10}
+                >
+                  {a.icon ? (
+                    <Icon name={a.icon} size={20} color={colors.ink} />
+                  ) : (
+                    <Text style={[type.meta, { color: colors.muted }]}>{a.label}</Text>
+                  )}
                 </Pressable>
-              ) : null}
+              ))}
             </View>
           ) : null}
-          {children}
         </View>
-      </View>
+      ) : null}
+      {children}
     </SafeAreaView>
+  );
+}
+
+/** Compact header for pushed screens: back chevron, centred serif title. */
+export function StackHeader({
+  title,
+  caption,
+  onBack,
+  actions,
+}: {
+  title: string;
+  caption?: string;
+  onBack: () => void;
+  actions?: ScreenAction[];
+}) {
+  return (
+    <View style={styles.stackHeader}>
+      <Pressable onPress={onBack} hitSlop={12}>
+        <Icon name="chevron-left" size={22} color={colors.ink} />
+      </Pressable>
+      <View style={{ flex: 1 }}>
+        <Text style={[type.h2, { color: colors.ink }]} numberOfLines={1}>
+          {title}
+        </Text>
+        {caption ? (
+          <Text style={[type.small, { color: colors.muted }]}>{caption}</Text>
+        ) : null}
+      </View>
+      {actions?.map((a, i) => (
+        <Pressable key={i} onPress={a.onPress} hitSlop={10}>
+          {a.icon ? <Icon name={a.icon} size={20} color={colors.ink} /> : null}
+        </Pressable>
+      ))}
+    </View>
   );
 }
 
 export function InAppBanner() {
   const { banner } = useApp();
-  const { isDesktop } = useShell();
   if (!banner) return null;
   const warn = banner.tone === 'warn';
   return (
-    <View
-      pointerEvents="none"
-      style={[styles.bannerWrap, isDesktop && styles.bannerWrapDesktop]}
-    >
-      <View style={styles.banner}>
-        <View
-          style={[
-            styles.bannerMark,
-            { backgroundColor: warn ? colors.accent : colors.ink },
-          ]}
+    <View pointerEvents="none" style={styles.bannerWrap}>
+      <View style={[styles.banner, warn && { backgroundColor: colors.ink }]}>
+        <Icon
+          name={warn ? 'info' : 'check'}
+          size={15}
+          color={colors.white}
         />
-        <Text style={[type.data, { color: colors.ink, flex: 1 }]}>{banner.text}</Text>
+        <Text style={[type.meta, { color: colors.white, flex: 1 }]}>{banner.text}</Text>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.bg },
-  center: { flex: 1 },
-  centerDesktop: { alignItems: 'center' },
-  canvas: { flex: 1, width: '100%' },
-  top: {
+  safe: { flex: 1, backgroundColor: colors.stone },
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: space.x4,
+    gap: space.x3,
+    paddingHorizontal: space.gutter,
+    paddingTop: space.x2,
+    paddingBottom: space.x4,
+  },
+  back: { marginLeft: -4 },
+  titleBlock: { flex: 1 },
+  actions: { flexDirection: 'row', alignItems: 'center', gap: space.x4 },
+  stackHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.x3,
     paddingHorizontal: space.gutter,
     paddingTop: space.x2,
     paddingBottom: space.x3,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.hairline,
   },
   bannerWrap: {
     position: 'absolute',
     left: space.gutter,
     right: space.gutter,
-    bottom: Platform.OS === 'web' ? space.x6 : space.x12,
+    bottom: 92,
     zIndex: 30,
-    alignItems: 'stretch',
   },
-  bannerWrapDesktop: { alignItems: 'center' },
   banner: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: space.x3,
-    maxWidth: 420,
-    width: '100%',
-    backgroundColor: colors.raised,
-    borderWidth: 1,
-    borderColor: colors.hairlineStrong,
+    gap: space.x2,
+    backgroundColor: colors.pine,
+    borderRadius: radius.md,
     paddingVertical: space.x3,
     paddingHorizontal: space.x4,
   },
-  bannerMark: { width: 3, alignSelf: 'stretch' },
 });

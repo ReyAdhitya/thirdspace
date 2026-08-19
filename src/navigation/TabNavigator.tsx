@@ -6,7 +6,7 @@ import { DistrictsScreen } from '../screens/districts/DistrictsScreen';
 import { DiscoverScreen } from '../screens/discover/DiscoverScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { TicketsScreen } from '../screens/tickets/TicketsScreen';
-import { colors, useShell } from '../theme';
+import { colors } from '../theme';
 import { NavBar } from './NavBar';
 import type { TabParamList } from './types';
 
@@ -14,15 +14,14 @@ const Tab = createBottomTabNavigator<TabParamList>();
 
 export function TabNavigator() {
   const { t } = useApp();
-  const { isDesktop } = useShell();
 
   return (
     <Tab.Navigator
       tabBar={(props) => <NavBar {...props} />}
       screenOptions={{
         headerShown: false,
-        tabBarPosition: isDesktop ? 'left' : 'bottom',
-        sceneStyle: { backgroundColor: colors.bg },
+        tabBarPosition: 'bottom',
+        sceneStyle: { backgroundColor: colors.stone },
       }}
     >
       <Tab.Screen

@@ -9,31 +9,37 @@ import {
 } from 'react-native';
 
 import { colors, radius, space, type } from '../theme';
+import { Icon, type IconName } from './Icon';
 
-type Variant = 'primary' | 'quiet' | 'destructive';
+type Variant = 'pine' | 'white' | 'outline' | 'paper';
 
 type Props = Omit<PressableProps, 'style'> & {
   label: string;
   variant?: Variant;
   loading?: boolean;
-  /** Right-aligned data, e.g. a price on the Join button. */
-  trailing?: string;
+  icon?: IconName;
+  danger?: boolean;
+  compact?: boolean;
 };
 
 export function Button({
   label,
-  variant = 'primary',
+  variant = 'pine',
   loading,
   disabled,
-  trailing,
+  icon,
+  danger,
+  compact,
   ...rest
 }: Props) {
-  const primary = variant === 'primary';
-  const fg = primary
-    ? colors.onAccent
-    : variant === 'destructive'
-      ? colors.accent
-      : colors.ink;
+  const pine = variant === 'pine';
+  const fg = pine
+    ? colors.white
+    : danger
+      ? colors.rose
+      : variant === 'paper'
+        ? colors.ink
+        : colors.ink;
 
   return (
     <Pressable
@@ -41,11 +47,21 @@ export function Button({
       disabled={disabled || loading}
       style={({ pressed }) => [
         styles.base,
-        primary && { backgroundColor: pressed ? colors.accentPressed : colors.accent },
-        !primary && styles.outlined,
-        variant === 'destructive' && { borderColor: colors.accent },
-        !primary && pressed && { backgroundColor: colors.raised },
-        disabled && { opacity: 0.4 },
+        compact && styles.compact,
+        pine && { backgroundColor: pressed ? colors.pinePressed : colors.pine },
+        variant === 'white' && [
+          styles.bordered,
+          { backgroundColor: pressed ? colors.stone : colors.white },
+        ],
+        variant === 'paper' && {
+          backgroundColor: pressed ? colors.hairlineOnPaper : colors.paper,
+        },
+        variant === 'outline' && [
+          styles.bordered,
+          { backgroundColor: pressed ? colors.stone : 'transparent' },
+        ],
+        danger && variant !== 'pine' && { borderColor: colors.rose },
+        disabled && { opacity: 0.45 },
       ]}
       {...rest}
     >
@@ -53,12 +69,8 @@ export function Button({
         <ActivityIndicator color={fg} size="small" />
       ) : (
         <View style={styles.row}>
-          <Text style={[type.action, { color: fg }]}>{label}</Text>
-          {trailing ? (
-            <Text style={[type.data, { color: fg, opacity: primary ? 0.72 : 1 }]}>
-              {trailing}
-            </Text>
-          ) : null}
+          {icon ? <Icon name={icon} size={17} color={fg} /> : null}
+          <Text style={[type.button, { color: fg }]}>{label}</Text>
         </View>
       )}
     </Pressable>
@@ -67,19 +79,13 @@ export function Button({
 
 const styles = StyleSheet.create({
   base: {
-    minHeight: 50,
-    borderRadius: radius.xs,
+    minHeight: 52,
+    borderRadius: radius.md,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: space.x4,
+    paddingHorizontal: space.x5,
   },
-  outlined: {
-    borderWidth: 1,
-    borderColor: colors.hairlineStrong,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.x3,
-  },
+  compact: { minHeight: 40, borderRadius: radius.sm, paddingHorizontal: space.x4 },
+  bordered: { borderWidth: 1, borderColor: colors.hairline },
+  row: { flexDirection: 'row', alignItems: 'center', gap: space.x2 },
 });

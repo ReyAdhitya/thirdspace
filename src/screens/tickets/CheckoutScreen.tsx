@@ -1,14 +1,16 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
+import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
+import { Icon } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
-import { Fact } from '../../components/Text';
 import { useApp } from '../../context/AppContext';
-import { formatWhen } from '../../lib/time';
+import { districtLabel } from '../../data/districts';
+import { formatDay, hkParts } from '../../lib/time';
 import type { RootNav, RootStackParamList } from '../../navigation/types';
 import { getActivity } from '../../services/activities';
 import { simulateCheckout, stripeMode } from '../../services/stripe';
@@ -27,25 +29,21 @@ export function CheckoutScreen() {
   if (!activity || !user) {
     return (
       <Screen onBack={() => nav.goBack()} title={t('payTitle')}>
-        <View style={styles.gutter}>
-          <EmptyState title={t('needLogin')} />
-        </View>
+        <EmptyState title={t('needLogin')} icon="tag" />
       </Screen>
     );
   }
 
   const uid = user.uid;
-  const activityKey = activity.id;
+  const key = activity.id;
+  const start = hkParts(activity.startsAt);
 
   async function pay() {
     setBusy(true);
     setErr(null);
     try {
       await simulateCheckout(card);
-      const res = await joinActivity(uid, activityKey, {
-        paid: true,
-        allowWaitlist: true,
-      });
+      const res = await joinActivity(uid, key, { paid: true, allowWaitlist: true });
       if (!res.ok) {
         setErr(t('error'));
         return;
@@ -62,22 +60,36 @@ export function CheckoutScreen() {
   return (
     <Screen onBack={() => nav.goBack()} title={t('payTitle')}>
       <View style={styles.gutter}>
-        <Text style={[type.label, { color: colors.accent }]}>
-          {stripeMode() === 'simulate' ? 'TEST MODE' : 'TEST KEY'}
-        </Text>
-        <Text style={[type.displaySm, { color: colors.ink, marginTop: space.x3 }]}>
-          {activity.title}
-        </Text>
-        <Text style={[type.body, { color: colors.dim, marginTop: space.x3 }]}>
-          {t('payHint')}
-        </Text>
-
-        <View style={styles.facts}>
-          <Fact label={t('when')} value={formatWhen(activity.startsAt, lang)} mono />
-          <Fact label={t('price')} value={`HK$${activity.priceHkd}`} mono />
+        <View style={styles.summary}>
+          <Image
+            source={{ uri: activity.photoUrl }}
+            style={styles.thumb}
+            contentFit="cover"
+          />
+          <View style={{ flex: 1 }}>
+            <Text style={[type.h3, { color: colors.ink }]} numberOfLines={2}>
+              {activity.title}
+            </Text>
+            <Text style={[type.small, { color: colors.muted, marginTop: 3 }]}>
+              {formatDay(activity.startsAt, lang)} {start.hour}:{start.minute}
+            </Text>
+            <Text style={[type.small, { color: colors.muted }]}>
+              {districtLabel(activity.district, lang)}
+            </Text>
+          </View>
+          <Text style={[type.numeralSm, { color: colors.ink }]}>
+            HK${activity.priceHkd}
+          </Text>
         </View>
 
-        <Text style={[type.label, { color: colors.faint, marginTop: space.x8 }]}>
+        <View style={styles.testTag}>
+          <Icon name="info" size={14} color={colors.pine} />
+          <Text style={[type.small, { color: colors.pine, flex: 1 }]}>
+            {stripeMode() === 'simulate' ? t('payHint') : t('payHint')}
+          </Text>
+        </View>
+
+        <Text style={[type.small, { color: colors.muted, marginTop: space.x6 }]}>
           {t('cardNumber')}
         </Text>
         <TextInput
@@ -88,18 +100,13 @@ export function CheckoutScreen() {
         />
 
         {err ? (
-          <Text style={[type.meta, { color: colors.accent, marginTop: space.x4 }]}>
+          <Text style={[type.meta, { color: colors.rose, marginTop: space.x3 }]}>
             {err}
           </Text>
         ) : null}
 
         <View style={{ marginTop: space.x8 }}>
-          <Button
-            label={t('payNow')}
-            onPress={() => void pay()}
-            loading={busy}
-            trailing={`HK$${activity.priceHkd}`}
-          />
+          <Button label={t('payNow')} onPress={() => void pay()} loading={busy} />
         </View>
       </View>
     </Screen>
@@ -107,17 +114,36 @@ export function CheckoutScreen() {
 }
 
 const styles = StyleSheet.create({
-  gutter: { paddingHorizontal: space.gutter, paddingTop: space.x4 },
-  facts: { marginTop: space.x8, borderTopWidth: 1, borderTopColor: colors.hairline },
+  gutter: { paddingHorizontal: space.gutter },
+  summary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.x3,
+    backgroundColor: colors.paper,
+    borderRadius: radius.lg,
+    padding: space.x3,
+  },
+  thumb: { width: 56, height: 56, borderRadius: radius.sm },
+  testTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.x2,
+    backgroundColor: colors.pineSoft,
+    borderRadius: radius.sm,
+    padding: space.x3,
+    marginTop: space.x4,
+  },
   input: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.hairlineStrong,
-    paddingVertical: space.x3,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+    borderRadius: radius.md,
+    paddingHorizontal: space.x3,
+    height: 50,
     marginTop: space.x2,
     color: colors.ink,
-    fontSize: 18,
-    letterSpacing: 2,
-    borderRadius: radius.none,
-    fontFamily: type.data.fontFamily as string,
+    fontSize: 17,
+    letterSpacing: 1.5,
+    fontFamily: type.body.fontFamily as string,
   },
 });

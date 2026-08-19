@@ -14,6 +14,7 @@ export type RootStackParamList = {
   Interests: undefined;
   Tabs: NavigatorScreenParams<TabParamList> | undefined;
   Activity: { id: string };
+  Chat: { activityId: string };
   Organizer: { uid: string };
   CreateActivity: { id?: string };
   Checkout: { activityId: string };

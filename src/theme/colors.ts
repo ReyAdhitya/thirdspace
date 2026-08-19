@@ -1,26 +1,29 @@
-/**
- * One surface family (warm near-black) and one accent.
- * The accent is reserved for the primary commitment (Join) and the
- * active navigation state. Everything else is ink, dim, or a hairline.
- */
+/** Palette from the design board: stone ground, cream cards, pine actions. */
 export const colors = {
-  bg: '#0B0B0A',
-  raised: '#131311',
-  sunken: '#070706',
+  stone: '#F6F4F1',
+  paper: '#EDEAD8',
+  ink: '#1A1A1A',
+  pine: '#1F3D34',
+  harbor: '#8DA29A',
 
-  ink: '#F4F1EA',
-  dim: '#8A8780',
-  faint: '#5E5B55',
+  pinePressed: '#162C26',
+  pineSoft: '#E4EAE6',
+  white: '#FFFFFF',
 
-  hairline: '#242320',
-  hairlineStrong: '#35332E',
+  /** Secondary text on stone. */
+  muted: '#6E6E68',
+  faint: '#9A968E',
+  hairline: '#E3DFD7',
+  hairlineOnPaper: '#DCD7C2',
 
-  accent: '#E4462B',
-  accentPressed: '#C43A22',
-  onAccent: '#0B0B0A',
+  /** The single warm icon accent on the board (heart). */
+  rose: '#C4564A',
 
-  scrim: 'rgba(11, 11, 10, 0.55)',
-  scrimStrong: 'rgba(11, 11, 10, 0.82)',
+  scrim: 'rgba(20, 22, 20, 0.42)',
+  scrimStrong: 'rgba(16, 18, 16, 0.72)',
+
+  /** Backdrop behind the phone frame in a desktop browser. */
+  stage: '#DEDAD3',
 } as const;
 
 export type ColorName = keyof typeof colors;

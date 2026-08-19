@@ -1,187 +1,214 @@
 import { useNavigation } from '@react-navigation/native';
+import { Image } from 'expo-image';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { ActivityCard } from '../../components/ActivityCard';
+import { ActivityRow } from '../../components/ActivityCard';
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
+import { Icon, type IconName } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
-import { SectionHead } from '../../components/Text';
+import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
-import { stampKeys } from '../../lib/stamps';
+import { districtLabel } from '../../data/districts';
 import type { RootNav } from '../../navigation/types';
 import { getActivity, listPublished } from '../../services/activities';
 import { getUser } from '../../services/auth';
 import { followedOrganizerIds } from '../../services/follows';
 import { savedIds } from '../../services/saves';
 import { ticketsForUser } from '../../services/tickets';
-import { colors, space, type } from '../../theme';
+import { colors, radius, space, type } from '../../theme';
+
+/** Badge shelf from the board: five cream tiles with thin glyphs. */
+const BADGES: { icon: IconName; at: number }[] = [
+  { icon: 'feather', at: 1 },
+  { icon: 'camera', at: 2 },
+  { icon: 'map-pin', at: 3 },
+  { icon: 'music', at: 5 },
+  { icon: 'coffee', at: 8 },
+];
 
 export function ProfileScreen() {
   const nav = useNavigation<RootNav>();
-  const { t, user } = useApp();
+  const { t, user, lang } = useApp();
 
   if (!user) {
     return (
-      <Screen>
-        <View style={styles.gutter}>
-          <EmptyState title={t('needLogin')} />
-        </View>
+      <Screen title="Profile" caption={t('profileCaption')}>
+        <EmptyState title={t('needLogin')} icon="user" />
       </Screen>
     );
   }
 
   const tickets = ticketsForUser(user.uid);
   const joined = tickets.filter((x) => x.status === 'joined');
-  const past = joined.filter((tk) => {
-    const a = getActivity(tk.activityId);
-    return a ? new Date(a.endsAt).getTime() < Date.now() : false;
-  });
   const saved = savedIds(user.uid)
     .map((id) => getActivity(id))
     .filter((a): a is NonNullable<typeof a> => Boolean(a));
-  const stamps = stampKeys(joined.length);
   const follows = followedOrganizerIds(user.uid);
   const hosting = listPublished({ includeHidden: true }).filter(
     (a) => a.organizerId === user.uid,
   );
 
+  const attended = joined.length;
+  const level = Math.max(1, Math.floor(attended / 3) + 1);
+  const toNext = (level * 3) - attended;
+
   return (
-    <Screen action={{ label: t('settings'), onPress: () => nav.navigate('Settings') }}>
+    <Screen
+      actions={[{ icon: 'settings', onPress: () => nav.navigate('Settings') }]}
+    >
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.gutter}>
-          <Text style={[type.label, { color: colors.dim }]}>{user.role}</Text>
-          <Text style={[type.display, { color: colors.ink, marginTop: space.x3 }]}>
-            {user.displayName}
-          </Text>
-          {user.bio ? (
-            <Text
-              style={[type.body, { color: colors.dim, marginTop: space.x3, maxWidth: 380 }]}
-            >
-              {user.bio}
+        <View style={[styles.gutter, styles.head]}>
+          {user.photoUrl ? (
+            <Image source={{ uri: user.photoUrl }} style={styles.avatar} contentFit="cover" />
+          ) : (
+            <View style={[styles.avatar, styles.avatarEmpty]}>
+              <Icon name="user" size={26} color={colors.harbor} />
+            </View>
+          )}
+          <View style={{ flex: 1 }}>
+            <Text style={[type.h1, { color: colors.ink }]}>{user.displayName}</Text>
+            <Text style={[type.meta, { color: colors.muted }]}>
+              @{user.email.split('@')[0]}
             </Text>
-          ) : null}
-
-          <View style={styles.stats}>
-            <Stat label={t('joined')} value={joined.length} />
-            <Stat label={t('saved')} value={saved.length} />
-            <Stat label={t('following')} value={follows.length} />
-          </View>
-
-          <View style={{ marginTop: space.x8 }}>
-            <Button
-              label={t('createEvent')}
-              onPress={() => nav.navigate('CreateActivity', {})}
-            />
-            {user.role === 'admin' ? (
-              <View style={{ marginTop: space.x2 }}>
-                <Button
-                  label={t('admin')}
-                  variant="quiet"
-                  onPress={() => nav.navigate('Admin')}
-                />
-              </View>
-            ) : null}
-          </View>
-
-          <View style={styles.section}>
-            <SectionHead label={t('stamps')} />
-            <Text style={[type.meta, { color: colors.faint, marginTop: space.x4 }]}>
-              {t('stampsHint')}
+            <Text style={[type.small, { color: colors.faint, marginTop: 2 }]}>
+              {districtLabel(user.homeDistrict, lang)} · Hong Kong
             </Text>
-            <View style={styles.stampRow}>
-              {stamps.length === 0 ? (
-                <Text style={[type.data, { color: colors.faint }]}>—</Text>
-              ) : (
-                stamps.map((k) => (
-                  <View key={k} style={styles.stamp}>
-                    <View style={styles.stampMark} />
-                    <Text style={[type.bodySm, { color: colors.ink }]}>{t(k)}</Text>
-                  </View>
-                ))
-              )}
+          </View>
+        </View>
+
+        <View style={[styles.gutter, styles.stats]}>
+          <Stat label={t('statAttended')} value={attended} />
+          <Stat label={t('statSaved')} value={saved.length} />
+          <Stat label={t('statFollowing')} value={follows.length} />
+          <Stat label={t('statFans')} value={hosting.length * 5} />
+        </View>
+
+        <View style={[styles.gutter, styles.block]}>
+          <SectionHead title={t('journey')} action={t('seeAllBoard')} onAction={() => {}} />
+          <View style={styles.journey}>
+            <View style={{ flex: 1 }}>
+              <Text style={[type.small, { color: colors.muted }]}>{t('journeyLevel')}</Text>
+              <Text style={[type.h2, { color: colors.ink, marginTop: 2 }]}>
+                {t('explorer')} Lv.{level}
+              </Text>
+              <Text style={[type.small, { color: colors.muted, marginTop: space.x1 }]}>
+                {t('nextLevelPre')} {toNext} {t('nextLevelPost')}
+              </Text>
+            </View>
+            <View style={styles.medal}>
+              <Icon name="award" size={26} color={colors.pine} />
             </View>
           </View>
+        </View>
 
-          <View style={styles.section}>
-            <SectionHead label={t('saved')} />
-            {saved.length === 0 ? (
-              <EmptyState title={t('noSaved')} />
-            ) : (
-              <View style={{ marginTop: space.x4 }}>
-                {saved.map((a) => (
-                  <ActivityCard
-                    key={a.id}
-                    activity={a}
-                    variant="line"
-                    onPress={() => nav.navigate('Activity', { id: a.id })}
+        <View style={[styles.gutter, styles.block]}>
+          <SectionHead title={t('impressions')} action={t('seeAllBoard')} onAction={() => {}} />
+          <View style={styles.badges}>
+            {BADGES.map((b) => {
+              const earned = attended >= b.at;
+              return (
+                <View
+                  key={b.icon}
+                  style={[styles.badge, earned && { backgroundColor: colors.pineSoft }]}
+                >
+                  <Icon
+                    name={b.icon}
+                    size={19}
+                    color={earned ? colors.pine : colors.faint}
                   />
-                ))}
-              </View>
-            )}
+                </View>
+              );
+            })}
           </View>
+        </View>
 
-          <View style={styles.section}>
-            <SectionHead label={t('footprint')} />
-            {past.length === 0 ? (
-              <EmptyState title={t('noFootprint')} />
+        <View style={[styles.gutter, styles.block]}>
+          <SectionHead title={t('savedActivities')} />
+          <View style={styles.rows}>
+            {saved.length === 0 ? (
+              <EmptyState title={t('noSaved')} icon="heart" />
             ) : (
-              <View style={{ marginTop: space.x4 }}>
-                {past.map((tk) => {
-                  const a = getActivity(tk.activityId);
-                  if (!a) return null;
-                  return (
-                    <ActivityCard
-                      key={tk.id}
-                      activity={a}
-                      variant="line"
-                      onPress={() => nav.navigate('Activity', { id: a.id })}
-                    />
-                  );
-                })}
-              </View>
+              saved.map((a) => (
+                <ActivityRow
+                  key={a.id}
+                  activity={a}
+                  onPress={() => nav.navigate('Activity', { id: a.id })}
+                />
+              ))
             )}
           </View>
+        </View>
 
-          {follows.length > 0 ? (
-            <View style={styles.section}>
-              <SectionHead label={t('following')} />
-              <View style={{ marginTop: space.x4 }}>
-                {follows.map((uid) => (
+        {follows.length > 0 ? (
+          <View style={[styles.gutter, styles.block]}>
+            <SectionHead title={t('following')} />
+            <View style={styles.rows}>
+              {follows.map((uid) => {
+                const h = getUser(uid);
+                return (
                   <Pressable
                     key={uid}
                     onPress={() => nav.navigate('Organizer', { uid })}
-                    style={styles.row}
+                    style={styles.hostRow}
                   >
+                    {h?.photoUrl ? (
+                      <Image
+                        source={{ uri: h.photoUrl }}
+                        style={styles.hostAvatar}
+                        contentFit="cover"
+                      />
+                    ) : (
+                      <View style={[styles.hostAvatar, { backgroundColor: colors.paper }]} />
+                    )}
                     <Text style={[type.bodyStrong, { color: colors.ink, flex: 1 }]}>
-                      {getUser(uid)?.displayName ?? uid}
+                      {h?.displayName ?? uid}
                     </Text>
-                    <Text style={[type.label, { color: colors.faint }]}>{t('host')}</Text>
+                    <Icon name="chevron-right" size={16} color={colors.faint} />
                   </Pressable>
-                ))}
-              </View>
+                );
+              })}
             </View>
-          ) : null}
+          </View>
+        ) : null}
 
-          {hosting.length > 0 ? (
-            <View style={styles.section}>
-              <SectionHead label={t('hostEvents')} />
-              <View style={{ marginTop: space.x4 }}>
-                {hosting.map((a) => (
-                  <ActivityCard
-                    key={a.id}
-                    activity={a}
-                    variant="line"
-                    onPress={() => nav.navigate('Activity', { id: a.id })}
-                  />
-                ))}
-              </View>
+        <View style={[styles.gutter, styles.block]}>
+          <Button
+            label={t('createEvent')}
+            icon="plus"
+            onPress={() => nav.navigate('CreateActivity', {})}
+          />
+          {user.role === 'admin' ? (
+            <View style={{ marginTop: space.x3 }}>
+              <Button
+                label={t('reportsTitle')}
+                variant="white"
+                icon="shield"
+                onPress={() => nav.navigate('Admin')}
+              />
             </View>
           ) : null}
         </View>
+
+        {hosting.length > 0 ? (
+          <View style={[styles.gutter, styles.block]}>
+            <SectionHead title={t('hostEvents')} />
+            <View style={styles.rows}>
+              {hosting.map((a) => (
+                <ActivityRow
+                  key={a.id}
+                  activity={a}
+                  trailing={`${a.joinedCount} / ${a.capacity}`}
+                  onPress={() => nav.navigate('Activity', { id: a.id })}
+                />
+              ))}
+            </View>
+          </View>
+        ) : null}
       </ScrollView>
     </Screen>
   );
@@ -189,37 +216,69 @@ export function ProfileScreen() {
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <View>
-      <Text style={[type.dataLg, { color: colors.ink }]}>
-        {String(value).padStart(2, '0')}
-      </Text>
-      <Text style={[type.label, { color: colors.faint, marginTop: space.x1 }]}>
-        {label}
-      </Text>
+    <View style={styles.stat}>
+      <Text style={[type.numeralSm, { color: colors.ink }]}>{value}</Text>
+      <Text style={[type.small, { color: colors.muted }]}>{label}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: { paddingTop: space.x2, paddingBottom: space.x16 },
+  scroll: { paddingBottom: space.x10 },
   gutter: { paddingHorizontal: space.gutter },
+  head: { flexDirection: 'row', alignItems: 'center', gap: space.x4 },
+  avatar: { width: 64, height: 64, borderRadius: radius.pill },
+  avatarEmpty: {
+    backgroundColor: colors.paper,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   stats: {
     flexDirection: 'row',
-    gap: space.x8,
-    marginTop: space.x8,
-    paddingTop: space.x6,
+    marginTop: space.x6,
+    paddingVertical: space.x4,
     borderTopWidth: 1,
-    borderTopColor: colors.hairline,
+    borderBottomWidth: 1,
+    borderColor: colors.hairline,
   },
-  section: { marginTop: space.x12 },
-  stampRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space.x6, marginTop: space.x4 },
-  stamp: { flexDirection: 'row', alignItems: 'center', gap: space.x2 },
-  stampMark: { width: 6, height: 6, backgroundColor: colors.accent },
-  row: {
+  stat: { flex: 1, alignItems: 'center' },
+  block: { marginTop: space.x6 },
+  journey: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: space.x4,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.hairline,
+    gap: space.x4,
+    backgroundColor: colors.paper,
+    borderRadius: radius.xl,
+    padding: space.x4,
+    marginTop: space.x3,
   },
+  medal: {
+    width: 52,
+    height: 52,
+    borderRadius: radius.pill,
+    backgroundColor: colors.stone,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  badges: { flexDirection: 'row', gap: space.x2, marginTop: space.x3 },
+  badge: {
+    flex: 1,
+    height: 52,
+    borderRadius: radius.md,
+    backgroundColor: colors.paper,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rows: { marginTop: space.x3, gap: space.x3 },
+  hostRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.x3,
+    backgroundColor: colors.white,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+    padding: space.x3,
+  },
+  hostAvatar: { width: 36, height: 36, borderRadius: radius.pill },
 });

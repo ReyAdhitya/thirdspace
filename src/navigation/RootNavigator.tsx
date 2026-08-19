@@ -4,11 +4,13 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../components/Button';
 import { Loading } from '../components/Loading';
+import { ArchMark } from '../components/Logo';
 import { useApp } from '../context/AppContext';
 import { AdminScreen } from '../screens/admin/AdminScreen';
 import { InterestsScreen } from '../screens/auth/InterestsScreen';
 import { LoginScreen } from '../screens/auth/LoginScreen';
 import { ActivityScreen } from '../screens/discover/ActivityScreen';
+import { ChatScreen } from '../screens/discover/ChatScreen';
 import { CreateActivityScreen } from '../screens/organizer/CreateActivityScreen';
 import { OrganizerScreen } from '../screens/profile/OrganizerScreen';
 import { SettingsScreen } from '../screens/profile/SettingsScreen';
@@ -27,11 +29,11 @@ export function RootNavigator() {
   if (bootError) {
     return (
       <View style={styles.err}>
-        <View style={styles.mark} />
-        <Text style={[type.h1, { color: colors.ink, marginTop: space.x4 }]}>
+        <ArchMark size={44} />
+        <Text style={[type.h1, { color: colors.ink, marginTop: space.x5 }]}>
           {t('error')}
         </Text>
-        <Text style={[type.body, { color: colors.dim, marginTop: space.x3 }]}>
+        <Text style={[type.meta, { color: colors.muted, marginTop: space.x2 }]}>
           {bootError}
         </Text>
         <View style={styles.action}>
@@ -47,8 +49,7 @@ export function RootNavigator() {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: colors.bg },
-        animation: 'fade',
+        contentStyle: { backgroundColor: colors.stone },
       }}
     >
       {!user ? (
@@ -59,6 +60,7 @@ export function RootNavigator() {
         <>
           <Stack.Screen name="Tabs" component={TabNavigator} />
           <Stack.Screen name="Activity" component={ActivityScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="Organizer" component={OrganizerScreen} />
           <Stack.Screen name="CreateActivity" component={CreateActivityScreen} />
           <Stack.Screen name="Checkout" component={CheckoutScreen} />
@@ -74,9 +76,8 @@ const styles = StyleSheet.create({
   err: {
     flex: 1,
     justifyContent: 'center',
-    padding: space.gutter,
-    backgroundColor: colors.bg,
+    padding: space.x6,
+    backgroundColor: colors.stone,
   },
-  mark: { width: 28, height: 2, backgroundColor: colors.accent },
-  action: { marginTop: space.x8, alignSelf: 'flex-start', minWidth: 200 },
+  action: { marginTop: space.x6 },
 });

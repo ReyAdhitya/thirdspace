@@ -1,21 +1,25 @@
-/** 4/8 grid. Nothing off-grid. */
 export const space = {
   x1: 4,
   x2: 8,
   x3: 12,
   x4: 16,
+  x5: 20,
   x6: 24,
   x8: 32,
+  x10: 40,
   x12: 48,
-  x16: 64,
   gutter: 20,
 } as const;
 
-/** Near-square. Images get 2, controls get 2, nothing gets a pill. */
+/** Soft, board-accurate corners. Pills only where the board draws one. */
 export const radius = {
-  none: 0,
-  xs: 2,
-  sm: 3,
+  xs: 8,
+  sm: 10,
+  md: 12,
+  lg: 14,
+  xl: 16,
+  xxl: 20,
+  pill: 999,
 } as const;
 
 export const hairline = 1;

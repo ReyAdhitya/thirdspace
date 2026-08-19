@@ -1,3 +1,5 @@
+import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -9,13 +11,16 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '../../components/Button';
-import { Rule } from '../../components/Text';
+import { Icon } from '../../components/Icon';
+import { ArchMark } from '../../components/Logo';
 import { useApp } from '../../context/AppContext';
 import * as auth from '../../services/auth';
-import { colors, radius, space, type, useShell } from '../../theme';
+import { colors, radius, space, type } from '../../theme';
+
+const DOOR =
+  'https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=1000&q=80';
 
 const DEMOS = [
   ['demo@thirdspace.hk', '阿樂'],
@@ -25,11 +30,11 @@ const DEMOS = [
 
 export function LoginScreen() {
   const { t, showBanner } = useApp();
-  const { isDesktop } = useShell();
   const [email, setEmail] = useState('demo@thirdspace.hk');
   const [password, setPassword] = useState('thirdspace');
   const [name, setName] = useState('');
   const [mode, setMode] = useState<'in' | 'up'>('in');
+  const [form, setForm] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -57,104 +62,120 @@ export function LoginScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <View style={styles.root}>
+      <View style={styles.cover}>
+        <Image source={{ uri: DOOR }} style={StyleSheet.absoluteFill} contentFit="cover" />
+        <LinearGradient
+          colors={['rgba(31,61,52,0.18)', 'rgba(246,244,241,0.65)', colors.stone]}
+          locations={[0, 0.72, 1]}
+          style={StyleSheet.absoluteFill}
+        />
+      </View>
+
       <KeyboardAvoidingView
         style={styles.fill}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <ScrollView
-          contentContainerStyle={[styles.scroll, isDesktop && styles.scrollDesktop]}
+          contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <View style={[styles.column, isDesktop && styles.columnDesktop]}>
-            <View style={styles.mark} />
-            <Text style={[type.label, { color: colors.dim, marginTop: space.x4 }]}>
-              {t('loginBanner')}
+          <View style={styles.brand}>
+            <ArchMark size={52} />
+            <Text style={[type.meta, { color: colors.muted, marginTop: space.x4 }]}>
+              {t('welcomeTo')}
             </Text>
-            <Text style={[type.display, { color: colors.ink, marginTop: space.x4 }]}>
-              {t('appName')}
-            </Text>
+            <Text style={[type.wordmark, { color: colors.ink }]}>{t('appName')}</Text>
             <Text
               style={[
-                type.body,
-                { color: colors.dim, marginTop: space.x3, maxWidth: 340 },
+                type.meta,
+                { color: colors.muted, marginTop: space.x2, textAlign: 'center' },
               ]}
             >
-              {t('loginIntro')}
+              {t('tagline')}
             </Text>
+          </View>
 
+          {form ? (
             <View style={styles.form}>
               {mode === 'up' ? (
                 <Field label={t('name')} value={name} onChange={setName} />
               ) : null}
-              <Field
-                label={t('email')}
-                value={email}
-                onChange={setEmail}
-                autoCap="none"
-              />
-              <Field
-                label={t('password')}
-                value={password}
-                onChange={setPassword}
-                secure
-              />
-
+              <Field label={t('email')} value={email} onChange={setEmail} autoCap="none" />
+              <Field label={t('password')} value={password} onChange={setPassword} secure />
               {err ? (
-                <Text style={[type.meta, { color: colors.accent, marginBottom: space.x4 }]}>
+                <Text style={[type.meta, { color: colors.rose, marginBottom: space.x3 }]}>
                   {err}
                 </Text>
               ) : null}
-
               <Button
                 label={mode === 'in' ? t('signIn') : t('signUp')}
                 onPress={() => void go()}
                 loading={busy}
               />
-              <View style={{ height: space.x2 }} />
-              <Button label={t('google')} variant="quiet" onPress={() => void google()} />
+            </View>
+          ) : (
+            <View style={styles.form}>
+              <Button label={t('loginEmail')} icon="user" onPress={() => setForm(true)} />
+              <View style={{ height: space.x3 }} />
+              <GoogleButton label={t('loginGoogle')} onPress={() => void google()} />
+            </View>
+          )}
 
-              <Pressable onPress={() => setMode(mode === 'in' ? 'up' : 'in')} hitSlop={8}>
-                <Text
-                  style={[
-                    type.data,
-                    { color: colors.dim, marginTop: space.x6, textAlign: 'center' },
-                  ]}
-                >
-                  {mode === 'in' ? t('signUp') : t('signIn')}
+          <Pressable
+            onPress={() => {
+              setForm(true);
+              setMode(mode === 'in' ? 'up' : 'in');
+              setErr(null);
+            }}
+            hitSlop={8}
+          >
+            <Text style={[type.meta, styles.link]}>
+              {mode === 'in' ? t('createAccount') : t('signIn')}
+            </Text>
+          </Pressable>
+
+          <View style={styles.demos}>
+            {DEMOS.map(([em, label]) => (
+              <Pressable
+                key={em}
+                style={styles.demo}
+                onPress={() => {
+                  setEmail(em);
+                  setPassword('thirdspace');
+                  setMode('in');
+                  setForm(true);
+                  setErr(null);
+                }}
+              >
+                <Text style={[type.metaStrong, { color: colors.ink }]}>{label}</Text>
+                <Text style={[type.small, { color: colors.faint }]}>
+                  {em.split('@')[0]}
                 </Text>
               </Pressable>
-            </View>
-
-            <View style={styles.demoBlock}>
-              <Rule />
-              <Text style={[type.label, { color: colors.faint, marginTop: space.x4 }]}>
-                {t('demoHint').split('　')[0]}
-              </Text>
-              <View style={styles.demoRow}>
-                {DEMOS.map(([em, label]) => (
-                  <Pressable
-                    key={em}
-                    hitSlop={6}
-                    onPress={() => {
-                      setEmail(em);
-                      setPassword('thirdspace');
-                      setMode('in');
-                      setErr(null);
-                    }}
-                  >
-                    <Text style={[type.bodyStrong, { color: colors.ink }]}>{label}</Text>
-                    <Text style={[type.meta, { color: colors.faint }]}>
-                      {em.split('@')[0]}
-                    </Text>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
+            ))}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
+  );
+}
+
+function GoogleButton({ label, onPress }: { label: string; onPress: () => void }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.google,
+        { backgroundColor: pressed ? colors.stone : colors.white },
+      ]}
+    >
+      <View style={styles.gMark}>
+        <Text style={styles.gText}>G</Text>
+      </View>
+      <Text style={[type.button, { color: colors.ink }]}>{label}</Text>
+    </Pressable>
   );
 }
 
@@ -171,50 +192,80 @@ function Field({
   secure?: boolean;
   autoCap?: 'none' | 'sentences';
 }) {
-  const [focus, setFocus] = useState(false);
   return (
-    <View style={{ marginBottom: space.x6 }}>
-      <Text style={[type.label, { color: colors.faint }]}>{label}</Text>
+    <View style={{ marginBottom: space.x3 }}>
+      <Text style={[type.small, { color: colors.muted, marginBottom: space.x1 }]}>
+        {label}
+      </Text>
       <TextInput
         value={value}
         onChangeText={onChange}
         secureTextEntry={secure}
         autoCapitalize={autoCap ?? 'sentences'}
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
         placeholderTextColor={colors.faint}
-        style={[
-          styles.input,
-          { borderBottomColor: focus ? colors.ink : colors.hairlineStrong },
-        ]}
+        style={styles.input}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.bg },
+  root: { flex: 1, backgroundColor: colors.stone },
   fill: { flex: 1 },
-  scroll: { flexGrow: 1, justifyContent: 'center', padding: space.gutter },
-  scrollDesktop: { alignItems: 'center' },
-  column: { width: '100%' },
-  columnDesktop: { maxWidth: 420 },
-  mark: { width: 28, height: 2, backgroundColor: colors.accent },
-  form: { marginTop: space.x12 },
-  input: {
-    borderBottomWidth: 1,
-    paddingVertical: space.x3,
-    paddingHorizontal: 0,
-    marginTop: space.x2,
-    color: colors.ink,
-    fontSize: 16,
-    borderRadius: radius.none,
+  cover: { position: 'absolute', left: 0, right: 0, top: 0, height: '46%' },
+  scroll: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+    padding: space.x6,
+    paddingBottom: space.x10,
   },
-  demoBlock: { marginTop: space.x12 },
-  demoRow: {
+  brand: { alignItems: 'center', marginBottom: space.x8 },
+  form: { marginBottom: space.x4 },
+  input: {
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+    borderRadius: radius.md,
+    paddingHorizontal: space.x3,
+    height: 46,
+    color: colors.ink,
+    fontSize: 15,
+    fontFamily: type.body.fontFamily as string,
+  },
+  google: {
+    minHeight: 52,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.hairline,
     flexDirection: 'row',
-    gap: space.x8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: space.x2,
+  },
+  gMark: {
+    width: 18,
+    height: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gText: {
+    fontFamily: type.h2.fontFamily as string,
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#4285F4',
+  },
+  link: { color: colors.pine, textAlign: 'center', paddingVertical: space.x2 },
+  demos: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: space.x3,
     marginTop: space.x4,
-    flexWrap: 'wrap',
+  },
+  demo: {
+    backgroundColor: colors.paper,
+    borderRadius: radius.sm,
+    paddingHorizontal: space.x3,
+    paddingVertical: space.x2,
+    alignItems: 'center',
   },
 });

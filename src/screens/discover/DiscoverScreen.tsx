@@ -1,26 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import React, { useMemo, useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { ActivityCard } from '../../components/ActivityCard';
+import { ActivityHeroCard, ActivityRow } from '../../components/ActivityCard';
 import { EmptyState } from '../../components/EmptyState';
 import { MoodPicker } from '../../components/MoodPicker';
 import { Screen } from '../../components/Screen';
-import { SectionHead } from '../../components/Text';
+import { SearchField } from '../../components/SearchField';
+import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
-import { districtLabel } from '../../data/districts';
-import { formatDay, hkHour } from '../../lib/time';
 import type { RootNav } from '../../navigation/types';
 import {
-  featuredActivity,
   filterByMood,
   listPublished,
   popularActivities,
@@ -29,27 +19,17 @@ import {
 import { followedOrganizerIds } from '../../services/follows';
 import { isSaved, toggleSave } from '../../services/saves';
 import type { MoodId } from '../../types';
-import { colors, radius, space, type, useShell } from '../../theme';
+import { colors, space } from '../../theme';
 
 export function DiscoverScreen() {
   const nav = useNavigation<RootNav>();
-  const { t, user, lang, showBanner } = useApp();
-  const { isDesktop } = useShell();
+  const { t, user, showBanner } = useApp();
   const [q, setQ] = useState('');
   const [mood, setMood] = useState<MoodId | null>(null);
-  const [searchFocus, setSearchFocus] = useState(false);
-
-  const hour = hkHour();
-  const greet =
-    hour < 12
-      ? t('greetingMorning')
-      : hour < 18
-        ? t('greetingAfternoon')
-        : t('greetingEvening');
+  const [seeAllPopular, setSeeAllPopular] = useState(false);
 
   const all = listPublished();
-  const featured = featuredActivity();
-  const popular = popularActivities().slice(0, 6);
+  const popular = popularActivities();
   const followed = user ? followedOrganizerIds(user.uid) : [];
   const filtering = Boolean(q.trim() || mood);
 
@@ -76,96 +56,69 @@ export function DiscoverScreen() {
     showBanner(on ? t('savedOn') : t('save'));
   }
 
+  const heroes = seeAllPopular ? popular : popular.slice(0, 2);
+
   return (
-    <Screen>
+    <Screen
+      title="Discover"
+      caption={t('discoverCaption')}
+      actions={[{ icon: 'bell', onPress: () => showBanner(t('notificationsHint')) }]}
+    >
       <ScrollView
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.gutter}>
-          <Text style={[type.display, { color: colors.ink }]}>{greet}</Text>
-          <Text
-            style={[type.body, { color: colors.dim, marginTop: space.x3, maxWidth: 320 }]}
-          >
-            {t('greetingAsk')}
-          </Text>
-
-          <TextInput
+          <SearchField
             value={q}
-            onChangeText={setQ}
-            placeholder={t('searchPlaceholder')}
-            placeholderTextColor={colors.faint}
-            onFocus={() => setSearchFocus(true)}
-            onBlur={() => setSearchFocus(false)}
-            style={[
-              styles.search,
-              { borderBottomColor: searchFocus ? colors.ink : colors.hairlineStrong },
-            ]}
+            onChange={setQ}
+            placeholder={t('searchActivities')}
+            onFilter={() => setMood(null)}
           />
+        </View>
 
-          <View style={{ marginTop: space.x6 }}>
-            <MoodPicker
-              value={mood}
-              onChange={(id) => setMood((cur) => (cur === id ? null : id))}
-              wrap
-            />
-          </View>
+        <View style={[styles.gutter, styles.block]}>
+          <SectionHead
+            title={t('moodSection')}
+            caption={t('moodCaption')}
+            action={t('seeAllBoard')}
+            onAction={() => setMood(null)}
+          />
+        </View>
+        <View style={styles.moodRow}>
+          <MoodPicker
+            value={mood}
+            onChange={(id) => setMood((cur) => (cur === id ? null : id))}
+          />
         </View>
 
         {filtering ? null : (
           <>
-            <View style={[styles.gutter, styles.section]}>
-              <SectionHead label={t('popular')} />
+            <View style={[styles.gutter, styles.block]}>
+              <SectionHead
+                title={t('popularSection')}
+                action={t('seeAllBoard')}
+                onAction={() => setSeeAllPopular((v) => !v)}
+              />
             </View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.rail}
-            >
-              {popular.map((a) => (
-                <ActivityCard
+            <View style={[styles.gutter, styles.heroStack]}>
+              {heroes.map((a) => (
+                <ActivityHeroCard
                   key={a.id}
                   activity={a}
+                  saved={user ? isSaved(user.uid, a.id) : false}
+                  onSave={() => void save(a.id)}
                   onPress={() => nav.navigate('Activity', { id: a.id })}
                 />
               ))}
-            </ScrollView>
-
-            {featured ? (
-              <Pressable
-                onPress={() => nav.navigate('Activity', { id: featured.id })}
-                style={[styles.gutter, styles.featureWrap]}
-              >
-                <Image
-                  source={{ uri: featured.photoUrl }}
-                  style={[styles.featureImg, isDesktop && { height: 320 }]}
-                  contentFit="cover"
-                  transition={240}
-                />
-                <View style={styles.featureCopy}>
-                  <Text style={[type.label, { color: colors.accent }]}>
-                    {t('featured')}
-                  </Text>
-                  <Text
-                    style={[type.displaySm, { color: colors.ink, marginTop: space.x2 }]}
-                    numberOfLines={2}
-                  >
-                    {featured.title}
-                  </Text>
-                  <Text style={[type.data, { color: colors.dim, marginTop: space.x2 }]}>
-                    {districtLabel(featured.district, lang)} ·{' '}
-                    {formatDay(featured.startsAt, lang)}
-                  </Text>
-                </View>
-              </Pressable>
-            ) : null}
+            </View>
           </>
         )}
 
-        <View style={[styles.gutter, styles.section]}>
+        <View style={[styles.gutter, styles.block]}>
           <SectionHead
-            label={filtering ? t('results') : t('recommended')}
+            title={filtering ? t('results') : t('recommended')}
             action={filtering ? t('clear') : undefined}
             onAction={
               filtering
@@ -177,17 +130,15 @@ export function DiscoverScreen() {
             }
           />
           {!filtering && followed.length > 0 ? (
-            <Text style={[type.meta, { color: colors.faint, marginTop: space.x3 }]}>
-              {t('followingHosts')}
-            </Text>
+            <Text style={styles.note}>{t('followingHosts')}</Text>
           ) : null}
         </View>
 
-        <View style={styles.gutter}>
+        <View style={[styles.gutter, styles.rows]}>
           {recommended.length === 0 ? (
             <EmptyState
               title={t('empty')}
-              body={t('greetingAsk')}
+              body={t('ticketsEmpty')}
               action={t('clear')}
               onAction={() => {
                 setQ('');
@@ -195,19 +146,13 @@ export function DiscoverScreen() {
               }}
             />
           ) : (
-            <View style={isDesktop ? styles.grid : undefined}>
-              {recommended.map((a) => (
-                <View key={a.id} style={isDesktop ? styles.gridItem : undefined}>
-                  <ActivityCard
-                    activity={a}
-                    variant="stack"
-                    saved={user ? isSaved(user.uid, a.id) : false}
-                    onSave={() => void save(a.id)}
-                    onPress={() => nav.navigate('Activity', { id: a.id })}
-                  />
-                </View>
-              ))}
-            </View>
+            recommended.map((a) => (
+              <ActivityRow
+                key={a.id}
+                activity={a}
+                onPress={() => nav.navigate('Activity', { id: a.id })}
+              />
+            ))
           )}
         </View>
       </ScrollView>
@@ -216,30 +161,15 @@ export function DiscoverScreen() {
 }
 
 const styles = StyleSheet.create({
-  scroll: { paddingTop: space.x6, paddingBottom: space.x16 },
+  scroll: { paddingBottom: space.x10 },
   gutter: { paddingHorizontal: space.gutter },
-  section: { marginTop: space.x12, marginBottom: space.x6 },
-  search: {
-    marginTop: space.x8,
-    borderBottomWidth: 1,
-    paddingVertical: space.x3,
-    color: colors.ink,
-    fontSize: 16,
-    borderRadius: radius.none,
+  block: { marginTop: space.x6 },
+  moodRow: { paddingLeft: space.gutter, marginTop: space.x4 },
+  heroStack: { marginTop: space.x4, gap: space.x3 },
+  rows: { marginTop: space.x4, gap: space.x3 },
+  note: {
+    fontSize: 12,
+    color: colors.harbor,
+    marginTop: space.x2,
   },
-  rail: { paddingHorizontal: space.gutter },
-  featureWrap: { marginTop: space.x12 },
-  featureImg: {
-    width: '100%',
-    height: 260,
-    borderRadius: radius.xs,
-    backgroundColor: colors.raised,
-  },
-  featureCopy: { marginTop: space.x4 },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  gridItem: { width: '48%' },
 });
