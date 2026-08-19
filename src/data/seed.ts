@@ -18,7 +18,7 @@ export type SeedDb = {
 };
 
 /** Bumped when seed copy changes so local demo data re-seeds. */
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;
 
 const HOST = 'u_host';
 const HOST2 = 'u_chen';
@@ -125,6 +125,8 @@ export function createSeed(): SeedDb {
       district: 'wan_chai',
       address: '灣仔莊士敦道 88 號 2 樓',
       addressEn: '2/F, 88 Johnston Road, Wan Chai',
+      lat: 22.2772,
+      lng: 114.1729,
       startsAt: hkIso(2026, 8, 21, 20, 0),
       endsAt: hkIso(2026, 8, 21, 22, 30),
       priceHkd: 250,
@@ -147,6 +149,8 @@ export function createSeed(): SeedDb {
       district: 'sheung_wan',
       address: '上環士丹頓街 12 號',
       addressEn: '12 Staunton Street, Sheung Wan',
+      lat: 22.2826,
+      lng: 114.1513,
       startsAt: hkIso(2026, 8, 20, 19, 30),
       endsAt: hkIso(2026, 8, 20, 21, 30),
       priceHkd: 0,
@@ -169,6 +173,8 @@ export function createSeed(): SeedDb {
       district: 'sham_shui_po',
       address: '深水埗北河街街市門口',
       addressEn: 'Pei Ho Street Market entrance, Sham Shui Po',
+      lat: 22.3311,
+      lng: 114.1618,
       startsAt: hkIso(2026, 8, 22, 15, 0),
       endsAt: hkIso(2026, 8, 22, 18, 0),
       priceHkd: 150,
@@ -192,6 +198,8 @@ export function createSeed(): SeedDb {
       district: 'sai_kung',
       address: '西貢碼頭巴士站',
       addressEn: 'Sai Kung Pier bus terminus',
+      lat: 22.3812,
+      lng: 114.2712,
       startsAt: hkIso(2026, 8, 23, 7, 30),
       endsAt: hkIso(2026, 8, 23, 11, 0),
       priceHkd: 0,
@@ -214,6 +222,8 @@ export function createSeed(): SeedDb {
       district: 'central',
       address: '中環閣麟街 9 號地下',
       addressEn: 'G/F, 9 Cochrane Street, Central',
+      lat: 22.2832,
+      lng: 114.1546,
       startsAt: hkIso(2026, 8, 25, 19, 0),
       endsAt: hkIso(2026, 8, 25, 21, 30),
       priceHkd: 380,
@@ -236,6 +246,8 @@ export function createSeed(): SeedDb {
       district: 'mong_kok',
       address: '旺角奶路臣街 15 號天台',
       addressEn: 'Rooftop, 15 Nelson Street, Mong Kok',
+      lat: 22.3188,
+      lng: 114.1703,
       startsAt: hkIso(2026, 8, 28, 20, 0),
       endsAt: hkIso(2026, 8, 28, 22, 0),
       priceHkd: 80,
@@ -258,6 +270,8 @@ export function createSeed(): SeedDb {
       district: 'causeway_bay',
       address: '銅鑼灣記利佐治街行人區',
       addressEn: 'Great George Street pedestrian zone, Causeway Bay',
+      lat: 22.2806,
+      lng: 114.1846,
       startsAt: hkIso(2026, 8, 22, 11, 0),
       endsAt: hkIso(2026, 8, 22, 17, 0),
       priceHkd: 0,
@@ -280,6 +294,8 @@ export function createSeed(): SeedDb {
       district: 'tai_hang',
       address: '大坑蓮花宮前空地',
       addressEn: 'Open ground by Lin Fa Temple, Tai Hang',
+      lat: 22.2779,
+      lng: 114.1911,
       startsAt: hkIso(2026, 8, 10, 16, 0),
       endsAt: hkIso(2026, 8, 10, 18, 30),
       priceHkd: 120,

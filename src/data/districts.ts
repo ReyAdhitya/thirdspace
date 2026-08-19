@@ -37,6 +37,32 @@ export const NEARBY_OF: Record<string, string[]> = {
   sham_shui_po: ['sham_shui_po', 'mong_kok', 'kowloon_city'],
 };
 
+/** Approximate district centres, for events created without coordinates. */
+export const DISTRICT_CENTER: Record<string, { lat: number; lng: number }> = {
+  central: { lat: 22.2819, lng: 114.1585 },
+  sheung_wan: { lat: 22.2865, lng: 114.1502 },
+  wan_chai: { lat: 22.2783, lng: 114.1747 },
+  causeway_bay: { lat: 22.2801, lng: 114.1846 },
+  tai_hang: { lat: 22.2776, lng: 114.1908 },
+  eastern: { lat: 22.2845, lng: 114.2246 },
+  southern: { lat: 22.2461, lng: 114.1628 },
+  tst: { lat: 22.2976, lng: 114.1722 },
+  mong_kok: { lat: 22.3193, lng: 114.1694 },
+  sham_shui_po: { lat: 22.3303, lng: 114.1622 },
+  kowloon_city: { lat: 22.3282, lng: 114.1916 },
+  wong_tai_sin: { lat: 22.3419, lng: 114.1936 },
+  kwun_tong: { lat: 22.3121, lng: 114.2258 },
+  kwai_tsing: { lat: 22.3573, lng: 114.1298 },
+  tsuen_wan: { lat: 22.3707, lng: 114.1146 },
+  tuen_mun: { lat: 22.3908, lng: 113.9725 },
+  yuen_long: { lat: 22.4445, lng: 114.0223 },
+  north: { lat: 22.4940, lng: 114.1386 },
+  tai_po: { lat: 22.4501, lng: 114.1642 },
+  sha_tin: { lat: 22.3771, lng: 114.1974 },
+  sai_kung: { lat: 22.3814, lng: 114.2707 },
+  islands: { lat: 22.2611, lng: 113.9460 },
+};
+
 export function districtLabel(
   id: string,
   lang: 'zh-Hant' | 'en' | 'zh-Hans',

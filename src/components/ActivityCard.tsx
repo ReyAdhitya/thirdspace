@@ -98,39 +98,6 @@ export function ActivityRow({
   );
 }
 
-/** Tall photo tile with a label at the bottom, used for districts. */
-export function PhotoTile({
-  photoUrl,
-  label,
-  onPress,
-  width = 78,
-  height = 96,
-}: {
-  photoUrl: string;
-  label: string;
-  onPress: () => void;
-  width?: number;
-  height?: number;
-}) {
-  return (
-    <Pressable onPress={onPress} style={[styles.tile, { width, height }]}>
-      <Image
-        source={{ uri: photoUrl }}
-        style={StyleSheet.absoluteFill}
-        contentFit="cover"
-        transition={180}
-      />
-      <LinearGradient
-        colors={['transparent', 'rgba(16,18,16,0.80)']}
-        style={StyleSheet.absoluteFill}
-      />
-      <Text style={[type.small, styles.tileLabel]} numberOfLines={1}>
-        {label}
-      </Text>
-    </Pressable>
-  );
-}
-
 const styles = StyleSheet.create({
   hero: {
     height: 190,
@@ -169,16 +136,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A2E2B',
   },
   rowCopy: { flex: 1 },
-  tile: {
-    borderRadius: radius.md,
-    overflow: 'hidden',
-    backgroundColor: '#2A2E2B',
-    justifyContent: 'flex-end',
-  },
-  tileLabel: {
-    color: colors.white,
-    fontWeight: '500',
-    paddingHorizontal: space.x2,
-    paddingBottom: space.x2,
-  },
 });
