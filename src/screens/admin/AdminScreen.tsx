@@ -145,7 +145,7 @@ export function AdminScreen() {
         <View style={[styles.gutter, styles.block]}>
           <SectionHead
             title={t('tabDiscover')}
-            action={showEvents ? t('clear') : t('seeAllBoard')}
+            action={showEvents ? t('showLess') : t('seeAllBoard')}
             onAction={() => setShowEvents((v) => !v)}
           />
           {showEvents ? (

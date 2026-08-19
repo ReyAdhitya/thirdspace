@@ -147,7 +147,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: space.x3,
     paddingHorizontal: space.gutter,
-    paddingTop: space.x2,
+    /** Air under the phone bezel: web has no safe-area inset to lean on. */
+    paddingTop: space.x5,
     paddingBottom: space.x4,
   },
   back: { marginLeft: -4 },
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: space.x3,
     paddingHorizontal: space.gutter,
-    paddingTop: space.x2,
+    paddingTop: space.x5,
     paddingBottom: space.x3,
     borderBottomWidth: 1,
     borderBottomColor: colors.hairline,

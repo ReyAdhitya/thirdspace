@@ -75,12 +75,8 @@ export function DiscoverScreen() {
         </View>
 
         <View style={[styles.gutter, styles.block]}>
-          <SectionHead
-            title={t('moodSection')}
-            caption={t('moodCaption')}
-            action={t('seeAllBoard')}
-            onAction={() => setMood(null)}
-          />
+          {/* No See all: every mood is already on the row below. */}
+          <SectionHead title={t('moodSection')} caption={t('moodCaption')} />
         </View>
         <View style={styles.moodRow}>
           <MoodPicker
