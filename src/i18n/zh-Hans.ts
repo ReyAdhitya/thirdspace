@@ -145,6 +145,7 @@ export const zhHans: Dict = {
   upcomingTab: '即将参加',
   pastTab: '过去的活动',
   calendarPreview: '日历预览',
+  close: '关闭',
   aboutActivity: '活动简介',
   attendingCount: '已报名',
   people: '人',

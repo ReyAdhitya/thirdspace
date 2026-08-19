@@ -146,6 +146,7 @@ export const zhHant: Dict = {
   upcomingTab: '即將參加',
   pastTab: '過去的活動',
   calendarPreview: '日曆預覽',
+  close: '關閉',
   aboutActivity: '活動簡介',
   attendingCount: '已報名',
   people: '人',

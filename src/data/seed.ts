@@ -18,7 +18,7 @@ export type SeedDb = {
 };
 
 /** Bumped when seed copy changes so local demo data re-seeds. */
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 4;
 
 const HOST = 'u_host';
 const HOST2 = 'u_chen';
@@ -36,6 +36,8 @@ const photos = {
   sketch: 'https://images.unsplash.com/photo-1513364776144-60967b0f8002?w=1200&q=80',
   portrait: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=80',
   portrait2: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',
+  portraitAlex: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',
+  portraitAdmin: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
 };
 
 export const STOCK_PHOTOS = [
@@ -64,6 +66,7 @@ export function createSeed(): SeedDb {
       createdAt: hkIso(2026, 6, 1, 10, 0),
       bio: '鍾意行街同安靜嘅夜晚。',
       bioEn: 'Long walks and quiet evenings.',
+      photoUrl: photos.portraitAlex,
       onboarded: true,
     },
     {
@@ -112,6 +115,7 @@ export function createSeed(): SeedDb {
       createdAt: hkIso(2026, 1, 1, 0, 0),
       bio: 'Thirdspace 管理員',
       bioEn: 'Thirdspace moderator',
+      photoUrl: photos.portraitAdmin,
       onboarded: true,
     },
   ];

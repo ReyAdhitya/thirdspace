@@ -93,6 +93,55 @@ export function isWeekendHk(iso: string): boolean {
   return wd === 'Sat' || wd === 'Sun';
 }
 
+/** Hong Kong calendar date as YYYY-MM-DD (not UTC). */
+export function hkDayKey(iso: string | Date): string {
+  const p = hkParts(iso);
+  return `${p.year}-${p.month}-${p.day}`;
+}
+
+export function parseHkDayKey(key: string): { year: number; month: number; day: number } {
+  const [year, month, day] = key.split('-').map(Number);
+  return { year, month, day };
+}
+
+export function hkDayKeyFromParts(year: number, month: number, day: number): string {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${year}-${pad(month)}-${pad(day)}`;
+}
+
+/** Noon on that HK calendar date, as a Date (safe for weekday / month titles). */
+export function hkNoon(year: number, month: number, day: number): Date {
+  return new Date(Date.UTC(year, month - 1, day, 4, 0, 0));
+}
+
+/** Shift a Hong Kong calendar date by `days` (negative is fine). */
+export function shiftHkDayKey(iso: string | Date, days: number): string {
+  const p = hkParts(iso);
+  return hkDayKey(hkNoon(Number(p.year), Number(p.month), Number(p.day) + days));
+}
+
+export function daysInHkMonth(year: number, month: number): number {
+  return Number(hkParts(new Date(Date.UTC(year, month, 0, 4, 0, 0))).day);
+}
+
+/** 0 = Sunday … 6 = Saturday, in Asia/Hong_Kong. */
+export function hkWeekdaySun0(year: number, month: number, day: number): number {
+  const wd = new Intl.DateTimeFormat('en-US', {
+    timeZone: TZ,
+    weekday: 'short',
+  }).format(hkNoon(year, month, day));
+  const order = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return Math.max(0, order.indexOf(wd));
+}
+
+export function formatMonthTitle(year: number, month: number, lang: Lang): string {
+  return new Intl.DateTimeFormat(localeOf(lang), {
+    timeZone: TZ,
+    month: 'long',
+    year: 'numeric',
+  }).format(hkNoon(year, month, 15));
+}
+
 /** Build an ISO string that represents local HK wall time. */
 export function hkIso(
   y: number,

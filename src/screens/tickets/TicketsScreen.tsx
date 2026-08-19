@@ -4,11 +4,12 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { ActivityRow } from '../../components/ActivityCard';
 import { EmptyState } from '../../components/EmptyState';
+import { MonthCalendar } from '../../components/MonthCalendar';
 import { Screen } from '../../components/Screen';
 import { SectionHead, Segments } from '../../components/SectionHead';
 import { TicketCard } from '../../components/TicketCard';
 import { useApp } from '../../context/AppContext';
-import { formatWeekdayShort, hkParts } from '../../lib/time';
+import { formatWeekdayShort, hkDayKey, hkIso, hkParts, parseHkDayKey, shiftHkDayKey } from '../../lib/time';
 import type { RootNav } from '../../navigation/types';
 import { getActivity } from '../../services/activities';
 import { ticketsForUser } from '../../services/tickets';
@@ -21,6 +22,7 @@ export function TicketsScreen() {
   const { t, user, lang } = useApp();
   const [tab, setTab] = useState<Tab>('upcoming');
   const [day, setDay] = useState<string | null>(null);
+  const [calOpen, setCalOpen] = useState(false);
 
   const tickets = user ? ticketsForUser(user.uid) : [];
   const active = tickets.filter((x) => x.status !== 'cancelled');
@@ -40,7 +42,7 @@ export function TicketsScreen() {
 
   const shown = tab === 'upcoming' ? split.up : split.past;
 
-  /** Five-day strip built from the next upcoming ticket. */
+  /** Five-day strip built from the next upcoming ticket — HK calendar dates. */
   const strip = useMemo(() => {
     const first = split.up
       .map((tk) => getActivity(tk.activityId))
@@ -48,16 +50,15 @@ export function TicketsScreen() {
       .sort(
         (a, b) => new Date(a!.startsAt).getTime() - new Date(b!.startsAt).getTime(),
       )[0];
-    const anchor = first ? new Date(first.startsAt) : new Date();
+    const anchor = first ? first.startsAt : new Date().toISOString();
     const days: { key: string; day: string; wd: string; on: boolean }[] = [];
     for (let i = -4; i <= 0; i += 1) {
-      const d = new Date(anchor);
-      d.setDate(d.getDate() + i);
-      const iso = d.toISOString();
-      const p = hkParts(iso);
+      const key = shiftHkDayKey(anchor, i);
+      const { year, month, day: d } = parseHkDayKey(key);
+      const iso = hkIso(year, month, d, 12, 0);
       days.push({
-        key: `${p.year}-${p.month}-${p.day}`,
-        day: p.day,
+        key,
+        day: String(d),
         wd: formatWeekdayShort(iso, lang),
         on: i === 0,
       });
@@ -65,14 +66,40 @@ export function TicketsScreen() {
     return days;
   }, [split.up, lang]);
 
+  const calOpenOn = useMemo(() => {
+    const dates = shown
+      .map((tk) => {
+        const a = getActivity(tk.activityId);
+        return a ? hkDayKey(a.startsAt) : null;
+      })
+      .filter((k): k is string => Boolean(k))
+      .sort();
+    if (dates.length === 0) return null;
+    return tab === 'past' ? dates[dates.length - 1] : dates[0];
+  }, [shown, tab]);
+
+  const markedDays = useMemo(() => {
+    const keys = new Set<string>();
+    for (const tk of shown) {
+      const a = getActivity(tk.activityId);
+      if (!a) continue;
+      keys.add(hkDayKey(a.startsAt));
+    }
+    return keys;
+  }, [shown]);
+
   const filtered = day
     ? shown.filter((tk) => {
         const a = getActivity(tk.activityId);
         if (!a) return false;
-        const p = hkParts(a.startsAt);
-        return `${p.year}-${p.month}-${p.day}` === day;
+        return hkDayKey(a.startsAt) === day;
       })
     : shown;
+
+  function pickDay(key: string) {
+    setDay(key);
+    setCalOpen(false);
+  }
 
   return (
     <Screen title={t('tabTickets')} caption={t('ticketsCaption')}>
@@ -117,14 +144,19 @@ export function TicketsScreen() {
           )}
         </View>
 
-        {tab === 'upcoming' && split.up.length > 0 ? (
+        {user ? (
           <>
             <View style={[styles.gutter, styles.block]}>
               <SectionHead
                 title={t('calendarPreview')}
-                action={day ? t('clear') : undefined}
-                onAction={day ? () => setDay(null) : undefined}
+                action={t('seeAllBoard')}
+                onAction={() => setCalOpen(true)}
               />
+              {day ? (
+                <Pressable onPress={() => setDay(null)} hitSlop={8} style={styles.clearDay}>
+                  <Text style={[type.meta, { color: colors.muted }]}>{t('clear')}</Text>
+                </Pressable>
+              ) : null}
             </View>
             <View style={[styles.gutter, styles.strip]}>
               {strip.map((d) => {
@@ -156,25 +188,40 @@ export function TicketsScreen() {
               })}
             </View>
 
-            <View style={[styles.gutter, styles.upNext]}>
-              {split.up.slice(0, 3).map((tk) => {
-                const a = getActivity(tk.activityId);
-                if (!a) return null;
-                const p = hkParts(a.startsAt);
-                const e = hkParts(a.endsAt);
-                return (
-                  <ActivityRow
-                    key={tk.id}
-                    activity={a}
-                    trailing={`${p.hour}:${p.minute}–${e.hour}:${e.minute}`}
-                    onPress={() => nav.navigate('Activity', { id: a.id })}
-                  />
-                );
-              })}
-            </View>
+            {tab === 'upcoming' && split.up.length > 0 ? (
+              <View style={[styles.gutter, styles.upNext]}>
+                {split.up.slice(0, 3).map((tk) => {
+                  const a = getActivity(tk.activityId);
+                  if (!a) return null;
+                  const p = hkParts(a.startsAt);
+                  const e = hkParts(a.endsAt);
+                  return (
+                    <ActivityRow
+                      key={tk.id}
+                      activity={a}
+                      trailing={`${p.hour}:${p.minute}–${e.hour}:${e.minute}`}
+                      onPress={() => nav.navigate('Activity', { id: a.id })}
+                    />
+                  );
+                })}
+              </View>
+            ) : null}
           </>
         ) : null}
       </ScrollView>
+
+      <MonthCalendar
+        visible={calOpen}
+        selectedDay={day}
+        openOn={calOpenOn}
+        markedDays={markedDays}
+        onSelectDay={pickDay}
+        onClose={() => setCalOpen(false)}
+        onClear={() => {
+          setDay(null);
+          setCalOpen(false);
+        }}
+      />
     </Screen>
   );
 }
@@ -184,6 +231,7 @@ const styles = StyleSheet.create({
   gutter: { paddingHorizontal: space.gutter },
   list: { marginTop: space.x5, gap: space.x3 },
   block: { marginTop: space.x8 },
+  clearDay: { alignSelf: 'flex-end', marginTop: space.x2 },
   strip: { flexDirection: 'row', gap: space.x2, marginTop: space.x4 },
   dayCell: {
     flex: 1,

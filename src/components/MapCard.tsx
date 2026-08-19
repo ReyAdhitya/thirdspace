@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 
 import { colors, radius } from '../theme';
 
-/** Native: the same free Google Embed URL inside a WebView. */
+/** Native: the OpenStreetMap embed URL inside a WebView. */
 export function MapCard({ url, height = 300 }: { url: string; height?: number }) {
   return (
     <View style={[styles.card, { height }]}>

@@ -9,23 +9,27 @@ import { Screen } from '../../components/Screen';
 import { SearchField } from '../../components/SearchField';
 import { SectionHead } from '../../components/SectionHead';
 import { useApp } from '../../context/AppContext';
-import { DISTRICT_CENTER, districtLabel } from '../../data/districts';
-import { activityTitle } from '../../lib/localize';
 import {
-  HK_DEFAULT_ZOOM,
-  HONG_KONG,
-  PLACE_ZOOM,
-  activityMapQuery,
-  mapsEmbedUrl,
-  placeQuery,
-} from '../../lib/maps';
+  DISTRICT_CENTER,
+  districtIdFromSearch,
+  districtLabel,
+} from '../../data/districts';
+import { activityTitle } from '../../lib/localize';
+import { hkTerritoryUrl, osmPlaceUrl } from '../../lib/maps';
 import type { RootNav } from '../../navigation/types';
 import { listPublished } from '../../services/activities';
 import type { Activity } from '../../types';
 import { colors, space, type } from '../../theme';
 
+function eventPoint(a: Activity): { lat: number; lng: number } | undefined {
+  if (typeof a.lat === 'number' && typeof a.lng === 'number') {
+    return { lat: a.lat, lng: a.lng };
+  }
+  return DISTRICT_CENTER[a.district];
+}
+
 /**
- * One job: a real Google map of Hong Kong and the events that actually
+ * One job: an OpenStreetMap of Hong Kong and the events that actually
  * exist. No region chrome, no empty-district index.
  */
 export function DistrictsScreen() {
@@ -58,37 +62,43 @@ export function DistrictsScreen() {
   }, [all, term]);
 
   /**
-   * Search wins over selection: typing a place recenters there, otherwise
-   * the chosen event centres the map, otherwise the whole territory.
+   * Recentre from coords we already have. OSM embed has no geocoder.
+   * 1. Selected event. 2. Search string matches a district label.
+   * 3. Search is on and the filtered list is non-empty → first event.
+   * 4. Whole Hong Kong, no marker.
    */
-  const { mapQuery, mapZoom, placeLabel } = useMemo(() => {
-    if (term) {
-      return {
-        mapQuery: placeQuery(q),
-        mapZoom: PLACE_ZOOM,
-        placeLabel: q.trim(),
-      };
-    }
+  const { url, placeLabel } = useMemo(() => {
     if (selected) {
+      const pt = eventPoint(selected);
+      if (pt) {
+        return {
+          url: osmPlaceUrl(pt.lat, pt.lng),
+          placeLabel: activityTitle(selected, lang),
+        };
+      }
+    }
+
+    const districtId = districtIdFromSearch(q);
+    if (districtId && DISTRICT_CENTER[districtId]) {
+      const pt = DISTRICT_CENTER[districtId];
       return {
-        mapQuery: activityMapQuery({
-          lat: selected.lat ?? DISTRICT_CENTER[selected.district]?.lat,
-          lng: selected.lng ?? DISTRICT_CENTER[selected.district]?.lng,
-          address: selected.address,
-          addressEn: selected.addressEn,
-        }),
-        mapZoom: PLACE_ZOOM,
-        placeLabel: activityTitle(selected, lang),
+        url: osmPlaceUrl(pt.lat, pt.lng),
+        placeLabel: districtLabel(districtId, lang),
       };
     }
-    return {
-      mapQuery: HONG_KONG,
-      mapZoom: HK_DEFAULT_ZOOM,
-      placeLabel: '',
-    };
-  }, [term, q, selected, lang]);
 
-  const url = mapsEmbedUrl({ query: mapQuery, lang, zoom: mapZoom });
+    if (term && events.length > 0) {
+      const pt = eventPoint(events[0]);
+      if (pt) {
+        return {
+          url: osmPlaceUrl(pt.lat, pt.lng),
+          placeLabel: activityTitle(events[0], lang),
+        };
+      }
+    }
+
+    return { url: hkTerritoryUrl(), placeLabel: '' };
+  }, [selected, q, term, events, lang]);
 
   function openEvent(a: Activity) {
     setSelected(a);

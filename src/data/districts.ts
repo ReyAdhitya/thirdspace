@@ -73,3 +73,14 @@ export function districtLabel(
   if (lang === 'zh-Hans') return row.zhHans;
   return row.zhHant;
 }
+
+/** Exact district-name match. English is case-insensitive; Chinese is trim-exact. */
+export function districtIdFromSearch(query: string): string | undefined {
+  const term = query.trim();
+  if (!term) return undefined;
+  const en = term.toLowerCase();
+  const row = DISTRICTS.find(
+    (d) => d.en.toLowerCase() === en || d.zhHant === term || d.zhHans === term,
+  );
+  return row?.id;
+}

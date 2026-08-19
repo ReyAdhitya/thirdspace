@@ -13,7 +13,7 @@ export type Activity = {
   photoUrl: string;
   district: string;
   address: string;
-  /** WGS84, used to centre the Google Embed map on this event. */
+  /** WGS84, used to centre the OpenStreetMap embed on this event. */
   lat?: number;
   lng?: number;
   startsAt: string;

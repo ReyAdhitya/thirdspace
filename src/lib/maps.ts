@@ -1,63 +1,62 @@
-import type { AppLanguage } from '../types';
-
 /**
- * Google Maps Embed only. Embed is free and unmetered, unlike the Maps
- * JavaScript / Dynamic Maps SDKs, so nothing here is billed per load.
- * With a key we use the official Embed API; without one we fall back to
- * the keyless `output=embed` URL so a demo still shows a real Google map.
+ * OpenStreetMap official embed. Free, no API key, no Google Maps bill.
+ * Web and native both load this URL (iframe / WebView). Attribution lives
+ * in OSM’s own chrome — do not crop it off.
  */
-export const HONG_KONG = 'Hong Kong';
+export const HK_CENTER = { lat: 22.32, lng: 114.17 };
 
-/** Whole-territory view: harbour, Kowloon and the Island all in frame. */
-export const HK_DEFAULT_ZOOM = 11;
-export const PLACE_ZOOM = 15;
+/** Whole-territory span: harbour, Kowloon and the Island in frame. */
+export const HK_SPAN = { lat: 0.22, lng: 0.28 };
 
-function embedLanguage(lang: AppLanguage): string {
-  if (lang === 'zh-Hant') return 'zh-TW';
-  if (lang === 'zh-Hans') return 'zh-CN';
-  return 'en';
+/** Street-level span around a selected event or district centre. */
+export const PLACE_SPAN = { lat: 0.016, lng: 0.016 };
+
+export type OsmView = {
+  lat: number;
+  lng: number;
+  spanLat?: number;
+  spanLng?: number;
+  marker?: boolean;
+};
+
+function bbox(lat: number, lng: number, spanLat: number, spanLng: number) {
+  const west = lng - spanLng / 2;
+  const east = lng + spanLng / 2;
+  const south = lat - spanLat / 2;
+  const north = lat + spanLat / 2;
+  const n = (x: number) => x.toFixed(6);
+  return `${n(west)},${n(south)},${n(east)},${n(north)}`;
 }
 
-function apiKey(): string | undefined {
-  const key = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY;
-  return key && key.length > 0 ? key : undefined;
+export function osmEmbedUrl({
+  lat,
+  lng,
+  spanLat = PLACE_SPAN.lat,
+  spanLng = PLACE_SPAN.lng,
+  marker = false,
+}: OsmView): string {
+  const box = bbox(lat, lng, spanLat, spanLng);
+  let url = `https://www.openstreetmap.org/export/embed.html?bbox=${box}&layer=mapnik`;
+  if (marker) url += `&marker=${lat.toFixed(6)},${lng.toFixed(6)}`;
+  return url;
 }
 
-export function mapsEmbedUrl({
-  query,
-  lang,
-  zoom = HK_DEFAULT_ZOOM,
-}: {
-  query: string;
-  lang: AppLanguage;
-  zoom?: number;
-}): string {
-  const q = encodeURIComponent(query.trim() || HONG_KONG);
-  const hl = embedLanguage(lang);
-  const key = apiKey();
-
-  if (key) {
-    return `https://www.google.com/maps/embed/v1/place?key=${key}&q=${q}&zoom=${zoom}&language=${hl}&region=HK`;
-  }
-  return `https://maps.google.com/maps?q=${q}&z=${zoom}&hl=${hl}&output=embed`;
+export function hkTerritoryUrl(): string {
+  return osmEmbedUrl({
+    lat: HK_CENTER.lat,
+    lng: HK_CENTER.lng,
+    spanLat: HK_SPAN.lat,
+    spanLng: HK_SPAN.lng,
+    marker: false,
+  });
 }
 
-/** Prefer coordinates when we have them, otherwise a searchable address. */
-export function activityMapQuery(a: {
-  lat?: number;
-  lng?: number;
-  address: string;
-  addressEn?: string;
-}): string {
-  if (typeof a.lat === 'number' && typeof a.lng === 'number') {
-    return `${a.lat},${a.lng}`;
-  }
-  return `${a.addressEn ?? a.address}, ${HONG_KONG}`;
-}
-
-/** A place name typed into search, scoped to Hong Kong. */
-export function placeQuery(text: string): string {
-  const term = text.trim();
-  if (!term) return HONG_KONG;
-  return `${term}, ${HONG_KONG}`;
+export function osmPlaceUrl(lat: number, lng: number): string {
+  return osmEmbedUrl({
+    lat,
+    lng,
+    spanLat: PLACE_SPAN.lat,
+    spanLng: PLACE_SPAN.lng,
+    marker: true,
+  });
 }

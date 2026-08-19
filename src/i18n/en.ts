@@ -145,6 +145,7 @@ export const en: Dict = {
   upcomingTab: 'Upcoming',
   pastTab: 'Past',
   calendarPreview: 'Calendar',
+  close: 'Close',
   aboutActivity: 'About this event',
   attendingCount: 'Attending',
   people: '',

@@ -4,13 +4,14 @@ import { StyleSheet, View } from 'react-native';
 import { colors, radius } from '../theme';
 
 /**
- * Web: a real Google Maps iframe. Rendered with createElement because the
+ * Web: OpenStreetMap iframe. Rendered with createElement because the
  * project's JSX namespace is React Native's, which has no DOM elements.
  */
 export function MapCard({ url, height = 300 }: { url: string; height?: number }) {
   const iframe = React.createElement('iframe', {
     src: url,
-    title: 'Google Map',
+    title: 'OpenStreetMap',
+    name: 'OpenStreetMap',
     width: '100%',
     height: '100%',
     loading: 'lazy',

@@ -29,9 +29,9 @@ Bundle id: `hk.thirdspace.app`. Timezone: `Asia/Hong_Kong`.
 
 - **Auth** — email login/sign-up, plus **real Google Sign-In** (see below). Three roles: `user` / `organizer` / `admin`.
 - **Discover** — search, mood tiles, popular photo cards, recommended list, save heart.
-- **Districts** — a real **Google Map** of Hong Kong (free Embed API) with the actual events listed beneath it. Search recentres the map.
+- **Districts** — OpenStreetMap of Hong Kong (official embed, free, no Maps API) with the actual events listed beneath it. Search filters the list; tapping a row recentres the map.
 - **Event page** — Join, 額滿 → waitlist, no join after start, host row with Follow, attendees.
-- **Tickets** — pass card with the big date, no QR. Upcoming / Past, calendar strip.
+- **Tickets** — pass card with the big date, no QR. Upcoming / Past, 5-day strip, month calendar.
 - **Chat** — ticket holders only, own screen. After-event comments on the event page.
 - **Create / edit event** — anyone logged in becomes an organizer.
 - **Profile** — stats, explorer level, badges, saved, following. Settings: 繁中 / English / 简体, one language per screen.
@@ -111,9 +111,9 @@ EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=
 
 ## Maps
 
-Districts uses the **Google Maps Embed API**, which is free and unmetered — not the Maps JavaScript or Dynamic Maps SDK, which bill per load. Web renders an `<iframe>`, native renders the same URL in `react-native-webview` (`src/components/MapCard.tsx` / `MapCard.web.tsx`). It works with no key at all; setting `EXPO_PUBLIC_GOOGLE_MAPS_API_KEY` switches to the official Embed endpoint.
+Districts uses the official **OpenStreetMap embed** (`openstreetmap.org/export/embed.html`). It is free and needs no Maps API key. Web renders an `<iframe>`, native renders the same URL in `react-native-webview` (`src/components/MapCard.tsx` / `MapCard.web.tsx`). OSM’s own chrome already credits OpenStreetMap — leave it visible.
 
-Embed shows one place at a time, so it cannot draw a custom pin per event. The event list under the map is how you see them all; tapping one recentres the map on that address.
+The embed has no geocoder. Search only filters the event list; the map recentres from coordinates we already have (the selected event, a district name typed in search, or the first matching event). Default view is the whole territory (harbour / Kowloon / Island). Tapping a row opens the event and recentres on that point. There is no map on the event page.
 
 ## Project layout
 
