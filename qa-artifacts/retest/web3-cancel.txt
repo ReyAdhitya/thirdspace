@@ -1,0 +1,4 @@
+stillEmpty=true
+jazzCover=false
+anyBig=false
+chooser=true

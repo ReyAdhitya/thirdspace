@@ -1,0 +1,89 @@
+[09:54:39] clicked Alex
+[09:54:40] clicked Log in
+[09:54:41] shot D:\thirdspace\qa-artifacts\81-r3-home.png
+[09:54:41] === WanChai
+[09:54:47] shot D:\thirdspace\qa-artifacts\82-r3-districts.png
+[09:54:49] shot D:\thirdspace\qa-artifacts\83-r3-wanchai.png
+[09:54:49] osm https://www.openstreetmap.org/export/embed.html?bbox=114.166700,22.270300,114.182700,22.286300&layer=mapnik&marker=22.278300,114.174700
+[09:54:49] PASS B8-WANCHAI-FILTER: filtered
+[09:54:49] PASS B8-WANCHAI-RECENTRE: https://www.openstreetmap.org/export/embed.html?bbox=114.166700,22.270300,114.182700,22.286300&layer=mapnik&marker=22.278300,114.174700
+[09:54:51] shot D:\thirdspace\qa-artifacts\84-r3-wanchai-zh.png
+[09:54:51] PASS B8-WANCHAI-ZH: 灣仔 filtered or changed list
+[09:54:51] === JoinHike
+[09:54:52] clicked See all
+
+[09:54:52] shot D:\thirdspace\qa-artifacts\85-r3-discover-scrolled.png
+[09:54:52] FAIL JoinHike clickVisible miss: Sunrise Hike
+[09:54:53] shot D:\thirdspace\qa-artifacts\86-fail-JoinHike.png
+[09:54:53] FINDING Major SECT-JoinHike: clickVisible miss: Sunrise Hike
+[09:54:53] === Checkout
+[09:54:54] clicked Film Photo Walk in Sham Shui Po
+[09:54:55] shot D:\thirdspace\qa-artifacts\87-r3-film.png
+[09:54:55] clicked Join this event
+[09:54:56] shot D:\thirdspace\qa-artifacts\88-r3-checkout.png
+[09:54:56] PASS B15-CHECKOUT: Checkout shown
+[09:54:56] clicked Pay (test) and join
+[09:54:57] shot D:\thirdspace\qa-artifacts\89-r3-pay-bad.png
+[09:54:57] PASS B15-REJECT: Non-4242 rejected
+[09:54:58] clicked Pay (test) and join
+[09:55:00] shot D:\thirdspace\qa-artifacts\90-r3-pay-ok.png
+[09:55:00] PASS B15-4242: 4242 ticket present
+[09:55:00] === WaitlistStartedChat
+[09:55:01] FAIL WaitlistStartedChat clickVisible miss: Weekend Market
+[09:55:01] shot D:\thirdspace\qa-artifacts\91-fail-WaitlistStartedChat.png
+[09:55:01] FINDING Major SECT-WaitlistStartedChat: clickVisible miss: Weekend Market
+[09:55:01] === AlexProfileLang
+[09:55:02] shot D:\thirdspace\qa-artifacts\92-r3-alex-profile.png
+[09:55:02] PASS B4-ALEX-FACE: avatar 800
+[09:55:02] PASS A-SAVED: Saved on profile
+[09:55:02] PASS A-JOURNEY: journey/badges
+[09:55:02] PASS B11-NO-ADMIN: No Reports button
+[09:55:03] shot D:\thirdspace\qa-artifacts\93-r3-settings.png
+[09:55:03] clicked Language
+[09:55:04] shot D:\thirdspace\qa-artifacts\94-r3-langs.png
+[09:55:04] clicked 繁體中文
+[09:55:05] shot D:\thirdspace\qa-artifacts\95-r3-hant.png
+[09:55:05] PASS A-LANG: 繁中 chrome
+[09:55:05] clicked 語言 Language
+[09:55:06] clicked English
+[09:55:07] === Lin
+[09:55:08] clicked Log out
+[09:55:09] clicked Lin
+[09:55:09] clicked Log in
+[09:55:11] shot D:\thirdspace\qa-artifacts\96-r3-lin-profile.png
+[09:55:11] PASS B4-LIN-FACE: lin 800
+[09:55:11] FINDING Blocker B5-LIN-HOSTED-PHOTOS: []
+[09:55:11] PASS B12-CREATE-BTN: Create event
+[09:55:11] PASS B12-NO-ADMIN: no reports
+[09:55:11] clicked 
+Create event
+[09:55:12] shot D:\thirdspace\qa-artifacts\97-r3-create.png
+[09:55:12] PASS B-STOCK: 5 stock photos
+[09:55:24] FAIL Lin locator.fill: Timeout 12000ms exceeded.
+Call log:
+  - waiting for locator('input').first()
+    - locator resolved to <input rows="1" value="" dir="auto" autocorrect="on" autocomplete="on" spellcheck="true" autocapitalize="sentences" virtualkeyboardpolicy="auto" placeholder="Search events, themes or districts" class="css-textinput-11aywtz r-placeholderTextColor-6taxm2 r-color-aw03qq r-flex-13awgt0 r-fontFamily-aug45v r-fontSize-a023e6 r-paddingBlock-1mkv55d"/>
+    - fill("QA Harbour Tea")
+  - attempting fill action
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+      - waiting 100ms
+    23 × waiting for element to be visible, enabled and editable
+       - element is not visible
+     - retrying fill action
+       - waiting 500ms
+
+[09:55:24] shot D:\thirdspace\qa-artifacts\98-fail-Lin.png
+[09:55:24] FINDING Major SECT-Lin: locator.fill: Timeout 12000ms exceeded.
+Call log:
+  - waiting for locator('input').first()
+    - locator resolved to <input rows="1" value="" dir="auto" autocor
+[09:55:24] === Admin
+[09:55:25] FAIL Admin clickVisible miss: Log out
+[09:55:26] shot D:\thirdspace\qa-artifacts\99-fail-Admin.png
+[09:55:26] FINDING Major SECT-Admin: clickVisible miss: Log out

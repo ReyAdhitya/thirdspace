@@ -1,0 +1,85 @@
+[04:51:41] shot 01-00-boot.png
+[04:51:42] clicked Alex
+[04:51:42] clicked Log in
+[04:51:44] clicked Discover
+[04:51:45] shot 02-01-jazz.png
+[04:51:45] ok WEB-1: Jazz → After-work Jazz
+[04:51:45] clicked Clear
+[04:51:46] shot 03-02-pottery.png
+[04:51:46] ok WEB-1: Pottery → Pottery Evening
+[04:51:47] clicked Clear
+[04:51:48] ok WEB-1: 爵士 hits
+[04:51:48] ok WEB-1: 陶藝 hits
+[04:51:48] shot 04-03-zh.png
+[04:51:49] clicked Clear
+[04:51:49] ok WEB-1: empty query restores list
+[04:51:51] shot 05-04-zzzzzzz.png
+[04:51:51] ok WEB-4: searchEmpty copy
+[04:51:52] clicked Clear
+[04:51:52] clicked Districts
+[04:51:56] shot 06-05-wanchai.png
+[04:51:56] ok WEB-5: 1 event
+[04:51:56] clicked Clear
+[04:51:57] ok WEB-5: cleared → N events
+[04:51:57] clicked Profile
+[04:51:58] clicked Settings
+[04:51:59] clicked Language
+[04:52:00] clicked 繁體中文
+[04:52:00] shot 07-06-hant.png
+[04:52:00] ok WEB-2: 語言 only
+[04:52:00] ok WEB-2: Settings 繁中
+[04:52:01] clicked 語言
+[04:52:02] clicked 简体中文
+[04:52:02] shot 08-07-hans.png
+[04:52:02] ok WEB-2: 语言 only
+[04:52:03] clicked 语言
+[04:52:03] clicked English
+[04:52:04] shot 09-08-en.png
+[04:52:04] ok WEB-2: English Language row
+[04:52:04] clicked Log out
+[04:52:05] ok WEB-2: login chips after logout
+[04:52:05] clicked Alex
+[04:52:06] clicked Log in
+[04:52:07] clicked Profile
+[04:52:08] clicked Settings
+[04:52:08] clicked Log out
+[04:52:09] clicked Lin
+[04:52:09] clicked Log in
+[04:52:11] clicked Profile
+[04:52:12] clicked Your Events
+[04:52:12] clicked Create event
+[04:52:13] shot 10-09-create-chips.png
+[04:52:13] ok WEB-3: stock chips paint
+[04:52:14] shot 11-10-stock-cover.png
+[04:52:14] FAIL WEB-3: no large cover after chip
+[04:52:17] FAIL WEB-3: no filechooser on Add a photo
+[04:52:18] clicked Create an event
+[04:52:19] shot 12-12-event-hero.png
+[04:52:19] FAIL WEB-3: publish miss: 
+Create an event
+Location
+Central
+
+Meet at
+Date
+Time
+Price
+Free
+Paid
+Capacity
+
+20
+
+By mood
+
+Quiet
+
+Create
+
+Meet people
+
+This weekend
+[04:52:19] FAIL WEB-3: event hero grey/missing: []
+[04:52:20] tab coord Profile
+[04:52:23] shot 13-13-cancel.png
+[04:52:23] ok WEB-3: cancel did not slap jazz

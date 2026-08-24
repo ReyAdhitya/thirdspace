@@ -14,7 +14,7 @@ import { colors } from '../theme';
 /**
  * Bundled demo jpgs go through React Native Image. expo-image on web
  * does not paint Metro `require()` assets — Popular cards stayed grey.
- * Remote / camera URIs still use expo-image.
+ * Remote, blob, data, file, content, and ph URIs use expo-image.
  */
 export function Photo({
   uri,

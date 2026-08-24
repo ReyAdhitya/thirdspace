@@ -1,0 +1,79 @@
+[
+  {
+    "src": "http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/jazz.jpg",
+    "naturalWidth": 1200,
+    "naturalHeight": 800,
+    "complete": true,
+    "w": 350,
+    "h": 190,
+    "x": 20,
+    "y": 388,
+    "visible": true
+  },
+  {
+    "src": "http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/sketch.jpg",
+    "naturalWidth": 1200,
+    "naturalHeight": 1200,
+    "complete": true,
+    "w": 350,
+    "h": 190,
+    "x": 20,
+    "y": 590,
+    "visible": true
+  },
+  {
+    "src": "http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/sketch.jpg",
+    "naturalWidth": 1200,
+    "naturalHeight": 1200,
+    "complete": true,
+    "w": 54,
+    "h": 54,
+    "x": 33,
+    "y": 881,
+    "visible": false
+  },
+  {
+    "src": "http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/library.jpg",
+    "naturalWidth": 1200,
+    "naturalHeight": 800,
+    "complete": true,
+    "w": 54,
+    "h": 54,
+    "x": 33,
+    "y": 973,
+    "visible": false
+  },
+  {
+    "src": "http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/market.jpg",
+    "naturalWidth": 1200,
+    "naturalHeight": 900,
+    "complete": true,
+    "w": 54,
+    "h": 54,
+    "x": 33,
+    "y": 1065,
+    "visible": false
+  },
+  {
+    "src": "http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/film.jpg",
+    "naturalWidth": 1200,
+    "naturalHeight": 900,
+    "complete": true,
+    "w": 54,
+    "h": 54,
+    "x": 33,
+    "y": 1157,
+    "visible": false
+  },
+  {
+    "src": "http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/hike.jpg",
+    "naturalWidth": 1200,
+    "naturalHeight": 800,
+    "complete": true,
+    "w": 54,
+    "h": 54,
+    "x": 33,
+    "y": 1249,
+    "visible": false
+  }
+]

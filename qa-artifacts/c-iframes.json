@@ -1,0 +1,9 @@
+[
+  {
+    "title": "OpenStreetMap",
+    "src": "https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik",
+    "w": 350,
+    "h": 300,
+    "y": 163
+  }
+]

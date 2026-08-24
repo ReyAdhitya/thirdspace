@@ -1,0 +1,24 @@
+[16:45:00] clicked Alex
+[16:45:00] clicked Log in
+[16:45:02] clicked Old Street Sketching in Tai Hang
+[16:45:04] shot D:\thirdspace\qa-artifacts\131-r5-sketch.png
+[16:45:04] PASS B16-JOIN-GONE: Already started
+[16:45:04] clicked  Chat 0 
+[16:45:05] shot D:\thirdspace\qa-artifacts\132-r5-chat.png
+[16:45:05] PASS B17-CHAT-HOLDER: chat as ticket holder
+[16:45:07] shot D:\thirdspace\qa-artifacts\133-r5-foryou-deep.png
+[16:45:07] clicked Weekend Market in Causeway Bay
+[16:45:08] shot D:\thirdspace\qa-artifacts\134-r5-market.png
+[16:45:08] FINDING Blocker B16-WAITLIST-CTA: 
+
+Weekend Market in Causeway Bay
+Independent zines and handmade things. Free entry, pay for what you buy.
+Chen Shu
+Host
+Following
+
+Sat, 22 Aug 11:00 - 17:00
+
+[16:45:09] FATAL miss Log out
+[16:45:09] shot D:\thirdspace\qa-artifacts\135-r5-fatal.png
+[16:45:09] FINDING Blocker FATAL: miss Log out

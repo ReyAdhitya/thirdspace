@@ -1,0 +1,82 @@
+[09:46:24] === boot + hard reset ===
+[09:46:28] shot D:\thirdspace\qa-artifacts\01-login.png
+[09:46:28] PASS FRAME-390: viewport 390x844
+[09:46:28] === ALEX login ===
+[09:46:30] shot D:\thirdspace\qa-artifacts\02-alex-discover.png
+[09:46:30] PASS B-LOGIN-ALEX: Alex reached Discover
+[09:46:30] tabs visible: Discover,Districts,Tickets,Profile
+[09:46:30] PASS B18-TABS: Exactly the four expected tabs (Saved not a tab)
+[09:46:30] PASS M-BELL: No Discover bell copy in header
+[09:46:30] moods: Quiet,Create,Meet people,This weekend,Nearby
+[09:46:30] PASS A-MOODS: Moods present: Quiet, Create, Meet people, This weekend, Nearby
+[09:46:31] heroes 2 loaded 2 empty 0
+[09:46:31] PASS B1-POPULAR-PHOTOS: 2 loaded hero photos
+[09:46:31] shot D:\thirdspace\qa-artifacts\03-alex-discover-recommended.png
+[09:46:31] thumbs 5 empty 0
+[09:46:31] PASS B2-RECOMMENDED-THUMBS: 5 loaded thumbnails
+[09:46:32] shot D:\thirdspace\qa-artifacts\04-alex-mood-quiet.png
+[09:46:32] PASS A-MOOD-FILTER: Quiet mood toggles the list (Popular hides while filtering)
+[09:46:34] shot D:\thirdspace\qa-artifacts\05-alex-popular-seeall.png
+[09:46:34] popular heroes before 2 after 3
+[09:46:34] PASS A-POPULAR-SEEALL: expanded 2 → 3 hero photos
+[09:46:35] shot D:\thirdspace\qa-artifacts\06-alex-jazz.png
+[09:46:35] PASS B3-JAZZ-HERO: jazz hero naturalWidth=1200
+[09:46:35] PASS B17-CHAT-LOCKED: No-ticket Jazz shows chat locked, no composer
+[09:46:36] PASS A-FOLLOW: Tapped Follow on Jazz host row
+[09:46:38] shot D:\thirdspace\qa-artifacts\07-alex-save-event.png
+[09:46:39] === Districts OSM ===
+[09:46:40] shot D:\thirdspace\qa-artifacts\08-alex-districts.png
+[09:46:40] iframes [{"title":"OpenStreetMap","src":"https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik","w":350,"h":300}]
+[09:46:40] PASS B6-OSM: OSM iframe https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik
+[09:46:40] PASS B7-EVENT-ROWS: No Central 1 / Eastern 0 district index
+[09:46:41] shot D:\thirdspace\qa-artifacts\09-alex-districts-wanchai.png
+[09:46:41] PASS B8-WANCHAI-FILTER: Wan Chai search filtered the list
+[09:46:41] FINDING Blocker B8-WANCHAI-RECENTRE: iframe src=https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik
+[09:46:42] shot D:\thirdspace\qa-artifacts\10-alex-districts-row-event.png
+[09:46:42] PASS B8-ROW-OPENS-EVENT: Tapping a Districts row opened the event page
+[09:46:44] shot D:\thirdspace\qa-artifacts\11-alex-districts-after-back.png
+[09:46:44] === Tickets calendar ===
+[09:46:45] shot D:\thirdspace\qa-artifacts\12-alex-tickets-upcoming.png
+[09:46:45] PASS B9-UPCOMING-PAST: Upcoming / Past present
+[09:46:45] PASS B9-STRIP: Weekday strip visible
+[09:46:45] PASS B10-NO-QR: No QR copy on tickets
+[09:46:46] shot D:\thirdspace\qa-artifacts\13-alex-tickets-past.png
+[09:46:46] PASS B9-SEED-TICKETS: Past tickets present for Alex
+[09:46:47] shot D:\thirdspace\qa-artifacts\14-alex-calendar.png
+[09:46:47] PASS B10-MONTH-SHEET: Month sheet Sun–Sat visible
+[09:46:47] shot D:\thirdspace\qa-artifacts\15-alex-calendar-empty-day.png
+[09:46:47] PASS B10-EMPTY-DAY: Empty day shows empty state
+[09:47:07] FATAL locator.click: Timeout 20000ms exceeded.
+Call log:
+  - waiting for getByText('Clear', { exact: true }).first()
+    - locator resolved to <div dir="auto" class="css-text-146c3p1">Clear</div>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="css-view-g5y9jx r-alignItems-1awozwy r-paddingBlock-dp7rxi">…</div> from <div class="css-view-g5y9jx r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-pointerEvents-12vffkv">…</div> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="css-view-g5y9jx r-alignItems-1awozwy r-paddingBlock-dp7rxi">…</div> from <div class="css-view-g5y9jx r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-pointerEvents-12vffkv">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    38 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="css-view-g5y9jx r-alignItems-1awozwy r-paddingBlock-dp7rxi">…</div> from <div class="css-view-g5y9jx r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-pointerEvents-12vffkv">…</div> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+    at tapText (C:\Users\reyse\AppData\Local\Temp\ts-qa\qa-run.cjs:76:13)
+    at async C:\Users\reyse\AppData\Local\Temp\ts-qa\qa-run.cjs:893:9
+[09:47:08] shot D:\thirdspace\qa-artifacts\16-fatal.png
+[09:47:08] FINDING Blocker FATAL: locator.click: Timeout 20000ms exceeded.
+Call log:
+  - waiting for getByText('Clear', { exact: true }).first()
+    - locator resolved to <div dir="auto" class="

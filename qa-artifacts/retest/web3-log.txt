@@ -1,0 +1,40 @@
+[04:54:41] clicked Lin
+[04:54:42] clicked Log in
+[04:54:43] clicked Profile
+[04:54:44] clicked Your Events
+[04:54:45] clicked Create event
+[04:54:46] shot w3-01-create.png
+[04:54:46] cover slot={"score":600,"x":545,"y":98,"w":350,"h":150,"cx":720,"cy":173,"dashed":true,"tag":"DIV"} addPhoto=true media=[{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":547,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/jazz.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":607,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/library.jpg"},{"tag":"img","nw":1200,"nh":900,"w":48,"h":48,"x":667,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/film.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":727,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/hike.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":787,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/clay.jpg"}]
+[04:54:46] ok stock chips paint
+[04:54:46] shot w3-02-stock-cover.png
+[04:54:46] cover slot={"score":600,"x":545,"y":98,"w":350,"h":150,"cx":720,"cy":173,"dashed":true,"tag":"DIV"} addPhoto=false media=[{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":547,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/jazz.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":607,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/library.jpg"},{"tag":"img","nw":1200,"nh":900,"w":48,"h":48,"x":667,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/film.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":727,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/hike.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":787,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/clay.jpg"}]
+[04:54:46] ok chip sets form cover (Add a photo gone)
+[04:54:46] clicked cover slot
+[04:54:46] setFiles hike.jpg
+[04:54:48] shot w3-03-file-cover.png
+[04:54:48] cover slot={"score":600,"x":545,"y":98,"w":350,"h":150,"cx":720,"cy":173,"dashed":true,"tag":"DIV"} addPhoto=false media=[{"tag":"img","nw":1200,"nh":800,"w":348,"h":148,"x":546,"y":99,"src":"blob:http://127.0.0.1:8082/9a4d589e-5c2f-4413-9357-65aaed8c6456"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":547,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/jazz.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":607,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/library.jpg"},{"tag":"img","nw":1200,"nh":900,"w":48,"h":48,"x":667,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/film.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":727,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/hike.jpg"},{"tag":"img","nw":1200,"nh":800,"w":48,"h":48,"x":787,"y":258,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/clay.jpg"}]
+[04:54:48] blob=true paintedImg=true noPlaceholder=true
+[04:54:48] ok file cover paints blob
+[04:54:48] typed title
+[04:54:49] shot w3-04-before-submit.png
+[04:54:50] clicked Create an event (lowest)
+[04:54:51] shot w3-05-after-submit.png
+[04:54:51] after submit text:  |  | QA Retest Photo | QA Retest Photo | Lin Ngon | Host |  | Sat, 5 Sept 19:00 - 21:00 |  | Central · Central |  | Free | About this event | QA Retest Photo | Attending 0 | 0 | / | 20 | Chat opens after you join. |  | Edit event | Report | Join this event | 
+[04:54:51] ok published QA Retest Photo
+[04:54:51] cover slot=null addPhoto=false media=[{"tag":"img","nw":1200,"nh":800,"w":390,"h":300,"x":525,"y":28,"src":"blob:http://127.0.0.1:8082/9a4d589e-5c2f-4413-9357-65aaed8c6456"},{"tag":"img","nw":800,"nh":1200,"w":40,"h":40,"x":545,"y":408,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/portraitLin.jpg"}]
+[04:54:51] hero media [{"tag":"img","nw":1200,"nh":800,"w":390,"h":300,"x":525,"y":28,"src":"blob:http://127.0.0.1:8082/9a4d589e-5c2f-4413-9357-65aaed8c6456"}]
+[04:54:51] ok event hero paints blob
+[04:54:52] tab coord Profile
+[04:54:53] clicked Create event
+[04:54:54] shot w3-06-create2.png
+[04:54:54] cover slot=null addPhoto=false media=[{"tag":"img","nw":1200,"nh":800,"w":390,"h":300,"x":525,"y":-114,"src":"blob:http://127.0.0.1:8082/9a4d589e-5c2f-4413-9357-65aaed8c6456"},{"tag":"img","nw":800,"nh":1200,"w":40,"h":40,"x":545,"y":266,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/portraitLin.jpg"}]
+[04:54:58] no chooser on cancel attempt
+[04:54:58] shot w3-07-cancel.png
+[04:54:58] cover slot=null addPhoto=false media=[{"tag":"img","nw":1200,"nh":800,"w":390,"h":300,"x":525,"y":-114,"src":"blob:http://127.0.0.1:8082/9a4d589e-5c2f-4413-9357-65aaed8c6456"},{"tag":"img","nw":800,"nh":1200,"w":40,"h":40,"x":545,"y":266,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/portraitLin.jpg"}]
+[04:54:58] ok cancel did not slap jazz
+ok: stock chips paint
+ok: chip sets form cover (Add a photo gone)
+ok: file cover paints blob
+ok: published QA Retest Photo
+ok: event hero paints blob
+ok: cancel did not slap jazz

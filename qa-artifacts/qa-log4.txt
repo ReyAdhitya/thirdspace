@@ -1,0 +1,34 @@
+[09:57:31] clicked Alex
+[09:57:32] clicked Log in
+[09:57:33] shot D:\thirdspace\qa-artifacts\111-r4-home.png
+[09:57:33] === Hike
+[09:57:34] shot D:\thirdspace\qa-artifacts\112-r4-for-you.png
+[09:57:34] clicked Sunrise Hike in Sai Kung
+[09:57:35] shot D:\thirdspace\qa-artifacts\113-r4-hike.png
+[09:57:35] clicked Join this event
+[09:57:37] shot D:\thirdspace\qa-artifacts\114-r4-hike-ticket.png
+[09:57:37] PASS B14-FREE-JOIN: hike ticket on Tickets
+[09:57:37] === WaitlistSketchChat
+[09:57:38] clicked See all 
+[09:57:39] shot D:\thirdspace\qa-artifacts\115-r4-seeall.png
+[09:57:39] FAIL WaitlistSketchChat miss Weekend Market
+[09:57:39] shot D:\thirdspace\qa-artifacts\116-fail-WaitlistSketchChat.png
+[09:57:39] FINDING Major SECT-WaitlistSketchChat: miss Weekend Market
+[09:57:39] === LinHostedCreate
+[09:57:40] clicked Log out
+[09:57:41] clicked Lin
+[09:57:42] clicked Log in
+[09:57:44] shot D:\thirdspace\qa-artifacts\117-r4-lin-scrolled.png
+[09:57:44] PASS B5-LIN-HOSTED: 4 hosted thumbs
+[09:57:44] clicked  Create event
+[09:57:46] shot D:\thirdspace\qa-artifacts\118-r4-create.png
+[09:57:46] PASS B-STOCK: stock photos
+[09:57:46] shot D:\thirdspace\qa-artifacts\119-r4-create-picked.png
+[09:57:46] clicked Event name
+[09:57:47] FAIL LinHostedCreate miss About this event
+[09:57:47] shot D:\thirdspace\qa-artifacts\120-fail-LinHostedCreate.png
+[09:57:47] FINDING Major SECT-LinHostedCreate: miss About this event
+[09:57:47] === Admin
+[09:57:48] FAIL Admin miss Log out
+[09:57:48] shot D:\thirdspace\qa-artifacts\121-fail-Admin.png
+[09:57:48] FINDING Major SECT-Admin: miss Log out

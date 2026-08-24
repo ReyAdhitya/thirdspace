@@ -1,0 +1,28 @@
+[
+  {
+    "id": "B16-JOIN-GONE",
+    "severity": "Pass",
+    "actual": "Already started"
+  },
+  {
+    "id": "B17-CHAT-HOLDER",
+    "severity": "Pass",
+    "actual": "chat as ticket holder"
+  },
+  {
+    "id": "B16-WAITLIST-CTA",
+    "severity": "Blocker",
+    "character": "Alex",
+    "steps": "Open Weekend Market (8/8).",
+    "expected": "Join waitlist.",
+    "actual": "\n\nWeekend Market in Causeway Bay\nIndependent zines and handmade things. Free entry, pay for what you buy.\nChen Shu\nHost\nFollowing\n\nSat, 22 Aug 11:00 - 17:00\n\nCauseway Bay · Great George Street pedestrian zone, Causeway Bay\n\nFree\nAbout this event\nIndependent zines and handmade things. Free entry, pay for what you buy.\nAttending 8\n+\n3\n8\n/\n8\nChat opens after you join.\nAfter-event notes\nAlready s"
+  },
+  {
+    "id": "FATAL",
+    "severity": "Blocker",
+    "character": "n/a",
+    "steps": "r5",
+    "expected": "complete",
+    "actual": "miss Log out"
+  }
+]

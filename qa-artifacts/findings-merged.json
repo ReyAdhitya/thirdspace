@@ -1,0 +1,266 @@
+[
+  {
+    "id": "FRAME-390",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "viewport 390x844"
+  },
+  {
+    "id": "B-LOGIN-ALEX",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Alex reached Discover"
+  },
+  {
+    "id": "B18-TABS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Exactly the four expected tabs (Saved not a tab)"
+  },
+  {
+    "id": "M-BELL",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "No Discover bell copy in header"
+  },
+  {
+    "id": "A-MOODS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Moods present: Quiet, Create, Meet people, This weekend, Nearby"
+  },
+  {
+    "id": "B1-POPULAR-PHOTOS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "2 loaded hero photos"
+  },
+  {
+    "id": "B2-RECOMMENDED-THUMBS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "5 loaded thumbnails"
+  },
+  {
+    "id": "A-MOOD-FILTER",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Quiet mood toggles the list (Popular hides while filtering)"
+  },
+  {
+    "id": "A-POPULAR-SEEALL",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "expanded 2 → 3 hero photos"
+  },
+  {
+    "id": "B3-JAZZ-HERO",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "jazz hero naturalWidth=1200"
+  },
+  {
+    "id": "B17-CHAT-LOCKED",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "No-ticket Jazz shows chat locked, no composer"
+  },
+  {
+    "id": "A-FOLLOW",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Tapped Follow on Jazz host row"
+  },
+  {
+    "id": "B6-OSM",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "OSM iframe https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik"
+  },
+  {
+    "id": "B7-EVENT-ROWS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "No Central 1 / Eastern 0 district index"
+  },
+  {
+    "id": "B8-ROW-OPENS-EVENT",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Tapping a Districts row opened the event page"
+  },
+  {
+    "id": "B9-UPCOMING-PAST",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Upcoming / Past present"
+  },
+  {
+    "id": "B9-STRIP",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Weekday strip visible"
+  },
+  {
+    "id": "B10-NO-QR",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "No QR copy on tickets"
+  },
+  {
+    "id": "B9-SEED-TICKETS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Past tickets present for Alex"
+  },
+  {
+    "id": "B10-MONTH-SHEET",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Month sheet Sun–Sat visible"
+  },
+  {
+    "id": "B10-EMPTY-DAY",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Empty day shows empty state"
+  },
+  {
+    "id": "B8-WANCHAI-FILTER",
+    "severity": "Blocker",
+    "character": "Alex",
+    "steps": "Districts → type Wan Chai.",
+    "expected": "List filters (not still 8 events including Tai Hang).",
+    "actual": "Discover\nFind what the city is doing\n\nBy mood\nPick how today feels\n\nQuiet\n\nCreate\n\nMeet people\n\nThis weekend\n\nNearby\nResults\nClear\n\n\nNothing here yet\nNo tickets yet. Join something on Discover.\nClear\nDistricts\nExplore events by district\n\nEvents on the map\n8 events\nOld Street Sketching in Tai Hang\nTai Hang · Mon, 10 Aug\nHK$120\nLibrary Reading Night, Sheung Wan\nSheung Wan · Thu, 20 Aug\nFree\nAfter-work Jazz in Wan Chai\nWan Chai · Fri, 21 Aug\nHK$250\nWeekend Market in Causeway Bay\nCauseway Bay · Sat, 22 Aug\nFree\nFilm Photo Walk in Sham Shui Po\nSham Shui Po · Sat, 22 Aug\nHK$150\nSunrise Hike in Sai Kung\nSai Kung · Sun, 23 Aug\nFree\nPottery Evening in Central\nCentral · Tue, 25 Aug\nHK$380\nRoo"
+  },
+  {
+    "id": "B8-WANCHAI-RECENTRE",
+    "severity": "Blocker",
+    "character": "Alex",
+    "steps": "Search Wan Chai on Districts.",
+    "expected": "Map recentres (OSM bbox/marker changes from whole-HK default).",
+    "actual": "before=https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik after=https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik"
+  },
+  {
+    "id": "B8-WANCHAI-ZH",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "灣仔 search still shows Wan Chai event"
+  },
+  {
+    "id": "B8-ROW",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Row opened event"
+  },
+  {
+    "id": "B10-DAY-FILTER",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Day 10 → Sketching"
+  },
+  {
+    "id": "B10-CLEAR",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Clear restored both past tickets"
+  },
+  {
+    "id": "SECT-Join free hike",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "Join free hike",
+    "expected": "Section completes.",
+    "actual": "locator.click: Element is not visible\nCall log:\n  - waiting for getByText(/Sunrise Hike/i).first()\n    - locator resolved to <div dir=\"auto\" class=\"css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a\">Sunrise Hike in Sai Kung</div>\n  - attempting click action\n    - scrolling into view if needed\n"
+  },
+  {
+    "id": "SECT-Paid checkout",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "Paid checkout",
+    "expected": "Section completes.",
+    "actual": "locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n  - waiting for getByText('Discover', { exact: true }).first() to be visible\n    28 × locator resolved to hidden <div dir=\"auto\" class=\"css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a\">Discover</div>\n"
+  },
+  {
+    "id": "SECT-Waitlist + started + chat",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "Waitlist + started + chat",
+    "expected": "Section completes.",
+    "actual": "locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n  - waiting for getByText('Discover', { exact: true }).first() to be visible\n    28 × locator resolved to hidden <div dir=\"auto\" class=\"css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a\">Discover</div>\n"
+  },
+  {
+    "id": "SECT-Alex profile + language",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "Alex profile + language",
+    "expected": "Section completes.",
+    "actual": "locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n  - waiting for getByText('Profile', { exact: true }).first() to be visible\n    28 × locator resolved to hidden <div dir=\"auto\" class=\"css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a\">Profile</div>\n"
+  },
+  {
+    "id": "SECT-Lin",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "Lin",
+    "expected": "Section completes.",
+    "actual": "locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n  - waiting for getByText('Profile', { exact: true }).first() to be visible\n    28 × locator resolved to hidden <div dir=\"auto\" class=\"css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a\">Profile</div>\n"
+  },
+  {
+    "id": "SECT-Admin",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "Admin",
+    "expected": "Section completes.",
+    "actual": "locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n  - waiting for getByText('Profile', { exact: true }).first() to be visible\n    28 × locator resolved to hidden <div dir=\"auto\" class=\"css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a\">Profile</div>\n"
+  }
+]

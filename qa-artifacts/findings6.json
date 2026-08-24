@@ -1,0 +1,37 @@
+[
+  {
+    "id": "B4-ADMIN-FACE",
+    "severity": "Pass",
+    "actual": "nw 800"
+  },
+  {
+    "id": "C-TABS",
+    "severity": "Pass",
+    "actual": "tabs"
+  },
+  {
+    "id": "B5-REPORT-THUMBS",
+    "severity": "Pass",
+    "actual": "3"
+  },
+  {
+    "id": "B13-RESOLVE",
+    "severity": "Pass",
+    "actual": "ok"
+  },
+  {
+    "id": "B13-HIDE",
+    "severity": "Pass",
+    "actual": "hid"
+  },
+  {
+    "id": "C-FEATURE",
+    "severity": "Pass",
+    "actual": "ok"
+  },
+  {
+    "id": "B13-BAN",
+    "severity": "Pass",
+    "actual": "banned first"
+  }
+]

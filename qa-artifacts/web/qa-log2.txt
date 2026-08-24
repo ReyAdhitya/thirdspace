@@ -1,0 +1,80 @@
+[04:08:02] [PC] shot 101-PC-p2-boot.png
+[04:08:02] [PC] frame {"x":525,"y":28,"w":390,"h":844,"framed":true}
+[04:08:02] [PC] clicked "Alex"
+[04:08:03] [PC] clicked "Log in"
+[04:08:04] [PC] clicked "Discover"
+[04:08:04] [PC] shot 102-PC-p2-discover.png
+[04:08:04] [PC] discover imgs [{"inP":true,"nw":1200,"w":350,"h":190,"src":"unstable_path=.%2Fassets%2Fdemo/jazz.jpg"},{"inP":true,"nw":1200,"w":350,"h":190,"src":"stable_path=.%2Fassets%2Fdemo/sketch.jpg"}]
+[04:08:05] [PC] clicked "See all"
+[04:08:06] [PC] shot 103-PC-p2-see-all-scrolled.png
+[04:08:06] [PC] PASS See all extra cards
+[04:08:06] [PC] shot 104-PC-p2-thumbs.png
+[04:08:06] [PC] Major WEB-21 recommended thumbs: [{"inP":true,"nw":1200,"w":350,"h":190,"src":"unstable_path=.%2Fassets%2Fdemo/film.jpg"},{"inP":true,"nw":1200,"w":350,"h":190,"src":"table_path=.%2Fassets%2Fdemo/library.jpg"},{"inP":true,"nw":1200,"w":350,"h":190,"src":"unstable_path=.%2Fassets%2Fdemo/roof.jpg"},{"inP":true,"nw":1200,"w":350,"h":190,"src":"unstable_path=.%2Fassets%2Fdemo/clay.jpg"}]
+[04:08:07] [PC] clicked "Discover"
+[04:08:07] [PC] clicked "Discover"
+[04:08:07] [PC] shot 105-PC-p2-jazz-hero.png
+[04:08:07] [PC] Minor WEB-22 open Jazz card: Discover
+Find what the city is doing
+Causeway Bay
+·
+Sat, 22 Aug
+Free
+
+Film Photo Walk in Sham Shui Po
+Sham Shui Po
+·
+Sat, 22 Aug
+HK$150
+
+Library Reading Night, Sheung Wan
+Sheung 
+[04:08:08] [PC] clicked "Districts"
+[04:08:10] [PC] shot 106-PC-p2-districts.png
+[04:08:11] [PC] shot 107-PC-p2-wanchai.png
+[04:08:11] [PC] Minor WEB-23 copy grammar: 1 events
+[04:08:12] [PC] clicked "Profile"
+[04:08:12] [PC] shot 108-PC-p2-alex-profile.png
+[04:08:13] [PC] shot 109-PC-p2-settings.png
+[04:08:14] [PC] shot 110-PC-p2-hans.png
+[04:08:14] [PC] shot 111-PC-p2-logout-miss.png
+[04:08:14] [PC] Major WEB-24 logout: Discover
+Find what the city is doing
+Causeway Bay
+·
+Sat, 22 Aug
+Free
+
+Film Photo Walk in Sham Shui Po
+Sham Shui Po
+·
+Sat, 22 Aug
+HK$150
+
+Library Reading Night
+[04:08:15] [PC] shot 112-PC-p2-interests.png
+[04:08:15] [PC] Major WEB-25 signup: Discover
+Find what the city is doing
+Causeway Bay
+·
+Sat, 22 Aug
+Free
+
+Film Photo Walk in Sham Shui Po
+Sham Shui Po
+·
+Sat, 22 Aug
+HK$150
+
+Library Reading Night, Sheung Wan
+Sheung Wan
+·
+Thu, 20 Aug
+Fr
+[04:08:16] [PC] clicked "Profile"
+[04:08:17] [PC] clicked "Profile"
+[04:08:19] [PC] FATAL Error: miss Lin
+    at clickText (C:\Users\reyse\AppData\Local\Temp\ts-qa\web-qa2.cjs:133:27)
+    at async login (C:\Users\reyse\AppData\Local\Temp\ts-qa\web-qa2.cjs:256:3)
+    at async runSurface (C:\Users\reyse\AppData\Local\Temp\ts-qa\web-qa2.cjs:757:5)
+    at async C:\Users\reyse\AppData\Local\Temp\ts-qa\web-qa2.cjs:1242:5
+[04:08:19] [PC] Blocker WEB-26 runner: miss Lin

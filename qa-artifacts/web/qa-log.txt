@@ -1,0 +1,326 @@
+[04:03:44] [PC] --- A boot ---
+[04:03:44] [PC] shot 01-PC-00-boot.png
+[04:03:44] [PC] PASS PC frame — {"x":525,"y":28,"w":390,"h":844,"framed":true}
+[04:03:44] [PC] --- B auth ---
+[04:03:45] [PC] clicked "Log in with Email" @ 732,625
+[04:03:46] [PC] clicked "Log in" @ 720,689
+[04:03:47] [PC] shot 02-PC-auth-bad-pw.png
+[04:03:47] [PC] Major WEB-1 wrong password: Welcome to
+Thirdspace
+Hong Kong events between home and work.
+Email
+Password
+That email and password do not match.
+Log in
+Create an account
+Alex
+demo
+Lin
+host
+Admin
+admin
+[04:03:47] [PC] clicked "Alex" @ 655,800
+[04:03:48] [PC] clicked "Log in" @ 720,689
+[04:03:49] [PC] PASS Alex chip — Discover
+[04:03:51] [PC] PASS refresh session — still Discover
+[04:03:51] [PC] clicked "Profile" @ 866,849
+[04:03:53] [PC] shot 03-PC-logout-miss.png
+[04:03:53] [PC] Major WEB-2 logout: Discover
+Find what the city is doing
+
+By mood
+Pick how today feels
+
+Quiet
+
+Create
+
+Meet people
+
+This weekend
+Popular now
+See all
+
+After-work Jazz in Wan Chai
+Wan Chai
+·
+Fri, 21 Aug
+HK$250
+
+Old 
+[04:03:54] [PC] PASS signup continue — ok
+[04:03:55] [PC] clicked "Profile" @ 866,849
+[04:03:58] [PC] clicked "Profile" @ 866,849
+[04:03:59] [PC] clicked "Alex" @ 760,102
+[04:04:00] [PC] --- C Discover ---
+[04:04:01] [PC] clicked "Discover" @ 574,849
+[04:04:02] [PC] PASS 4 tabs — present
+[04:04:02] [PC] shot 04-PC-discover-alex.png
+[04:04:02] [PC] PASS popular photos — 5 painted
+[04:04:02] [PC] clicked "See all" @ 860,289
+[04:04:03] [PC] PASS See all — expanded
+[04:04:04] [PC] PASS search Jazz — hit
+[04:04:05] [PC] PASS search 爵士 — hit
+[04:04:06] [PC] shot 05-PC-search-Pottery.png
+[04:04:06] [PC] Major WEB-3 Discover search: Discover
+Find what the city is doing
+
+By mood
+Pick how today feels
+
+Quiet
+
+Create
+
+Meet people
+
+This weekend
+Results
+Clear
+
+
+Nothing here yet
+No tickets yet. Join something on Discover.
+Clear
+
+Alex
+@
+demo
+Central
+· Hong Kong
+2
+Attended
+1
+Saved
+1
+Following
+0
+Followers
+My j
+[04:04:07] [PC] PASS search 陶藝 — hit
+[04:04:08] [PC] clicked "Clear" @ 863,391
+[04:04:09] [PC] clicked "Quiet" @ 581,329
+[04:04:09] [PC] clicked "Create" @ 665,329
+[04:04:10] [PC] clicked "Meet people" @ 749,329
+[04:04:11] [PC] clicked "This weekend" @ 833,329
+[04:04:13] [PC] clicked "Profile" @ 866,849
+[04:04:13] [PC] PASS Saved in Profile — section present
+[04:04:14] [PC] clicked "Discover" @ 574,849
+[04:04:15] [PC] clicked "After-work Jazz" @ 723,514
+[04:04:15] [PC] shot 06-PC-jazz-hero.png
+[04:04:15] [PC] PASS Jazz hero — 1 large painted
+[04:04:16] [PC] --- D Districts ---
+[04:04:16] [PC] clicked "Districts" @ 671,849
+[04:04:19] [PC] shot 07-PC-districts.png
+[04:04:19] [PC] PASS OSM iframe — https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.31
+[04:04:21] [PC] shot 08-PC-wanchai.png
+[04:04:21] [PC] PASS Wan Chai EN — filtered
+[04:04:22] [PC] clicked "Clear" @ 863,391
+[04:04:23] [PC] PASS 灣仔 — filtered
+[04:04:24] [PC] clicked "Jazz" @ 723,514
+[04:04:24] [PC] PASS row opens event — ok
+[04:04:25] [PC] PASS map drag — scrollY 0→0
+[04:04:25] [PC] --- F tickets seed ---
+[04:04:26] [PC] clicked "Tickets" @ 769,849
+[04:04:27] [PC] shot 09-PC-tickets-upcoming.png
+[04:04:27] [PC] clicked "Past" @ 652,131
+[04:04:28] [PC] shot 10-PC-tickets-past.png
+[04:04:28] [PC] PASS Past tickets — Library + Sketch
+[04:04:28] [PC] clicked "Upcoming" @ 579,131
+[04:04:28] [PC] --- E join / pay ---
+[04:04:29] [PC] clicked "Discover" @ 574,849
+[04:04:31] [PC] clicked "Pottery" @ 723,445
+[04:04:32] [PC] clicked "Join this event" @ 720,822
+[04:04:34] [PC] clicked "Pay (test) and join" @ 720,388
+[04:04:34] [PC] PASS non-4242 rejected — ok
+[04:04:36] [PC] clicked "Pay (test) and join" @ 720,419
+[04:04:37] [PC] shot 11-PC-pay-ok.png
+[04:04:37] [PC] PASS 4242 pay — ticket
+[04:04:37] [PC] clicked "Tickets" @ 769,849
+[04:04:38] [PC] clicked "Upcoming" @ 579,130
+[04:04:38] [PC] PASS Upcoming Pottery — shown
+[04:04:38] [PC] --- F calendar ---
+[04:04:39] [PC] clicked "Tickets" @ 769,849
+[04:04:40] [PC] clicked "See all" @ 860,363
+[04:04:41] [PC] shot 12-PC-calendar.png
+[04:04:41] [PC] clicked "Close" @ 583,461
+[04:04:42] [PC] clicked "See all" @ 860,363
+[04:04:43] [PC] clicked "Past" @ 652,131
+[04:04:43] [PC] clicked "See all" @ 860,503
+[04:04:44] [PC] --- E chat ---
+[04:04:44] [PC] clicked "Tickets" @ 769,849
+[04:04:45] [PC] clicked "Past" @ 652,130
+[04:04:46] [PC] clicked "Library" @ 765,215
+[04:04:47] [PC] clicked "Chat" @ 713,518
+[04:04:49] [PC] shot 13-PC-chat-holder.png
+[04:04:49] [PC] PASS holder chat — sent or seed visible
+[04:04:50] [PC] shot 14-PC-chat-crash.png
+[04:04:50] [PC] Major WEB-4 chat crash: miss "Discover"
+[04:04:50] [PC] --- H Lin create ---
+[04:04:50] [PC] shot 15-PC-create-crash.png
+[04:04:50] [PC] Blocker WEB-5 create crash: miss "Profile"
+[04:04:50] [PC] --- E free join + waitlist ---
+[04:04:50] [PC] shot 16-PC-wait-crash.png
+[04:04:50] [PC] Major WEB-6 waitlist crash: miss "Profile"
+[04:04:50] [PC] --- G profiles + J language ---
+[04:04:50] [PC] shot 17-PC-prof-crash.png
+[04:04:50] [PC] Major WEB-7 profile/lang crash: miss "Profile"
+[04:04:50] [PC] --- I admin ---
+[04:04:50] [PC] shot 18-PC-admin-crash.png
+[04:04:50] [PC] Major WEB-8 admin crash: miss "Profile"
+[04:04:50] [PC] --- K surface chrome ---
+[04:04:50] [PC] shot 19-PC-surface-crash.png
+[04:04:50] [PC] Major WEB-9 surface chrome crash: miss "Discover"
+[04:04:54] [Android] --- A boot ---
+[04:04:54] [Android] shot 20-Android-00-boot.png
+[04:04:54] [Android] Major WEB-10 phone chrome: framed phone-in-phone {"x":11,"y":35.5,"w":390,"h":844,"framed":true}
+[04:04:55] [Android] clicked "Alex" @ 141,807
+[04:04:55] [Android] clicked "Log in" @ 206,697
+[04:04:56] [Android] --- C Discover ---
+[04:04:57] [Android] clicked "Discover" @ 60,857
+[04:04:57] [Android] PASS 4 tabs — present
+[04:04:58] [Android] shot 21-Android-discover-alex.png
+[04:04:58] [Android] Blocker WEB-11 Discover photos: painted=2 imgs=[{"inPhone":true,"nw":1200,"nh":800,"w":350,"h":190,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/jazz.jpg"},{"inPhone":true,"nw":1200,"nh":1200,"w":350,"h":190,"src":"http://127.0.0.1:8082/assets/?unstable_path=.%2Fassets%2Fdemo/sketch.jpg"}]
+[04:04:58] [Android] clicked "See all" @ 346,398
+[04:04:59] [Android] shot 22-Android-see-all-dead.png
+[04:04:59] [Android] Major WEB-12 Popular See all: Discover
+Find what the city is doing
+
+By mood
+Pick how today feels
+
+Quiet
+
+Create
+
+Meet people
+
+This weekend
+Popular now
+See all
+
+After-work Jazz in Wan Chai
+Wan Chai
+·
+Fri, 21 Aug
+HK$250
+
+Old Street Sketching in Tai Hang
+Tai Hang
+·
+
+[04:05:00] [Android] shot 23-Android-search-Jazz.png
+[04:05:00] [Android] Major WEB-13 Discover search: Discover
+Find what the city is doing
+
+By mood
+Pick how today feels
+
+Quiet
+
+Create
+
+Meet people
+
+This weekend
+Results
+Clear
+
+
+Nothing here yet
+No tickets yet. Join something on Discover.
+Clear
+
+Discover
+
+Districts
+
+Tickets
+
+Profile
+[04:05:01] [Android] PASS search 爵士 — hit
+[04:05:02] [Android] shot 24-Android-search-Pottery.png
+[04:05:02] [Android] Major WEB-14 Discover search: Discover
+Find what the city is doing
+
+By mood
+Pick how today feels
+
+Quiet
+
+Create
+
+Meet people
+
+This weekend
+Results
+Clear
+
+
+Nothing here yet
+No tickets yet. Join something on Discover.
+Clear
+
+Discover
+
+Districts
+
+Tickets
+
+Profile
+[04:05:03] [Android] PASS search 陶藝 — hit
+[04:05:05] [Android] clicked "Quiet" @ 67,337
+[04:05:05] [Android] clicked "Create" @ 151,337
+[04:05:06] [Android] clicked "Meet people" @ 235,337
+[04:05:07] [Android] clicked "This weekend" @ 319,337
+[04:05:09] [Android] clicked "Profile" @ 352,857
+[04:05:09] [Android] PASS Saved in Profile — section present
+[04:05:10] [Android] clicked "Discover" @ 60,857
+[04:05:11] [Android] clicked "After-work Jazz" @ 209,522
+[04:05:12] [Android] shot 25-Android-jazz-hero.png
+[04:05:12] [Android] PASS Jazz hero — 1 large painted
+[04:05:12] [Android] --- D Districts ---
+[04:05:12] [Android] clicked "Districts" @ 157,857
+[04:05:16] [Android] shot 26-Android-districts.png
+[04:05:16] [Android] PASS OSM iframe — https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.31
+[04:05:18] [Android] shot 27-Android-wanchai.png
+[04:05:18] [Android] PASS Wan Chai EN — filtered
+[04:05:18] [Android] clicked "Clear" @ 349,398
+[04:05:20] [Android] PASS 灣仔 — filtered
+[04:05:20] [Android] clicked "Jazz" @ 209,522
+[04:05:21] [Android] PASS row opens event — ok
+[04:05:21] [Android] PASS map drag — scrollY 0→0
+[04:05:21] [Android] --- F tickets seed ---
+[04:05:22] [Android] clicked "Tickets" @ 255,857
+[04:05:23] [Android] shot 28-Android-tickets-upcoming.png
+[04:05:23] [Android] clicked "Past" @ 138,138
+[04:05:24] [Android] shot 29-Android-tickets-past.png
+[04:05:24] [Android] PASS Past tickets — Library + Sketch
+[04:05:24] [Android] clicked "Upcoming" @ 65,138
+[04:05:24] [Android] --- E join / pay ---
+[04:05:25] [Android] clicked "Discover" @ 60,857
+[04:05:27] [Android] clicked "Pottery" @ 209,453
+[04:05:28] [Android] clicked "Join this event" @ 206,830
+[04:05:30] [Android] clicked "Pay (test) and join" @ 206,396
+[04:05:31] [Android] PASS non-4242 rejected — ok
+[04:05:32] [Android] clicked "Pay (test) and join" @ 206,427
+[04:05:33] [Android] shot 30-Android-pay-ok.png
+[04:05:33] [Android] PASS 4242 pay — ticket
+[04:05:34] [Android] clicked "Tickets" @ 255,857
+[04:05:35] [Android] clicked "Upcoming" @ 65,138
+[04:05:35] [Android] PASS Upcoming Pottery — shown
+[04:05:35] [Android] --- F calendar ---
+[04:05:35] [Android] clicked "Tickets" @ 255,857
+[04:05:37] [Android] clicked "See all" @ 346,370
+[04:05:37] [Android] shot 31-Android-calendar.png
+[04:05:38] [Android] clicked "Close" @ 69,476
+[04:05:39] [Android] --- K surface chrome ---
+[04:05:39] [Android] shot 32-Android-surface-crash.png
+[04:05:39] [Android] Major WEB-15 surface chrome crash: miss "Discover"
+[04:05:39] [Android] surface create: miss "Profile"
+[04:05:39] [Android] FATAL Error: miss "Profile"
+    at clickText (C:\Users\reyse\AppData\Local\Temp\ts-qa\web-qa.cjs:201:19)
+    at async clickTab (C:\Users\reyse\AppData\Local\Temp\ts-qa\web-qa.cjs:218:3)
+    at async runPhone (C:\Users\reyse\AppData\Local\Temp\ts-qa\web-qa.cjs:2324:3)
+    at async C:\Users\reyse\AppData\Local\Temp\ts-qa\web-qa.cjs:2364:5
+[04:05:39] [Android] Blocker WEB-16 runner: miss "Profile"

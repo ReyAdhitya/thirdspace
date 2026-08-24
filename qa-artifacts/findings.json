@@ -1,0 +1,194 @@
+[
+  {
+    "id": "FRAME-390",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "viewport 390x844"
+  },
+  {
+    "id": "B-LOGIN-ALEX",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Alex reached Discover"
+  },
+  {
+    "id": "B18-TABS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Exactly the four expected tabs (Saved not a tab)"
+  },
+  {
+    "id": "M-BELL",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "No Discover bell copy in header"
+  },
+  {
+    "id": "A-MOODS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Moods present: Quiet, Create, Meet people, This weekend, Nearby"
+  },
+  {
+    "id": "B1-POPULAR-PHOTOS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "2 loaded hero photos"
+  },
+  {
+    "id": "B2-RECOMMENDED-THUMBS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "5 loaded thumbnails"
+  },
+  {
+    "id": "A-MOOD-FILTER",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Quiet mood toggles the list (Popular hides while filtering)"
+  },
+  {
+    "id": "A-POPULAR-SEEALL",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "expanded 2 → 3 hero photos"
+  },
+  {
+    "id": "B3-JAZZ-HERO",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "jazz hero naturalWidth=1200"
+  },
+  {
+    "id": "B17-CHAT-LOCKED",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "No-ticket Jazz shows chat locked, no composer"
+  },
+  {
+    "id": "A-FOLLOW",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Tapped Follow on Jazz host row"
+  },
+  {
+    "id": "B6-OSM",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "OSM iframe https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik"
+  },
+  {
+    "id": "B7-EVENT-ROWS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "No Central 1 / Eastern 0 district index"
+  },
+  {
+    "id": "B8-WANCHAI-FILTER",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Wan Chai search filtered the list"
+  },
+  {
+    "id": "B8-WANCHAI-RECENTRE",
+    "severity": "Blocker",
+    "character": "Alex",
+    "steps": "Search Wan Chai on Districts.",
+    "expected": "Map recentres on the district/event.",
+    "actual": "iframe src=https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik"
+  },
+  {
+    "id": "B8-ROW-OPENS-EVENT",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Tapping a Districts row opened the event page"
+  },
+  {
+    "id": "B9-UPCOMING-PAST",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Upcoming / Past present"
+  },
+  {
+    "id": "B9-STRIP",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Weekday strip visible"
+  },
+  {
+    "id": "B10-NO-QR",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "No QR copy on tickets"
+  },
+  {
+    "id": "B9-SEED-TICKETS",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Past tickets present for Alex"
+  },
+  {
+    "id": "B10-MONTH-SHEET",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Month sheet Sun–Sat visible"
+  },
+  {
+    "id": "B10-EMPTY-DAY",
+    "severity": "Pass",
+    "character": "n/a",
+    "steps": "",
+    "expected": "",
+    "actual": "Empty day shows empty state"
+  },
+  {
+    "id": "FATAL",
+    "severity": "Blocker",
+    "character": "n/a",
+    "steps": "QA runner.",
+    "expected": "Script completes the walk.",
+    "actual": "locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByText('Clear', { exact: true }).first()\n    - locator resolved to <div dir=\"auto\" class=\"css-text-146c3p1\">Clear</div>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class=\"css-view-g5y9jx r-alignItems-1awozwy r-paddingBlock-dp7rxi\">…</div> from <div class=\"css-view-g5y9jx r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-pointerEvents-12vffkv\">…</div> subtree intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class=\"css-view-g5y9jx r-alignItems-1awozwy r-paddingBlock-dp7rxi\">…</div> from <div class=\"css-view-g5y9jx r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-pointerEvents-12vffkv\">…</div> subtree intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    38 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div class=\"css-view-g5y9jx r-alignItems-1awozwy r-paddingBlock-dp7rxi\">…</div> from <div class=\"css-view-g5y9jx r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-pointerEvents-12vffkv\">…</div> subtree intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n\n    at tapText (C:\\Users\\reyse\\AppData\\Local\\Temp\\ts-qa\\qa-run.cjs:76:13)\n    at async C:\\Users\\reyse\\AppData\\Local\\Temp\\ts-qa\\qa-run.cjs:893:9"
+  }
+]

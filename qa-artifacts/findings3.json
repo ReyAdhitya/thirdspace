@@ -1,0 +1,117 @@
+[
+  {
+    "id": "B8-WANCHAI-FILTER",
+    "severity": "Pass",
+    "actual": "filtered"
+  },
+  {
+    "id": "B8-WANCHAI-RECENTRE",
+    "severity": "Pass",
+    "actual": "https://www.openstreetmap.org/export/embed.html?bbox=114.166700,22.270300,114.182700,22.286300&layer=mapnik&marker=22.278300,114.174700"
+  },
+  {
+    "id": "B8-WANCHAI-ZH",
+    "severity": "Pass",
+    "actual": "灣仔 filtered or changed list"
+  },
+  {
+    "id": "SECT-JoinHike",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "JoinHike",
+    "expected": "completes",
+    "actual": "clickVisible miss: Sunrise Hike"
+  },
+  {
+    "id": "B15-CHECKOUT",
+    "severity": "Pass",
+    "actual": "Checkout shown"
+  },
+  {
+    "id": "B15-REJECT",
+    "severity": "Pass",
+    "actual": "Non-4242 rejected"
+  },
+  {
+    "id": "B15-4242",
+    "severity": "Pass",
+    "actual": "4242 ticket present"
+  },
+  {
+    "id": "SECT-WaitlistStartedChat",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "WaitlistStartedChat",
+    "expected": "completes",
+    "actual": "clickVisible miss: Weekend Market"
+  },
+  {
+    "id": "B4-ALEX-FACE",
+    "severity": "Pass",
+    "actual": "avatar 800"
+  },
+  {
+    "id": "A-SAVED",
+    "severity": "Pass",
+    "actual": "Saved on profile"
+  },
+  {
+    "id": "A-JOURNEY",
+    "severity": "Pass",
+    "actual": "journey/badges"
+  },
+  {
+    "id": "B11-NO-ADMIN",
+    "severity": "Pass",
+    "actual": "No Reports button"
+  },
+  {
+    "id": "A-LANG",
+    "severity": "Pass",
+    "actual": "繁中 chrome"
+  },
+  {
+    "id": "B4-LIN-FACE",
+    "severity": "Pass",
+    "actual": "lin 800"
+  },
+  {
+    "id": "B5-LIN-HOSTED-PHOTOS",
+    "severity": "Blocker",
+    "character": "Lin",
+    "steps": "Lin hosted events.",
+    "expected": "Photos.",
+    "actual": "[]"
+  },
+  {
+    "id": "B12-CREATE-BTN",
+    "severity": "Pass",
+    "actual": "Create event"
+  },
+  {
+    "id": "B12-NO-ADMIN",
+    "severity": "Pass",
+    "actual": "no reports"
+  },
+  {
+    "id": "B-STOCK",
+    "severity": "Pass",
+    "actual": "5 stock photos"
+  },
+  {
+    "id": "SECT-Lin",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "Lin",
+    "expected": "completes",
+    "actual": "locator.fill: Timeout 12000ms exceeded.\nCall log:\n  - waiting for locator('input').first()\n    - locator resolved to <input rows=\"1\" value=\"\" dir=\"auto\" autocorrect=\"on\" autocomplete=\"on\" spellcheck=\"true\" autocapitalize=\"sentences\" virtualkeyboardpolicy=\"auto\" placeholder=\"Search events, themes or districts\" class=\"css-textinput-11aywtz r-placeholderTextColor-6taxm2 r-color-aw03qq r-flex-13awgt0 r-fontFamily-aug45v r-fontSize-a023e6 r-paddingBlock-1mkv55d\"/>\n    - fill(\"QA Harbour Tea\")\n  - attempting fill action\n    2 × waiting for element to be visible, enabled and editable\n      - element is not visible\n    - retrying fill action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and editable\n      - element is not visible\n    - retrying fill action\n      - waiting 100ms\n    23 × waiting for element to be visible, enabled and editable\n       - element is not visible\n     - retrying fill action\n       - waiting 500ms\n"
+  },
+  {
+    "id": "SECT-Admin",
+    "severity": "Major",
+    "character": "n/a",
+    "steps": "Admin",
+    "expected": "completes",
+    "actual": "clickVisible miss: Log out"
+  }
+]

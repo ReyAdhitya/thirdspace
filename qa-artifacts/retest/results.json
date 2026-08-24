@@ -1,0 +1,69 @@
+{
+  "results": {
+    "WEB-1": {
+      "verdict": "fail",
+      "notes": [
+        "Jazz → After-work Jazz",
+        "Pottery → Pottery Evening",
+        "爵士 hits",
+        "陶藝 hits",
+        "empty query restores list"
+      ]
+    },
+    "WEB-2": {
+      "verdict": "pass",
+      "notes": [
+        "語言 only",
+        "Settings 繁中",
+        "语言 only",
+        "English Language row",
+        "login chips after logout"
+      ]
+    },
+    "WEB-3": {
+      "verdict": "fail",
+      "notes": [
+        "stock chips paint",
+        "no large cover after chip",
+        "no filechooser on Add a photo",
+        "publish miss: \nCreate an event\nLocation\nCentral\n\nMeet at\nDate\nTime\nPrice\nFree\nPaid\nCapacity\n\n20\n\nBy mood\n\nQuiet\n\nCreate\n\nMeet people\n\nThis weekend",
+        "event hero grey/missing: []",
+        "cancel did not slap jazz"
+      ]
+    },
+    "WEB-4": {
+      "verdict": "pass",
+      "notes": [
+        "searchEmpty copy"
+      ]
+    },
+    "WEB-5": {
+      "verdict": "pass",
+      "notes": [
+        "1 event",
+        "cleared → N events"
+      ]
+    }
+  },
+  "fails": [
+    {
+      "id": "WEB-3",
+      "note": "no large cover after chip"
+    },
+    {
+      "id": "WEB-3",
+      "note": "no filechooser on Add a photo"
+    },
+    {
+      "id": "WEB-3",
+      "note": "publish miss: \nCreate an event\nLocation\nCentral\n\nMeet at\nDate\nTime\nPrice\nFree\nPaid\nCapacity\n\n20\n\nBy mood\n\nQuiet\n\nCreate\n\nMeet people\n\nThis weekend"
+    },
+    {
+      "id": "WEB-3",
+      "note": "event hero grey/missing: []",
+      "shot": "D:\\thirdspace\\qa-artifacts\\retest\\12-12-event-hero.png",
+      "expected": "hero is picked photo",
+      "actual": "\nCreate an event\nLocation\nCentral\n\nMeet at\nDate\nTime\nPrice\nFree\nPaid\nCapacity\n\n20\n\nBy mood\n\nQuiet\n\nCreate\n\nMeet p []"
+    }
+  ]
+}

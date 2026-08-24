@@ -1,0 +1,109 @@
+[09:50:31] direct OSM screenshot saved
+[09:50:34] shot D:\thirdspace\qa-artifacts\51-c-alex-home.png
+[09:50:34] === Districts OSM + Wan Chai ===
+[09:50:41] shot D:\thirdspace\qa-artifacts\52-c-districts-waited.png
+[09:50:41] iframes [{"title":"OpenStreetMap","src":"https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik","w":350,"h":300,"y":163}]
+[09:50:42] shot D:\thirdspace\qa-artifacts\53-c-wanchai.png
+[09:50:42] after wanchai iframes [{"title":"OpenStreetMap","src":"https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik","w":350,"h":300,"y":163}]
+[09:50:42] FINDING Blocker B8-WANCHAI-FILTER: Discover
+Find what the city is doing
+
+By mood
+Pick how today feels
+
+Quiet
+
+Create
+
+Meet people
+
+This weekend
+
+Nearby
+Results
+Clear
+
+
+Nothing here yet
+No tickets yet. Join s
+[09:50:42] FINDING Blocker B8-WANCHAI-RECENTRE: before=https://www.openstreetmap.org/export/embed.html?bbox=114.030000,22.210000,114.310000,22.430000&layer=mapnik after=https://www.openstreetmap.org/export/embed.html?bbox=114.03
+[09:50:43] shot D:\thirdspace\qa-artifacts\54-c-wanchai-zh.png
+[09:50:43] PASS B8-WANCHAI-ZH: 灣仔 search still shows Wan Chai event
+[09:50:44] shot D:\thirdspace\qa-artifacts\55-c-row-event.png
+[09:50:44] PASS B8-ROW: Row opened event
+[09:50:45] shot D:\thirdspace\qa-artifacts\56-c-districts-back.png
+[09:50:45] after row back [{"title":"OpenStreetMap","src":"https://www.openstreetmap.org/export/embed.html?bbox=114.164900,22.269200,114.180900,22.285200&layer=mapnik&marker=22.277200,114.172900","w":350,"h":300,"y":158}]
+[09:50:45] === Tickets calendar remainder ===
+[09:50:46] shot D:\thirdspace\qa-artifacts\57-c-cal-open.png
+[09:50:47] shot D:\thirdspace\qa-artifacts\58-c-cal-day10.png
+[09:50:47] PASS B10-DAY-FILTER: Day 10 → Sketching
+[09:50:47] shot D:\thirdspace\qa-artifacts\59-c-cal-clear.png
+[09:50:47] PASS B10-CLEAR: Clear restored both past tickets
+[09:50:47] === Join free hike ===
+[09:50:48] SECTION FAIL Join free hike: locator.click: Element is not visible
+Call log:
+  - waiting for getByText(/Sunrise Hike/i).first()
+    - locator resolved to <div dir="auto" class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a">Sunrise Hike in Sai Kung</div>
+  - attempting click action
+    - scrolling into view if needed
+
+[09:50:49] shot D:\thirdspace\qa-artifacts\60-fail-Join-free-hike.png
+[09:50:49] FINDING Major SECT-Join free hike: locator.click: Element is not visible
+Call log:
+  - waiting for getByText(/Sunrise Hike/i).first()
+    - locator resolved to <div dir="auto" class="css-text-146c3p1 r-maxWidth-dnmr
+[09:50:49] === Paid checkout ===
+[09:51:01] SECTION FAIL Paid checkout: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Discover', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto" class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a">Discover</div>
+
+[09:51:01] shot D:\thirdspace\qa-artifacts\61-fail-Paid-checkout.png
+[09:51:01] FINDING Major SECT-Paid checkout: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Discover', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto
+[09:51:01] === Waitlist + started + chat ===
+[09:51:13] SECTION FAIL Waitlist + started + chat: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Discover', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto" class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a">Discover</div>
+
+[09:51:13] shot D:\thirdspace\qa-artifacts\62-fail-Waitlist-+-started-+-chat.png
+[09:51:13] FINDING Major SECT-Waitlist + started + chat: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Discover', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto
+[09:51:13] === Alex profile + language ===
+[09:51:25] SECTION FAIL Alex profile + language: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Profile', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto" class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a">Profile</div>
+
+[09:51:25] shot D:\thirdspace\qa-artifacts\63-fail-Alex-profile-+-language.png
+[09:51:25] FINDING Major SECT-Alex profile + language: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Profile', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto"
+[09:51:25] === Lin ===
+[09:51:37] SECTION FAIL Lin: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Profile', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto" class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a">Profile</div>
+
+[09:51:37] shot D:\thirdspace\qa-artifacts\64-fail-Lin.png
+[09:51:37] FINDING Major SECT-Lin: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Profile', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto"
+[09:51:37] === Admin ===
+[09:51:49] SECTION FAIL Admin: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Profile', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto" class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a">Profile</div>
+
+[09:51:49] shot D:\thirdspace\qa-artifacts\65-fail-Admin.png
+[09:51:49] FINDING Major SECT-Admin: locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for getByText('Profile', { exact: true }).first() to be visible
+    28 × locator resolved to hidden <div dir="auto"

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "B14-FREE-JOIN",
+    "severity": "Pass",
+    "actual": "hike ticket on Tickets"
+  },
+  {
+    "id": "SECT-WaitlistSketchChat",
+    "severity": "Major",
+    "steps": "WaitlistSketchChat",
+    "expected": "ok",
+    "actual": "miss Weekend Market",
+    "character": "n/a"
+  },
+  {
+    "id": "B5-LIN-HOSTED",
+    "severity": "Pass",
+    "actual": "4 hosted thumbs"
+  },
+  {
+    "id": "B-STOCK",
+    "severity": "Pass",
+    "actual": "stock photos"
+  },
+  {
+    "id": "SECT-LinHostedCreate",
+    "severity": "Major",
+    "steps": "LinHostedCreate",
+    "expected": "ok",
+    "actual": "miss About this event",
+    "character": "n/a"
+  },
+  {
+    "id": "SECT-Admin",
+    "severity": "Major",
+    "steps": "Admin",
+    "expected": "ok",
+    "actual": "miss Log out",
+    "character": "n/a"
+  }
+]
