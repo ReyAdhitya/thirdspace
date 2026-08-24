@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'flex-end',
   },
-  grid: { ...StyleSheet.absoluteFill },
+  grid: { ...StyleSheet.absoluteFillObject },
   gridH: {
     position: 'absolute',
     left: 0,

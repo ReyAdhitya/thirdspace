@@ -12,7 +12,7 @@ Look: stone `#F6F4F1`, cream `#EDEAD8`, ink `#1A1A1A`, pine `#1F3D34`, harbor `#
 npm install
 npx expo start --web --port 8082    # Chrome phone-width (use this port if you set it)
 npx expo start --web                # often http://localhost:8081
-npx expo start                      # QR for Expo Go (SDK 57 — see iOS below)
+npx expo start                      # QR for App Store Expo Go (SDK 54)
 npx expo start --tunnel             # phone not on same Wi-Fi
 ```
 
@@ -92,7 +92,7 @@ eas submit -p ios --profile production
 
 Profiles in `eas.json`: `development` (iOS **simulator** + dev client), `development-device` (physical iPhone + dev client), `preview` (internal device IPA / TestFlight-able), `production` (auto-increments build number). App version comes from `app.json` (`appVersionSource: "local"`).
 
-**App Store Expo Go is SDK 54. This app is SDK 57.** Store Expo Go will error `Project is incompatible`. That is not a product bug. For a live Metro preview on a physical iPhone, install Expo Go **SDK 57** from [sign.expo.dev](https://sign.expo.dev) (Apple ID, ~7 days). For a real binary (what 上架 feels like): `eas build -p ios --profile preview` after Apple Developer + `eas login`. Do **not** treat Chrome as an iOS pass.
+**This app is Expo SDK 54.** App Store Expo Go is also SDK 54, so scanning the QR from `npx expo start` (or `--tunnel`) should open Thirdspace — login reachable. Do **not** treat Chrome as an iOS pass. For a real binary (what 上架 feels like): `eas build -p ios --profile preview` after Apple Developer + `eas login`. Optional: a matching Expo Go from [sign.expo.dev](https://sign.expo.dev) if the store client is stale.
 
 Still to be done by whoever owns the store listing: App Store screenshots, description, privacy policy URL, age rating. Those are listing assets, not code.
 
