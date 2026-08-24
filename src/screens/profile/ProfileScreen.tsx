@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
 import { Icon } from '../../components/Icon';
 import { ArchMark } from '../../components/Logo';
@@ -28,6 +29,16 @@ export function ProfileScreen() {
   const nav = useNavigation<RootNav>();
   const { t, user, lang, showBanner } = useApp();
   const [openLang, setOpenLang] = useState(false);
+  const [askHost, setAskHost] = useState(false);
+  const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    if (openLang || askHost) {
+      requestAnimationFrame(() => {
+        scrollRef.current?.scrollToEnd({ animated: true });
+      });
+    }
+  }, [openLang, askHost]);
 
   if (!user) {
     return (
@@ -42,25 +53,23 @@ export function ProfileScreen() {
   const langLabel =
     lang === 'en' ? t('langEn') : lang === 'zh-Hans' ? t('langZhHans') : t('langZhHant');
 
-  function becomeHost() {
-    Alert.alert(t('becomeOrganizer'), t('becomeOrganizerHint'), [
-      { text: t('notNow'), style: 'cancel' },
-      {
-        text: t('confirm'),
-        onPress: () => {
-          void updateProfile(uid, { role: 'organizer' }).then(() => {
-            showBanner(t('becomeOrganizerDone'));
-          });
-        },
-      },
-    ]);
+  function confirmHost() {
+    void updateProfile(uid, { role: 'organizer' }).then(() => {
+      setAskHost(false);
+      showBanner(t('becomeOrganizerDone'));
+    });
   }
 
   return (
     <Screen title={t('tabProfile')}>
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        ref={scrollRef}
+        contentContainerStyle={[
+          styles.scroll,
+          (openLang || askHost) && styles.scrollRoom,
+        ]}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <View style={styles.gutter}>
           <View style={styles.card}>
@@ -117,11 +126,36 @@ export function ProfileScreen() {
               onPress={() => nav.navigate('Following')}
             />
             {user.role === 'user' ? (
-              <MenuRow
-                icon="user-plus"
-                label={t('becomeOrganizer')}
-                onPress={becomeHost}
-              />
+              <>
+                <MenuRow
+                  icon="user-plus"
+                  label={t('becomeOrganizer')}
+                  onPress={() => setAskHost((v) => !v)}
+                />
+                {askHost ? (
+                  <View style={styles.confirm}>
+                    <Text style={[type.h3, { color: colors.ink }]}>
+                      {t('becomeOrganizer')}
+                    </Text>
+                    <Text style={[type.meta, { color: colors.muted, marginTop: space.x2 }]}>
+                      {t('becomeOrganizerHint')}
+                    </Text>
+                    <View style={styles.confirmBtns}>
+                      <View style={{ flex: 1 }}>
+                        <Button
+                          label={t('notNow')}
+                          variant="paper"
+                          compact
+                          onPress={() => setAskHost(false)}
+                        />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Button label={t('confirm')} compact onPress={confirmHost} />
+                      </View>
+                    </View>
+                  </View>
+                ) : null}
+              </>
             ) : null}
             {user.role === 'admin' ? (
               <MenuRow
@@ -183,6 +217,7 @@ export function ProfileScreen() {
 
 const styles = StyleSheet.create({
   scroll: { paddingBottom: space.x10 },
+  scrollRoom: { paddingBottom: 132 },
   gutter: { paddingHorizontal: space.gutter },
   card: {
     backgroundColor: colors.pine,
@@ -228,6 +263,14 @@ const styles = StyleSheet.create({
   cardName: { color: colors.white, letterSpacing: -0.4 },
   cardMeta: { color: 'rgba(237,234,216,0.82)', marginTop: 4 },
   menu: { marginTop: space.x6, gap: space.x3 },
+  confirm: {
+    backgroundColor: colors.paper,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.hairline,
+    padding: space.x4,
+  },
+  confirmBtns: { flexDirection: 'row', gap: space.x3, marginTop: space.x4 },
   langs: {
     backgroundColor: colors.paper,
     borderRadius: radius.lg,
@@ -240,5 +283,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: space.x3,
+    minHeight: 44,
   },
 });
