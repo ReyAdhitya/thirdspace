@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
@@ -15,7 +15,7 @@ import { userName } from '../../lib/localize';
 import type { RootNav } from '../../navigation/types';
 import { setLanguage, updateProfile } from '../../services/auth';
 import type { AppLanguage, Role } from '../../types';
-import { colors, radius, space, type } from '../../theme';
+import { PHONE_MAX_WIDTH, colors, radius, space, type } from '../../theme';
 
 const LANGS: AppLanguage[] = ['zh-Hant', 'en', 'zh-Hans'];
 
@@ -33,12 +33,12 @@ export function ProfileScreen() {
   const scrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    if (openLang || askHost) {
+    if (openLang) {
       requestAnimationFrame(() => {
         scrollRef.current?.scrollToEnd({ animated: true });
       });
     }
-  }, [openLang, askHost]);
+  }, [openLang]);
 
   if (!user) {
     return (
@@ -64,10 +64,7 @@ export function ProfileScreen() {
     <Screen title={t('tabProfile')}>
       <ScrollView
         ref={scrollRef}
-        contentContainerStyle={[
-          styles.scroll,
-          (openLang || askHost) && styles.scrollRoom,
-        ]}
+        contentContainerStyle={[styles.scroll, openLang && styles.scrollRoom]}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
@@ -126,36 +123,11 @@ export function ProfileScreen() {
               onPress={() => nav.navigate('Following')}
             />
             {user.role === 'user' ? (
-              <>
-                <MenuRow
-                  icon="user-plus"
-                  label={t('becomeOrganizer')}
-                  onPress={() => setAskHost((v) => !v)}
-                />
-                {askHost ? (
-                  <View style={styles.confirm}>
-                    <Text style={[type.h3, { color: colors.ink }]}>
-                      {t('becomeOrganizer')}
-                    </Text>
-                    <Text style={[type.meta, { color: colors.muted, marginTop: space.x2 }]}>
-                      {t('becomeOrganizerHint')}
-                    </Text>
-                    <View style={styles.confirmBtns}>
-                      <View style={{ flex: 1 }}>
-                        <Button
-                          label={t('notNow')}
-                          variant="paper"
-                          compact
-                          onPress={() => setAskHost(false)}
-                        />
-                      </View>
-                      <View style={{ flex: 1 }}>
-                        <Button label={t('confirm')} compact onPress={confirmHost} />
-                      </View>
-                    </View>
-                  </View>
-                ) : null}
-              </>
+              <MenuRow
+                icon="user-plus"
+                label={t('becomeOrganizer')}
+                onPress={() => setAskHost(true)}
+              />
             ) : null}
             {user.role === 'admin' ? (
               <MenuRow
@@ -211,6 +183,35 @@ export function ProfileScreen() {
           </View>
         </View>
       </ScrollView>
+      <Modal
+        visible={askHost}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setAskHost(false)}
+      >
+        <View style={styles.door}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setAskHost(false)} />
+          <View style={styles.sheet}>
+            <Text style={[type.h3, { color: colors.ink }]}>{t('becomeOrganizer')}</Text>
+            <Text style={[type.meta, { color: colors.muted, marginTop: space.x2 }]}>
+              {t('becomeOrganizerHint')}
+            </Text>
+            <View style={styles.confirmBtns}>
+              <View style={{ flex: 1 }}>
+                <Button
+                  label={t('notNow')}
+                  variant="paper"
+                  compact
+                  onPress={() => setAskHost(false)}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Button label={t('confirm')} compact onPress={confirmHost} />
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </Screen>
   );
 }
@@ -263,12 +264,21 @@ const styles = StyleSheet.create({
   cardName: { color: colors.white, letterSpacing: -0.4 },
   cardMeta: { color: 'rgba(237,234,216,0.82)', marginTop: 4 },
   menu: { marginTop: space.x6, gap: space.x3 },
-  confirm: {
-    backgroundColor: colors.paper,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.hairline,
-    padding: space.x4,
+  door: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: colors.scrim,
+  },
+  sheet: {
+    width: '100%',
+    maxWidth: PHONE_MAX_WIDTH,
+    backgroundColor: colors.stone,
+    borderTopLeftRadius: radius.xxl,
+    borderTopRightRadius: radius.xxl,
+    paddingHorizontal: space.gutter,
+    paddingTop: space.x5,
+    paddingBottom: space.x10,
   },
   confirmBtns: { flexDirection: 'row', gap: space.x3, marginTop: space.x4 },
   langs: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useApp } from '../context/AppContext';
 import { colors, radius, space, type } from '../theme';
@@ -124,10 +124,15 @@ export function StackHeader({
 
 export function InAppBanner() {
   const { banner } = useApp();
+  const insets = useSafeAreaInsets();
   if (!banner) return null;
   const warn = banner.tone === 'warn';
+  const titleLine = Number(type.screenTitle.lineHeight) || 34;
   return (
-    <View pointerEvents="none" style={styles.bannerWrap}>
+    <View
+      pointerEvents="none"
+      style={[styles.bannerWrap, { top: insets.top + space.x5 + titleLine }]}
+    >
       <View style={[styles.banner, warn && { backgroundColor: colors.ink }]}>
         <Icon
           name={warn ? 'info' : 'check'}
@@ -169,7 +174,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: space.gutter,
     right: space.gutter,
-    bottom: 92,
     zIndex: 30,
   },
   banner: {
