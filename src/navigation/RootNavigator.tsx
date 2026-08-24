@@ -12,8 +12,13 @@ import { LoginScreen } from '../screens/auth/LoginScreen';
 import { ActivityScreen } from '../screens/discover/ActivityScreen';
 import { ChatScreen } from '../screens/discover/ChatScreen';
 import { CreateActivityScreen } from '../screens/organizer/CreateActivityScreen';
+import { EditProfileScreen } from '../screens/profile/EditProfileScreen';
+import { FollowingScreen } from '../screens/profile/FollowingScreen';
+import { HistoryScreen } from '../screens/profile/HistoryScreen';
 import { OrganizerScreen } from '../screens/profile/OrganizerScreen';
+import { SavedScreen } from '../screens/profile/SavedScreen';
 import { SettingsScreen } from '../screens/profile/SettingsScreen';
+import { YourEventsScreen } from '../screens/profile/YourEventsScreen';
 import { CheckoutScreen } from '../screens/tickets/CheckoutScreen';
 import { colors, space, type } from '../theme';
 import { TabNavigator } from './TabNavigator';
@@ -66,6 +71,11 @@ export function RootNavigator() {
           <Stack.Screen name="Checkout" component={CheckoutScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="Admin" component={AdminScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+          <Stack.Screen name="History" component={HistoryScreen} />
+          <Stack.Screen name="YourEvents" component={YourEventsScreen} />
+          <Stack.Screen name="Saved" component={SavedScreen} />
+          <Stack.Screen name="Following" component={FollowingScreen} />
         </>
       )}
     </Stack.Navigator>

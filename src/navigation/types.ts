@@ -20,6 +20,11 @@ export type RootStackParamList = {
   Checkout: { activityId: string };
   Settings: undefined;
   Admin: undefined;
+  EditProfile: undefined;
+  History: undefined;
+  YourEvents: undefined;
+  Saved: undefined;
+  Following: undefined;
 };
 
 export type RootNav = NativeStackNavigationProp<RootStackParamList>;

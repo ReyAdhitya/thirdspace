@@ -121,7 +121,9 @@ export async function updateProfile(
     Pick<
       User,
       | 'displayName'
+      | 'displayNameEn'
       | 'bio'
+      | 'bioEn'
       | 'photoUrl'
       | 'interests'
       | 'language'

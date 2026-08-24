@@ -11,6 +11,7 @@ export type IconName =
   | 'map-pin'
   | 'calendar'
   | 'user'
+  | 'user-plus'
   | 'users'
   | 'heart'
   | 'message-circle'
