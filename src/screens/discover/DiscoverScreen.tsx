@@ -130,7 +130,7 @@ export function DiscoverScreen() {
           {recommended.length === 0 ? (
             <EmptyState
               title={t('empty')}
-              body={t('ticketsEmpty')}
+              body={t('searchEmpty')}
               action={t('clear')}
               onAction={() => {
                 setQ('');

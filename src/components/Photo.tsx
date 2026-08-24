@@ -40,7 +40,7 @@ export function Photo({
     );
   }
 
-  if (uri && /^https?:\/\//i.test(uri)) {
+  if (uri && /^(https?:|blob:|data:|file:|content:|ph:)/i.test(uri)) {
     return (
       <ExpoImage
         source={{ uri }}

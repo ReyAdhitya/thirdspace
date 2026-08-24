@@ -131,7 +131,10 @@ export function DistrictsScreen() {
         <View style={[styles.gutter, styles.listBlock]}>
           <SectionHead
             title={t('eventsNearby')}
-            caption={`${events.length} ${t('eventsCount')}`}
+            caption={(events.length === 1 ? t('eventsCountOne') : t('eventsCount')).replace(
+              '{n}',
+              String(events.length),
+            )}
             action={q || selected ? t('clear') : undefined}
             onAction={
               q || selected

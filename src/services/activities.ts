@@ -1,4 +1,4 @@
-import { NEARBY_OF } from '../data/districts';
+import { NEARBY_OF, districtLabel } from '../data/districts';
 import { isWeekendHk } from '../lib/time';
 import type { Activity, MoodId } from '../types';
 import { getDb, mutate, nid } from './store';
@@ -27,7 +27,21 @@ export function searchActivities(q: string): Activity[] {
   const s = q.trim().toLowerCase();
   if (!s) return listPublished();
   return listPublished().filter((a) =>
-    [a.title, a.summary, a.address, a.district].join(' ').toLowerCase().includes(s),
+    [
+      a.title,
+      a.titleEn ?? '',
+      a.summary,
+      a.summaryEn ?? '',
+      a.address,
+      a.addressEn ?? '',
+      a.district,
+      districtLabel(a.district, 'en'),
+      districtLabel(a.district, 'zh-Hant'),
+      districtLabel(a.district, 'zh-Hans'),
+    ]
+      .join(' ')
+      .toLowerCase()
+      .includes(s),
   );
 }
 
