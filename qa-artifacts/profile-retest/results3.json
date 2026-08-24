@@ -1,0 +1,10 @@
+{
+  "notes": [
+    "Reports inbox",
+    "iOS Confirm Host"
+  ],
+  "fails": [
+    "admin home: Profile | Admin | Admin · Central · Hong Kong |  |  |  |  |  |  |  |  | ",
+    "iOS confirm: Profile |  |  |  |  |  | Become an organizer | You will be able to create events. This cannot b"
+  ]
+}

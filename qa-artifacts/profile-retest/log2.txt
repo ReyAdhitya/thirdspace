@@ -1,0 +1,128 @@
+clicked Alex
+clicked Log in
+shot 21-alex-home.png
+ALEX
+Profile
+Alex Member · Central · Hong Kong
+Alex
+Member · Central · Hong Kong
+ Edit Profile 
+Edit Profile
+ History 
+History
+ Your Events 
+Your Events
+ Saved 
+Saved
+ Following 
+Following
+ Become an organizer 
+Become an organizer
+ Language English 
+L
+ok Alex face
+ok Alex still user
+clicked Language
+shot 22-lang-open.png
+简体 pos {"top":558,"bottom":581,"tabTop":816,"inPhone":true}
+lang open
+Profile
+ Your Events 
+Your Events
+ Saved 
+Saved
+ Following 
+Following
+ Become an organizer 
+Become an organizer
+ Language English 
+Language
+繁體中文 English  简体中文
+繁體中文
+English 
+English
+简体中文
+ Settings 
+Settings
+
+ok 简体 above tab bar
+clicked 简体中文
+shot 23-hans.png
+after 简
+个人档案
+阿樂 会员 · 中环 · Hong Kong
+阿樂
+会员 · 中环 · Hong Kong
+ 编辑个人资料 
+编辑个人资料
+ 编辑个人资料   记录   你的活动   收藏   跟进中   成为主办   语言 简体中文   设定 
+ 记录 
+记录
+ 你的活动 
+你的活动
+ 收藏 
+收藏
+ 跟进中 
+跟进中
+ 成为主办 
+成为主办
+ 语言 简体中文 
+语言
+ 设定 
+ok 简 语言 only
+clicked 语言
+clicked 繁體中文
+shot 24-hant.png
+ok 繁 語言 only
+clicked 語言
+clicked English
+shot 25-en.png
+ok EN Language
+clicked Edit Profile
+shot 26-row-EditProfile.png
+ok opened Edit Profile
+clicked History
+shot 27-row-History.png
+ok opened History
+clicked Saved
+shot 28-row-Saved.png
+ok opened Saved
+clicked Following
+shot 29-row-Following.png
+ok opened Following
+clicked Settings
+clicked Log out
+shot 30-logout.png
+ok logout chips
+clicked Lin
+clicked Log in
+shot 31-lin.png
+ok Lin face
+ok Lin no Become
+clicked Your Events
+shot 32-lin-ye.png
+ok Lin Create on YE
+shot 33-admin.png
+FAIL PROF-smoke missing
+ok Admin no Become
+FAIL PROF-smoke missing
+clicked Create an account
+clicked Create account
+clicked Skip
+clicked Become an organizer
+shot 34-Android-sheet.png
+ok Android confirm visible
+clicked Not now
+ok Android Not now
+clicked Become an organizer
+clicked Confirm
+shot 35-Android-host.png
+ok Android Confirm Host
+clicked Create an account
+clicked Create account
+clicked Skip
+shot 36-iOS-sheet.png
+FAIL PROF-1 Discover Find what the city is doing
+Discover
+Find what the city is doing
+Old Street Sketching in Tai Hang Tai Hang · Mo

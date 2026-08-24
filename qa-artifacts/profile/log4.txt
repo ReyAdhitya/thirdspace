@@ -1,0 +1,129 @@
+clicked Alex
+clicked Log in
+clicked Language
+clicked 简体中文
+shot 301-p4-hans.png
+hans
+Tickets My tickets
+Tickets
+My tickets
+Upcoming
+Past
+Upcoming Past
+ Nothing here yet No tickets yet. Join something on Discover. Discover
+Nothing here yet
+No tickets yet. Join something on Discover.
+Discover
+Calendar
+20 
+FAIL PROF-42 Tickets My tickets
+Tickets
+My tickets
+Upcoming
+Past
+Upcoming Past
+ Nothing here yet No tickets yet. Join something on D
+clicked English
+shot 302-p4-en.png
+FAIL PROF-43 Tickets My tickets
+Tickets
+My tickets
+Upcoming
+Past
+Upcoming Past
+ Nothing here yet No tickets yet.
+clicked Saved
+shot 303-p4-saved1.png
+shot 304-p4-saved-off.png
+off Profile
+Alex Member · Central · Hong Kong
+Alex
+Member · Central · Hong Kong
+ Edit Profile 
+Edit Profile
+ History 
+Hi
+ok heart off
+clicked Saved
+shot 305-p4-saved-on.png
+on  Saved
+Saved
+After-work Jazz in Wan Chai Wan Chai · Fri, 21 Aug HK$250
+After-work Jazz in Wan Chai
+Wan Chai · Fri, 21 Aug
+ok heart on
+clicked Following
+shot 306-p4-fol.png
+clicked Chen Shu
+shot 307-p4-chen.png
+clicked Following
+shot 308-p4-unfol.png
+unfol  Following
+Following
+ You are not following anyone yet.
+You are not following anyone yet.
+ok unfollow updated
+shot 309-p4-logout.png
+FAIL PROF-46  Following
+Following
+ You are not following anyone yet.
+You are not following 
+shot 310-p4-lin-edit.png
+edit?  Following
+Following
+ You are not following anyone yet.
+You are not following anyone yet.
+FAIL PROF-68  Following
+Following
+ You are not following anyone yet.
+You are not following anyone yet.
+shot 311-p4-admin.png
+admin  Following
+Following
+ You are not following anyone yet.
+You are not following anyone yet.
+ok Admin no Become
+FAIL PROF-75 missing
+shot 312-p4-reports.png
+rep  Following
+Following
+ You are not following anyone yet.
+You are not following anyone yet.
+FAIL PROF-76  Following
+Following
+ You are not following anyone yet.
+You are not following anyone yet.
+shot 313-p4-proc.png
+FAIL PROF-77  Following
+Following
+ You are not following anyone yet.
+You are not following anyone yet.
+clicked Alex
+clicked Log in
+shot 314-Android-home.png
+ok Android card
+ok Android Become row
+clicked Become an organizer
+shot 315-Android-become.png
+FAIL PROF-90 nothing
+clicked Edit Profile
+clicked Choose photo
+ok Android photo cancel
+clicked Language
+clicked 繁體中文
+shot 316-Android-lang.png
+ok Android 語言
+clicked Alex
+clicked Log in
+shot 317-iOS-home.png
+FAIL PROF-82 Discover Find what the city is doing
+Discover
+Find
+FAIL PROF-85 Discover Find what the city is doing
+Discover
+Find what the 
+shot 318-iOS-become.png
+ok iOS become ui
+shot 319-iOS-lang.png
+FAIL PROF-89 Sunrise Hike in Sai Kung
+A slow walk, not a workout. Breakfa

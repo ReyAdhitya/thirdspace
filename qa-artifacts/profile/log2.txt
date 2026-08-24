@@ -1,0 +1,242 @@
+
+--- pass2 ---
+[05:48:45] clicked Alex
+[05:48:45] clicked Log in
+[05:48:46] tab Profile
+[05:48:47] title=Profile Profile
+[05:48:47] front
+Profile
+Alex Member · Central · Hong Kong
+Alex
+Member · Central · Hong Kong
+ Edit Profile 
+Edit Profile
+ History 
+History
+ Your Events 
+Your Events
+ Saved 
+Saved
+ Following 
+Following
+ Become an organizer 
+Become an organizer
+ Language English 
+Language
+ Settings 
+ Discover  Districts  Tickets  Profile
+ Discover
+ Districts
+ Tickets
+[05:48:47] shot 101-p2-alex-home.png
+[05:48:48] clicked Your Events
+[05:48:48] shot 102-p2-alex-ye.png
+[05:48:48] YE title=Your Events 
+ Your Events
+Your Events
+ Nothing here yet Become an organizer to host events.
+Nothing here yet
+Become an organizer to host events.
+[05:48:48] ok Alex Your Events no Create
+[05:48:48] ok Alex YE empty copy
+[05:48:49] back
+[05:48:49] tab Profile
+[05:48:50] clicked Saved
+[05:48:51] shot 103-p2-saved.png
+[05:48:51] Saved title=Saved 
+ Saved
+Saved
+After-work Jazz in Wan Chai Wan Chai · Fri, 21 Aug HK$250
+After-work Jazz in Wan Chai
+Wan Chai · Fri, 21 Aug
+[05:48:51] ok Saved Jazz
+[05:48:51] ok Saved photo paints
+[05:48:51] clicked After-work Jazz
+[05:48:52] shot 104-p2-jazz.png
+[05:48:52] ok Saved → event
+[05:48:53] back
+[05:48:53] ok Jazz removed or left event
+[05:48:53] tab Discover
+[05:48:55] tab Profile
+[05:48:57] clicked Saved
+[05:48:57] shot 105-p2-saved-on.png
+[05:48:57] FAIL PROF-32 [Major/PC]  Saved
+Saved
+ Nothing saved. Heart an event on Discover.
+Nothing saved. Heart an event on Discover.
+[05:48:57] back
+[05:48:58] tab Profile
+[05:48:59] clicked Following
+[05:49:00] shot 106-p2-following.png
+[05:49:00] Following
+ Following
+Following
+Chen Shu 
+Chen Shu
+[05:49:00] ok Following Chen
+[05:49:00] clicked Chen
+[05:49:01] shot 107-p2-chen.png
+[05:49:01] ok Chen host page
+[05:49:01] FAIL PROF-37 [Major/PC] Following
+Chen Shu
+@chen
+Bookshops and film cameras in Sheung Wan. Walk slower.
+4 Hosted 33 Guests 4
+[05:49:01] tab Profile
+[05:49:02] FAIL PROF-38 [Major/PC] dead
+[05:49:02] tab Profile
+[05:49:04] shot 108-p2-settings.png
+[05:49:04] Settings title= 
+Following
+Chen Shu
+@chen
+Bookshops and film cameras in Sheung Wan. Walk slower.
+4 Hosted 33 Guests 48 Followers 4 Following
+4 Hosted
+33 Guests
+48 Followers
+Events they host
+Old Street Sketching in Tai
+[05:49:04] FAIL PROF-44 [Blocker/PC] Following
+Chen Shu
+@chen
+Bookshops and film cameras in Sheung Wan. Walk slower.
+4 Hosted 33 Guests 48 Followers 4 Follow
+[05:49:05] back
+[05:49:05] shot 109-p2-district-sync.png
+[05:49:05] FAIL PROF-45 [Major/PC]  Following
+Following
+Chen Shu 
+Chen Shu
+[05:49:06] back
+[05:49:07] shot 110-p2-logout.png
+[05:49:07] FAIL PROF-46 [Blocker/PC] Profile
+Alex Member · Central · Hong Kong
+Alex
+Member · Central · Hong Kong
+ Edit Profile 
+Edit Profile
+ History 
+Hi
+[05:49:07] clicked Alex
+[05:49:08] tab Profile
+[05:49:09] ok log back in
+[05:49:10] tab Profile
+[05:49:11] clicked Settings
+[05:49:11] clicked Log out
+[05:49:12] clicked Create an account
+[05:49:14] clicked Create account
+[05:49:15] shot 111-p2-interests.png
+[05:49:15] clicked Skip
+[05:49:17] tab Profile
+[05:49:18] shot 112-p2-new-home.png
+[05:49:18] new user
+Profile
+ QA New Member · Central · Hong Kong
+QA New
+Member · Central · Hong Kong
+ Edit Profile 
+Edit Profile
+ History 
+History
+ Your Events 
+Your Events
+ Saved 
+Saved
+ Following 
+Following
+ Become an organizer 
+Become an organizer
+ Language English 
+Language
+ Settings 
+ Discover  
+[05:49:18] ok new user Become
+[05:49:18] clicked History
+[05:49:19] shot 113-p2-new-hist.png
+[05:49:19] ok new History empty/safe
+[05:49:19] back
+[05:49:19] clicked Become an organizer
+[05:49:20] shot 114-p2-become-notnow.png
+[05:49:20] after become tap dialogs=[] front=Profile| QA New Member · Central · Hong Kong|QA New|Member · Central · Hong Kong| Edit Profile |Edit Profile| History |History| Your Events |Your Events|
+[05:49:20] FAIL PROF-53 [Major/PC] nothing
+[05:49:20] ok dismiss stayed Member or row present
+[05:49:21] clicked Your Events
+[05:49:21] ok dismiss YE no Create
+[05:49:22] back
+[05:49:22] clicked Become an organizer
+[05:49:23] shot 115-p2-become-confirm.png
+[05:49:23] confirm dialogs=[] Profile| QA New Member · Central · Hong Kong|QA New|Member · Central · Hong Kong| Edit Profile |Edit Profile| History |History| Your Events |Your Events| Saved |Saved| Following |Following|
+[05:49:23] FAIL PROF-56 [Blocker/PC] Profile| QA New Member · Central · Hong Kong|QA New|Member · Central · Hong Kong| Edit Profile |Edit Profile| History |History| Your Events |Your Events|
+[05:49:23] tab Profile
+[05:49:25] clicked Settings
+[05:49:25] clicked Log out
+[05:49:26] clicked Lin
+[05:49:27] clicked Log in
+[05:49:28] tab Profile
+[05:49:29] shot 116-p2-lin.png
+[05:49:29] LIN
+Profile
+Lin Ngon Host · Wan Chai · Hong Kong
+Lin Ngon
+Host · Wan Chai · Hong Kong
+ Edit Profile 
+Edit Profile
+ History 
+History
+ Your Events 
+Your Events
+ Saved 
+Saved
+ Following 
+Following
+ Language English 
+Language
+ Settings 
+Settings
+ Discover  Districts  Tickets  Profile
+ Dis
+[05:49:29] ok Lin face
+[05:49:29] ok Lin Host
+[05:49:29] ok Lin no Become
+[05:49:29] ok Lin no Reports
+[05:49:29] clicked Your Events
+[05:49:30] shot 117-p2-lin-ye.png
+[05:49:30] Lin YE
+ Your Events
+Your Events
+ Create event
+Create event
+After-work Jazz in Wan Chai Wan Chai · Fri, 21 Aug 11 / 24
+After-work Jazz in Wan Chai
+Wan Chai · Fri, 21 Aug
+Sunrise Hike in Sai Kung Sai Kung · Sun, 23 Aug 9 / 20
+Sunrise Hike in Sai Kung
+Sai Ku
+[05:49:30] ok Lin YE Create
+[05:49:30] ok Lin hosted rows
+[05:49:30] clicked Pottery
+[05:49:31] shot 118-p2-lin-ev.png
+[05:49:31] FAIL PROF-68 [Major/PC]  
+Pottery Evening in Central
+Throw one cup. Clay and firing are included in the price.
+Lin Ngon Host
+Lin Ngon
+Host
+ T
+[05:49:31] back
+[05:49:32] clicked Create event
+[05:49:33] clicked Create an event
+[05:49:35] shot 119-p2-lin-created.png
+[05:49:35] ok Lin created event
+[05:49:35] tab Profile
+[05:49:36] ok Lin event in YE
+[05:49:36] tab Discover
+[05:49:37] shot 120-p2-lin-disc.png
+[05:49:37] ok Lin event on Discover
+[05:49:37] tab Profile
+[05:49:39] FATAL Error: no chip Admin
+    at login (C:\Users\reyse\AppData\Local\Temp\ts-qa\profile-qa2.cjs:245:38)
+    at async C:\Users\reyse\AppData\Local\Temp\ts-qa\profile-qa2.cjs:670:5
+[05:49:39] shot 121-fatal2.png
+[05:49:39] FAIL PROF-0 [Blocker/PC] no chip Admin

@@ -1,0 +1,248 @@
+[05:45:47] shot 01-pc-00-boot.png
+[05:45:48] clicked Alex
+[05:45:48] clicked Log in
+[05:45:50] clicked Profile
+[05:45:51] shot 02-pc-01-alex-home.png
+[05:45:51] ALEX HOME
+Discover
+Find what the city is doing
+
+By mood
+Pick how today feels
+
+Quiet
+
+Create
+
+Meet people
+
+This weekend
+Popular now
+See all
+
+After-work Jazz in Wan Chai
+Wan Chai
+·
+Fri, 21 Aug
+HK$250
+
+Old Street Sketching in Tai Hang
+Tai Hang
+·
+Mon, 10 Aug
+HK$120
+
+For you
+From hosts you follow
+Profile
+Alex
+Member
+·
+Central
+· Hong Kong
+
+Edit Profile
+
+
+History
+
+
+Your Events
+
+
+Saved
+
+
+Following
+
+
+Become an organizer
+
+
+Language
+English
+
+
+Settings
+
+
+Discover
+
+Districts
+
+Tickets
+
+Profile
+[05:45:51] tab bar ["For you","From hosts you follow","Old Street Sketching in Tai Hang","Tai Hang","·","Mon, 10 Aug","HK$120","Library Reading Night, Sheung Wan","Sheung Wan","·","Thu, 20 Aug","Free","Weekend Market in Causeway Bay","Causeway Bay","·","Sat, 22 Aug","Free","Film Photo Walk in Sham Shui Po","Sham Shui Po","·","Sat, 22 Aug","HK$150","Sunrise Hike in Sai Kung","Sai Kung","·","Sun, 23 Aug","Free","Discover","Districts","Tickets","Profile"]
+[05:45:51] FAIL PROF-1 [Blocker/PC] bar=For you,From hosts you follow,Old Street Sketching in Tai Hang,Tai Hang,·,Mon, 10 Aug,HK$120,Library Reading Night, Sheung Wan,Sheung Wan,·,Thu, 20 Aug,Free,Weekend Market in Causeway Bay,Causeway Bay,·,Sat, 22 
+[05:45:51] card color {"bg":"rgb(31, 61, 52)","r":31,"g":61,"b":52,"dist":0,"w":350,"h":180}
+[05:45:51] ok pine card dist=0
+[05:45:51] ok no Guest
+[05:45:51] ok no QR/CHECKIN
+[05:45:51] ok name Alex
+[05:45:51] ok subline Member · … · Hong Kong
+[05:45:51] ok no Create on Profile home
+[05:45:51] ok arch/svg on card
+[05:45:51] ok Alex face paints
+[05:45:51] shot 03-pc-02-alex-rows.png
+[05:45:51] ok Alex row stack complete
+[05:45:51] ok Alex no Reports
+[05:45:51] ok Become present for Alex
+[05:45:52] clicked Edit Profile
+[05:45:53] shot 04-pc-03-edit.png
+[05:45:53] ok Edit form fields present
+[05:45:53] clicked Choose photo
+[05:45:53] ok Edit photo cancel did not slap jazz
+[05:45:54] clicked District
+[05:45:55] clicked Central
+[05:45:56] clicked Wan Chai
+[05:45:57] clicked Save
+[05:45:57] shot 05-pc-04-after-edit.png
+[05:45:57] ok card name Alex QA
+[05:45:57] ok card district Wan Chai
+[05:45:58] clicked Edit Profile
+[05:45:58] ok bio persisted
+[05:45:59] clicked Choose photo
+[05:46:00] shot 06-pc-06-edit-photo.png
+[05:46:00] clicked Save
+[05:46:01] ok card face after jpg blob
+[05:46:01] shot 07-pc-07-card-face.png
+[05:46:01] clicked Profile
+[05:46:03] clicked History
+[05:46:03] shot 08-pc-08-history.png
+[05:46:03] ok History Library + Sketch
+[05:46:03] FAIL PROF-23 [Minor/PC] 
+History
+My journey
+Library Reading Night, Sheung Wan
+Sheung Wan
+·
+Thu, 20 Aug
+Free
+Old Street Sketching in Tai Hang
+Ta
+[05:46:03] ok stamps/badges copy present
+[05:46:04] clicked Library
+[05:46:04] shot 09-pc-09-history-event.png
+[05:46:04] ok History tap → event
+[05:46:06] shot 10-pc-hist-back.png
+[05:46:06] FAIL PROF-26 [Major/PC] Library Reading Night, Sheung Wan
+Two hours of quiet reading. Bring a book, we bring the tea.
+Chen Shu
+Host
+Following
+
+
+[05:46:07] tab coord Profile
+[05:46:09] shot 11-pc-10-your-events-alex.png
+[05:46:09] ok Alex Your Events has no Create
+[05:46:09] FAIL PROF-28 [Major/PC] Library Reading Night, Sheung Wan
+Two hours of quiet reading. Bring a book, we bring the tea.
+Chen Shu
+Host
+Following
+
+Thu, 20 Aug 19:30 - 21:30
+
+Sheung Wan · 12 Staunton Street,
+[05:46:10] tab coord Profile
+[05:46:12] shot 12-pc-11-saved.png
+[05:46:12] FAIL PROF-29 [Major/PC] Library Reading Night, Sheung Wan
+Two hours of quiet reading. Bring a book, we bring the tea.
+Chen Shu
+Host
+Following
+
+Thu, 20 Aug 19:30 - 21:30
+
+Sheung Wan ·
+[05:46:12] ok Saved row photo paints
+[05:46:14] shot 13-pc-12-jazz-event.png
+[05:46:14] FAIL PROF-31 [Major/PC] Library Reading Night, Sheung Wan
+Two hours of quiet reading. Bring a book, we bring the tea.
+Chen Shu
+Host
+Following
+
+
+[05:46:15] tab coord Discover
+[05:46:18] tab coord Profile
+[05:46:20] shot 14-pc-14-saved-reheart.png
+[05:46:20] shot 15-pc-saved-reheart-miss.png
+[05:46:20] FAIL PROF-32 [Major/PC] Library Reading Night, Sheung Wan
+Two hours of quiet reading. Bring a book, we bring the tea.
+Chen Shu
+Host
+Following
+
+Thu, 20 Aug 19:30 - 21:30
+
+Sheung Wan ·
+[05:46:21] tab coord Discover
+[05:46:21] tab coord Profile
+[05:46:22] clicked Following
+[05:46:23] shot 16-pc-15-following.png
+[05:46:23] ok Following has Chen
+[05:46:23] clicked Chen
+[05:46:24] shot 17-pc-16-chen-host.png
+[05:46:24] ok Chen host page
+[05:46:25] clicked Unfollow
+[05:46:26] tab coord Profile
+[05:46:27] clicked Following
+[05:46:27] shot 18-pc-17-unfollowed.png
+[05:46:27] FAIL PROF-36 [Major/PC] 
+Follow
+Chen Shu
+@
+chen
+Bookshops and film cameras in Sheung Wan. Walk slower.
+4
+Hosted
+33
+Guests
+48
+Followers
+4
+Following
+Events they host
+[05:46:28] tab coord Profile
+[05:46:30] FAIL PROF-38 [Major/PC] row dead
+[05:46:30] tab coord Profile
+[05:46:33] shot 19-pc-21-settings.png
+[05:46:33] FAIL PROF-44 [Blocker/PC] 
+Follow
+Chen Shu
+@
+chen
+Bookshops and film cameras in Sheung Wan. Walk slower.
+4
+Hosted
+33
+Guests
+48
+Followers
+4
+Follow
+[05:46:37] shot 20-pc-22-district-sync.png
+[05:46:37] FAIL PROF-45 [Major/PC] Library Reading Night, Sheung Wan
+Two hours of quiet reading. Bring a book, we bring the tea.
+Chen Shu
+Host
+Follow
+
+Thu, 20 Aug 19:30 - 21:30
+
+Sheung Wan · 12
+[05:46:41] shot 21-pc-23-logout.png
+[05:46:41] FAIL PROF-46 [Blocker/PC] Library Reading Night, Sheung Wan
+Two hours of quiet reading. Bring a book, we bring the tea.
+Chen Shu
+Host
+Follow
+
+Thu
+[05:46:43] FATAL Error: no chip Alex
+    at loginChip (C:\Users\reyse\AppData\Local\Temp\ts-qa\profile-qa.cjs:252:38)
+    at async C:\Users\reyse\AppData\Local\Temp\ts-qa\profile-qa.cjs:688:5
+[05:46:43] shot 22-fatal.png
+[05:46:43] FAIL PROF-0 [Blocker/PC] no chip Alex

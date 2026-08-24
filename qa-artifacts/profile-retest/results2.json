@@ -1,0 +1,57 @@
+{
+  "fails": [
+    {
+      "id": "PROF-smoke",
+      "Severity": "Blocker",
+      "Hat": "QA",
+      "Surface": "PC",
+      "Character": "Admin",
+      "What": "face",
+      "Expected": "paints",
+      "Actual": "missing",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile-retest\\33-admin.png"
+    },
+    {
+      "id": "PROF-smoke",
+      "Severity": "Major",
+      "Hat": "QA",
+      "Surface": "PC",
+      "Character": "Admin",
+      "What": "Reports",
+      "Expected": "row",
+      "Actual": "missing",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile-retest\\33-admin.png"
+    },
+    {
+      "id": "PROF-1",
+      "Severity": "Blocker",
+      "Hat": "QA",
+      "Surface": "iOS",
+      "Character": "new user",
+      "What": "in-app confirm",
+      "Expected": "Not now + Confirm",
+      "Actual": "Discover Find what the city is doing\nDiscover\nFind what the city is doing\nOld Street Sketching in Tai Hang Tai Hang · Mon, 10 Aug HK$120\nOld Street Sketching in",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile-retest\\36-iOS-sheet.png"
+    }
+  ],
+  "notes": [
+    "Alex face",
+    "Alex still user",
+    "简体 above tab bar",
+    "简 语言 only",
+    "繁 語言 only",
+    "EN Language",
+    "opened Edit Profile",
+    "opened History",
+    "opened Saved",
+    "opened Following",
+    "logout chips",
+    "Lin face",
+    "Lin no Become",
+    "Lin Create on YE",
+    "Admin no Become",
+    "Android confirm visible",
+    "Android Not now",
+    "Android Confirm Host"
+  ]
+}

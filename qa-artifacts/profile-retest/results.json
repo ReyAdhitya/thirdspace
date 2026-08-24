@@ -1,0 +1,42 @@
+{
+  "becomeOk": {
+    "notNow": true,
+    "confirm": true
+  },
+  "alexUser": null,
+  "fails": [
+    {
+      "id": "PROF-2",
+      "Severity": "Minor",
+      "Hat": "QA",
+      "Surface": "PC",
+      "Character": "new user",
+      "What": "Open Language",
+      "Expected": "expands",
+      "Actual": "dead",
+      "Screenshot": ""
+    },
+    {
+      "id": "PROF-0",
+      "Severity": "Blocker",
+      "Hat": "QA",
+      "Surface": "PC",
+      "Character": "new user",
+      "What": "Runner",
+      "Expected": "complete",
+      "Actual": "no chip Alex",
+      "Screenshot": ""
+    }
+  ],
+  "notes": [
+    "pine card",
+    "PC in-app confirm visible",
+    "PC Not now stays Member",
+    "PC Not now YE no Create",
+    "PC Confirm → Host, row gone",
+    "PC banner copy present",
+    "PC YE has Create",
+    "created after Become",
+    "Become event on Discover"
+  ]
+}

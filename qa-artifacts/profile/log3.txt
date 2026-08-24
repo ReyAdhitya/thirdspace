@@ -1,0 +1,117 @@
+[05:51:30] clicked Alex
+[05:51:30] clicked Log in
+[05:51:33] clicked Language
+[05:51:33] clicked 繁體中文
+[05:51:34] shot 201-p3-hant.png
+[05:51:34] ok Profile 語言 only
+[05:51:34] clicked 語言
+[05:51:35] clicked 简体中文
+[05:51:35] shot 202-p3-hans.png
+[05:51:35] FAIL PROF-42 票券 我的門票
+票券
+我的門票
+即將參加
+過去的活動
+即將參加 過去的活動
+ 而家無嘢 未有票券。去發現頁報名就會出現喺度。 發現
+而家無嘢
+未有票券。去發現頁報名就會出現喺度。
+發現
+日曆預覽
+日
+[05:51:36] clicked English
+[05:51:36] FAIL PROF-43 票券 我的門票
+票券
+我的門票
+即將參加
+過去的活動
+即將參加 過去的活動
+ 而家無嘢 未有票券。去發現頁報名就會出現喺度。 發現
+而家無嘢
+未有票券。去發現頁報名就會出現喺度。
+發現
+日曆預覽
+日
+[05:51:37] shot 203-p3-saved1.png
+[05:51:37] FAIL PROF-29b 個人檔案
+阿樂 會員 · 中環 · Hong Kong
+阿樂
+會員 · 中環 · Hong Kong
+ 編輯個人資料 
+編輯個人資料
+ 紀錄 
+紀錄
+ 你的活動 
+你的活動
+ 收藏 
+
+[05:51:41] shot 204-p3-saved-on.png
+[05:51:41] after reheart 個人檔案
+阿樂 會員 · 中環 · Hong Kong
+阿樂
+會員 · 中環 · Hong Kong
+ 編輯個人資料 
+編輯個人資料
+ 紀錄 
+紀錄
+ 你的活動 
+你的活動
+ 收藏 
+收藏
+ 跟進中 
+跟進中
+ 成為搞手 
+成為搞手
+ 語言 繁體中文 
+語言
+繁體中文
+繁體中文  Engl
+[05:51:41] FAIL PROF-32 個人檔案
+阿樂 會員 · 中環 · Hong Kong
+阿樂
+會員 · 中環 · Hong Kong
+ 編輯個人資料 
+編輯個人資料
+ 紀錄 
+紀錄
+ 你的活動 
+你的活動
+ 收藏 
+收藏
+ 跟進中 
+跟進中
+ 成為搞手 
+成為搞手
+ 語言 繁體中文 
+[05:51:42] shot 205-p3-fol.png
+[05:51:42] FAIL PROF-33b 個人檔案
+阿樂 會員 · 中環 · Hong Kong
+阿樂
+會員 · 中環 · Hong Kong
+ 編輯個人資料 
+編輯個人資料
+ 紀錄 
+紀錄
+
+[05:51:43] shot 206-p3-settings.png
+[05:51:43] FAIL PROF-44 個人檔案
+ 編輯個人資料 
+ 紀錄 
+紀錄
+ 你的活動 
+你的活動
+ 收藏 
+收藏
+ 跟進中 
+跟進中
+ 成為搞手 
+成為搞手
+ 語言 繁體中文 
+語言
+繁體中文
+繁體中文
+[05:51:44] FATAL Error: no Settings
+    at logout (C:\Users\reyse\AppData\Local\Temp\ts-qa\profile-qa3.cjs:170:45)
+    at async C:\Users\reyse\AppData\Local\Temp\ts-qa\profile-qa3.cjs:316:5
+[05:51:44] shot 207-fatal3.png
+[05:51:44] FAIL PROF-0 no Settings

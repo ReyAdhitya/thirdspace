@@ -1,0 +1,104 @@
+[06:25:34] shot 01-00-boot.png
+[06:25:34] clicked Create an account
+[06:25:36] clicked Create account
+[06:25:38] clicked Skip
+[06:25:40] shot 02-01-new-home.png
+[06:25:40] new home
+Profile
+ QA Door Member · Central · Hong Kong
+QA Door
+Member · Central · Hong Kong
+ Edit Profile 
+Edit Profile
+ History 
+History
+ Your Events 
+Your Events
+ Saved 
+Saved
+ Following 
+Following
+ Become an organizer 
+Become an organizer
+ Language English 
+Language
+Engl
+[06:25:40] pine {"dist":0,"bg":"rgb(31, 61, 52)"}
+[06:25:40] ok pine card
+[06:25:41] clicked Become an organizer
+[06:25:42] shot 03-PC-become-sheet.png
+[06:25:42] become sheet
+Profile
+ Your Events 
+Your Events
+ Saved 
+Saved
+ Following 
+Following
+ Become an organizer 
+Become an organizer
+You will be able to create events. This cannot be undone from here.
+Not now
+Confirm
+ Language English 
+Language
+English
+ Settings 
+Settings
+ Discover  Districts  Tickets  Profile
+ Discover
+ Districts
+ Tickets
+ Profile
+Discover
+Districts
+[06:25:42] dialogs=[]
+[06:25:42] ok PC in-app confirm visible
+[06:25:42] btn colors [{"t":"Not now","bg":"rgba(0, 0, 0, 0)","w":152,"y":476},{"t":"Not now","bg":"rgb(237, 234, 216)","w":152,"y":476},{"t":"Not now","bg":"rgba(0, 0, 0, 0)","w":56,"y":486},{"t":"Not now","bg":"rgba(0, 0, 0, 0)","w":56,"y":486},{"t":"Confirm","bg":"rgba(0, 0, 0, 0)","w":152,"y":476},{"t":"Confirm","bg":"rgb(31, 61, 52)","w":152,"y":476},{"t":"Confirm","bg":"rgba(0, 0, 0, 0)","w":55,"y":486},{"t":"Confirm","bg":"rgba(0, 0, 0, 0)","w":55,"y":486}]
+[06:25:42] clicked Not now
+[06:25:43] shot 04-PC-notnow.png
+[06:25:43] ok PC Not now stays Member
+[06:25:43] clicked Your Events
+[06:25:43] ok PC Not now YE no Create
+[06:25:44] clicked Become an organizer
+[06:25:45] shot 05-PC-become-again.png
+[06:25:45] clicked Confirm
+[06:25:46] shot 06-PC-after-confirm.png
+[06:25:46] after confirm
+Profile
+ QA Door Host · Central · Hong Kong
+QA Door
+Host · Central · Hong Kong
+ Edit Profile 
+Edit Profile
+ History 
+History
+ Your Events 
+Your Events
+ Saved 
+Saved
+ Following 
+Following
+ Language English 
+Language
+English
+ Settings 
+Settings
+ Discover  Districts  Tickets  Profile
+[06:25:46] ok PC Confirm → Host, row gone
+[06:25:46] ok PC banner copy present
+[06:25:46] clicked Your Events
+[06:25:47] shot 07-PC-ye-host.png
+[06:25:47] ok PC YE has Create
+[06:25:47] clicked Create event
+[06:25:49] clicked Create an event
+[06:25:50] shot 08-pc-created.png
+[06:25:50] ok created after Become
+[06:25:51] shot 09-pc-discover-new.png
+[06:25:51] ok Become event on Discover
+[06:25:52] FAIL PROF-2 [Minor/QA/PC] dead
+[06:25:55] FATAL Error: no chip Alex
+    at loginChip (C:\Users\reyse\AppData\Local\Temp\ts-qa\profile-retest.cjs:220:39)
+    at async C:\Users\reyse\AppData\Local\Temp\ts-qa\profile-retest.cjs:462:5
+[06:25:55] shot 10-fatal.png
+[06:25:55] FAIL PROF-0 [Blocker/QA/PC] no chip Alex

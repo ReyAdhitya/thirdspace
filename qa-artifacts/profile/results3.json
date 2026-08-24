@@ -1,0 +1,91 @@
+{
+  "fails": [
+    {
+      "id": "PROF-42",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Language 繁/EN/简",
+      "Steps": "简",
+      "Expected": "语言",
+      "Actual": "票券 我的門票\n票券\n我的門票\n即將參加\n過去的活動\n即將參加 過去的活動\n 而家無嘢 未有票券。去發現頁報名就會出現喺度。 發現\n而家無嘢\n未有票券。去發現頁報名就會出現喺度。\n發現\n日曆預覽\n日",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\202-p3-hans.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-43",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Language 繁/EN/简",
+      "Steps": "EN",
+      "Expected": "Language",
+      "Actual": "票券 我的門票\n票券\n我的門票\n即將參加\n過去的活動\n即將參加 過去的活動\n 而家無嘢 未有票券。去發現頁報名就會出現喺度。 發現\n而家無嘢\n未有票券。去發現頁報名就會出現喺度。\n發現\n日曆預覽\n日",
+      "Screenshot": "",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-29b",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Saved / Following",
+      "Steps": "Saved",
+      "Expected": "Jazz",
+      "Actual": "個人檔案\n阿樂 會員 · 中環 · Hong Kong\n阿樂\n會員 · 中環 · Hong Kong\n 編輯個人資料 \n編輯個人資料\n 紀錄 \n紀錄\n 你的活動 \n你的活動\n 收藏 \n",
+      "Screenshot": "",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-32",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Saved / Following",
+      "Steps": "Heart on from Discover",
+      "Expected": "Jazz back in Saved",
+      "Actual": "個人檔案\n阿樂 會員 · 中環 · Hong Kong\n阿樂\n會員 · 中環 · Hong Kong\n 編輯個人資料 \n編輯個人資料\n 紀錄 \n紀錄\n 你的活動 \n你的活動\n 收藏 \n收藏\n 跟進中 \n跟進中\n 成為搞手 \n成為搞手\n 語言 繁體中文 ",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\204-p3-saved-on.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-33b",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Saved / Following",
+      "Steps": "Following",
+      "Expected": "Chen",
+      "Actual": "個人檔案\n阿樂 會員 · 中環 · Hong Kong\n阿樂\n會員 · 中環 · Hong Kong\n 編輯個人資料 \n編輯個人資料\n 紀錄 \n紀錄\n",
+      "Screenshot": "",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-44",
+      "Severity": "Blocker",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Settings logout",
+      "Steps": "Open Settings",
+      "Expected": "Log out",
+      "Actual": "個人檔案\n 編輯個人資料 \n 紀錄 \n紀錄\n 你的活動 \n你的活動\n 收藏 \n收藏\n 跟進中 \n跟進中\n 成為搞手 \n成為搞手\n 語言 繁體中文 \n語言\n繁體中文\n繁體中文",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\206-p3-settings.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-0",
+      "Severity": "Blocker",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Card",
+      "Steps": "Runner",
+      "Expected": "walk",
+      "Actual": "no Settings",
+      "Screenshot": "",
+      "Repro": "always"
+    }
+  ],
+  "notes": [
+    "Profile 語言 only"
+  ]
+}

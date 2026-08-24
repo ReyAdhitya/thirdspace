@@ -1,0 +1,147 @@
+{
+  "fails": [
+    {
+      "id": "PROF-42",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Language 繁/EN/简",
+      "Steps": "简",
+      "Expected": "语言",
+      "Actual": "Tickets My tickets\nTickets\nMy tickets\nUpcoming\nPast\nUpcoming Past\n Nothing here yet No tickets yet. Join something on D",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\301-p4-hans.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-43",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Language 繁/EN/简",
+      "Steps": "English",
+      "Expected": "Language",
+      "Actual": "Tickets My tickets\nTickets\nMy tickets\nUpcoming\nPast\nUpcoming Past\n Nothing here yet No tickets yet.",
+      "Screenshot": "",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-46",
+      "Severity": "Blocker",
+      "Surface": "PC",
+      "Character": "Alex",
+      "Workflow": "Settings logout",
+      "Steps": "Log out",
+      "Expected": "chips",
+      "Actual": " Following\nFollowing\n You are not following anyone yet.\nYou are not following ",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\309-p4-logout.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-68",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Lin",
+      "Workflow": "Your Events + Create (host only)",
+      "Steps": "Scroll own event",
+      "Expected": "Edit event",
+      "Actual": " Following\nFollowing\n You are not following anyone yet.\nYou are not following anyone yet.",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\310-p4-lin-edit.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-75",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Admin",
+      "Workflow": "Admin Reports",
+      "Steps": "row",
+      "Expected": "Reports",
+      "Actual": "missing",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\311-p4-admin.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-76",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Admin",
+      "Workflow": "Admin Reports",
+      "Steps": "Open",
+      "Expected": "pending Rooftop",
+      "Actual": " Following\nFollowing\n You are not following anyone yet.\nYou are not following anyone yet.",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\312-p4-reports.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-77",
+      "Severity": "Major",
+      "Surface": "PC",
+      "Character": "Admin",
+      "Workflow": "Admin Reports",
+      "Steps": "Resolve",
+      "Expected": "processed",
+      "Actual": " Following\nFollowing\n You are not following anyone yet.\nYou are not following anyone yet.",
+      "Screenshot": "",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-90",
+      "Severity": "Major",
+      "Surface": "Android",
+      "Character": "Alex",
+      "Workflow": "Become an organizer",
+      "Steps": "tap",
+      "Expected": "confirm UI",
+      "Actual": "nothing",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\315-Android-become.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-82",
+      "Severity": "Blocker",
+      "Surface": "iOS",
+      "Character": "Alex",
+      "Workflow": "Card",
+      "Steps": "home",
+      "Expected": "Alex",
+      "Actual": "Discover Find what the city is doing\nDiscover\nFind",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\317-iOS-home.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-85",
+      "Severity": "Major",
+      "Surface": "iOS",
+      "Character": "Alex",
+      "Workflow": "Become an organizer",
+      "Steps": "row",
+      "Expected": "present",
+      "Actual": "Discover Find what the city is doing\nDiscover\nFind what the ",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\317-iOS-home.png",
+      "Repro": "always"
+    },
+    {
+      "id": "PROF-89",
+      "Severity": "Major",
+      "Surface": "iOS",
+      "Character": "Alex",
+      "Workflow": "Language 繁/EN/简",
+      "Steps": "繁",
+      "Expected": "語言",
+      "Actual": "Sunrise Hike in Sai Kung\nA slow walk, not a workout. Breakfa",
+      "Screenshot": "D:\\thirdspace\\qa-artifacts\\profile\\319-iOS-lang.png",
+      "Repro": "always"
+    }
+  ],
+  "notes": [
+    "heart off",
+    "heart on",
+    "unfollow updated",
+    "Admin no Become",
+    "Android card",
+    "Android Become row",
+    "Android photo cancel",
+    "Android 語言",
+    "iOS become ui"
+  ]
+}
