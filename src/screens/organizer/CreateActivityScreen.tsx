@@ -131,8 +131,12 @@ export function CreateActivityScreen() {
           <Pressable
             style={styles.upload}
             onPress={async () => {
-              const uri = await pickPhoto();
-              if (uri) setPhotoUrl(uri);
+              try {
+                const uri = await pickPhoto();
+                if (uri) setPhotoUrl(uri);
+              } catch (e) {
+                showBanner(errorText(e, t), 'warn');
+              }
             }}
           >
             {photoUrl ? (

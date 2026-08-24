@@ -14,7 +14,9 @@ export function MapCard({ url, height = 300 }: { url: string; height?: number })
         originWhitelist={['https://*']}
         javaScriptEnabled
         domStorageEnabled
-        scrollEnabled={false}
+        scrollEnabled
+        nestedScrollEnabled
+        bounces={false}
         setSupportMultipleWindows={false}
       />
     </View>

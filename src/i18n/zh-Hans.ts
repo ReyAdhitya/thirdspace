@@ -216,6 +216,7 @@ export const zhHans: Dict = {
   errEmptyText: '请先写点什么。',
   errTestCard: '测试卡请用 4242 开头。',
   errTitleRequired: '请填活动名称。',
+  errPhotosDenied: '要相册权限才能选封面，或点下面现成的图。',
   errGoogleFailed: 'Google 登录未完成，请再试。',
   errGoogleCancelled: '已取消登录。',
 

@@ -216,6 +216,7 @@ export const en: Dict = {
   errEmptyText: 'Write something first.',
   errTestCard: 'Test cards must start with 4242.',
   errTitleRequired: 'Give the event a name.',
+  errPhotosDenied: 'Allow Photos to pick a cover, or tap a stock image below.',
   errGoogleFailed: 'Google sign-in did not finish. Try again.',
   errGoogleCancelled: 'Sign-in cancelled.',
 

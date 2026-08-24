@@ -29,8 +29,8 @@ function eventPoint(a: Activity): { lat: number; lng: number } | undefined {
 }
 
 /**
- * One job: an OpenStreetMap of Hong Kong and the events that actually
- * exist. No region chrome, no empty-district index.
+ * Map is *not* inside the event list ScrollView. Nested WebView +
+ * ScrollView is why iOS pans the page instead of the map.
  */
 export function DistrictsScreen() {
   const nav = useNavigation<RootNav>();
@@ -107,11 +107,7 @@ export function DistrictsScreen() {
 
   return (
     <Screen title={t('tabDistricts')} caption={t('districtsCaption')}>
-      <ScrollView
-        contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
+      <View style={styles.body}>
         <View style={styles.gutter}>
           <SearchField
             value={q}
@@ -148,33 +144,44 @@ export function DistrictsScreen() {
           />
         </View>
 
-        <View style={[styles.gutter, styles.rows]}>
-          {events.length === 0 ? (
-            <EmptyState
-              title={t('empty')}
-              body={t('noPlaceResults')}
-              action={t('clear')}
-              onAction={() => {
-                setQ('');
-                setSelected(null);
-              }}
-              icon="map-pin"
-            />
-          ) : (
-            events.map((a) => (
-              <ActivityRow key={a.id} activity={a} onPress={() => openEvent(a)} />
-            ))
-          )}
-        </View>
-      </ScrollView>
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.gutter}>
+            {events.length === 0 ? (
+              <EmptyState
+                title={t('empty')}
+                body={t('noPlaceResults')}
+                action={t('clear')}
+                onAction={() => {
+                  setQ('');
+                  setSelected(null);
+                }}
+                icon="map-pin"
+              />
+            ) : (
+              <View style={styles.rows}>
+                {events.map((a) => (
+                  <ActivityRow key={a.id} activity={a} onPress={() => openEvent(a)} />
+                ))}
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: { paddingBottom: space.x10 },
+  body: { flex: 1 },
   gutter: { paddingHorizontal: space.gutter },
   mapBlock: { marginTop: space.x5 },
-  listBlock: { marginTop: space.x8 },
-  rows: { marginTop: space.x4, gap: space.x3 },
+  listBlock: { marginTop: space.x6 },
+  list: { flex: 1 },
+  listContent: { paddingBottom: space.x10, paddingTop: space.x4 },
+  rows: { gap: space.x3 },
 });

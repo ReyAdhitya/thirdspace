@@ -10,8 +10,10 @@ Look: stone `#F6F4F1`, cream `#EDEAD8`, ink `#1A1A1A`, pine `#1F3D34`, harbor `#
 
 ```bash
 npm install
-npx expo start --web    # Chrome, phone-width preview on http://localhost:8082
-npx expo start          # QR for Expo Go on a phone
+npx expo start --web --port 8082    # Chrome phone-width (use this port if you set it)
+npx expo start --web                # often http://localhost:8081
+npx expo start                      # QR for Expo Go (SDK 57 — see iOS below)
+npx expo start --tunnel             # phone not on same Wi-Fi
 ```
 
 Demo accounts, password `thirdspace`:
@@ -79,7 +81,7 @@ Then, from the repo root:
 ```bash
 npm i -g eas-cli
 eas login
-eas init                  # links this project to his Expo account, once
+eas init                  # already done for @reyyzhrr/thirdspace — skip if app.json has extra.eas.projectId
 
 eas build -p ios --profile preview      # internal / TestFlight-able build
 eas submit -p ios --profile preview     # upload to App Store Connect → TestFlight
@@ -88,7 +90,9 @@ eas build -p ios --profile production   # App Store release build
 eas submit -p ios --profile production
 ```
 
-Profiles in `eas.json`: `development` (simulator + dev client), `preview` (internal device build), `production` (auto-increments build number). App version comes from `app.json` (`appVersionSource: "local"`).
+Profiles in `eas.json`: `development` (iOS **simulator** + dev client), `development-device` (physical iPhone + dev client), `preview` (internal device IPA / TestFlight-able), `production` (auto-increments build number). App version comes from `app.json` (`appVersionSource: "local"`).
+
+**App Store Expo Go is SDK 54. This app is SDK 57.** Store Expo Go will error `Project is incompatible`. That is not a product bug. For a live Metro preview on a physical iPhone, install Expo Go **SDK 57** from [sign.expo.dev](https://sign.expo.dev) (Apple ID, ~7 days). For a real binary (what 上架 feels like): `eas build -p ios --profile preview` after Apple Developer + `eas login`. Do **not** treat Chrome as an iOS pass.
 
 Still to be done by whoever owns the store listing: App Store screenshots, description, privacy policy URL, age rating. Those are listing assets, not code.
 

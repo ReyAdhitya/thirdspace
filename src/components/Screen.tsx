@@ -83,7 +83,7 @@ export function Screen({
           ) : null}
         </View>
       ) : null}
-      {children}
+      <View style={styles.body}>{children}</View>
     </SafeAreaView>
   );
 }
@@ -142,6 +142,7 @@ export function InAppBanner() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.stone },
+  body: { flex: 1 },
   header: {
     flexDirection: 'row',
     alignItems: 'center',

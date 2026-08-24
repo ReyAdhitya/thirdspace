@@ -12,6 +12,7 @@ const KEY_OF: Record<string, string> = {
   'empty-text': 'errEmptyText',
   'test-card': 'errTestCard',
   'title-required': 'errTitleRequired',
+  'photos-denied': 'errPhotosDenied',
   banned: 'banned',
   'google-missing': 'googleMissing',
   'google-failed': 'errGoogleFailed',
